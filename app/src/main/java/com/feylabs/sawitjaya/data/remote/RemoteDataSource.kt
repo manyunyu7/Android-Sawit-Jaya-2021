@@ -11,7 +11,6 @@ import retrofit2.Callback as retrocallbak
 
 class RemoteDataSource(
     private val api: MainEndpoint,
-    private val context: Context
 ) {
 
 
