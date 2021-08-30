@@ -18,6 +18,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures{
+        viewBinding true;
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -99,6 +103,15 @@ dependencies {
     def kodein_version = "6.4.0"
     implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
     implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
+
+    // Chucker
+    debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
+
+    //KOIN DEPENDENCY INJECTION
+    def koin_version= "2.1.5"
+    implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-android:$koin_version"
 
     // Utils
     implementation "androidx.viewpager2:viewpager2:1.0.0"
