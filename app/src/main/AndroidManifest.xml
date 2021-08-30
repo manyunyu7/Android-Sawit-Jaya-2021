@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SawitJaya">
         <activity
-            android:name=".MainActivity"
+            android:name=".data.ui.ContainerAuthActivity"
+            android:exported="true" />
+        <activity
+            android:name=".data.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
