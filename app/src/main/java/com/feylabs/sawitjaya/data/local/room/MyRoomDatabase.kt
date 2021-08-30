@@ -16,7 +16,7 @@ abstract class MyRoomDatabase : RoomDatabase() {
     abstract fun authDao() : AuthDAO
 
     companion object {
-        const val DB_NAME = "soho_medrep.db"
+        const val DB_NAME = "sawit_jaya.db"
 
         @Volatile
         private var instance: MyRoomDatabase? = null
