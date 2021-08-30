@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_marginStart="-50dp"
+        android:layout_marginEnd="-50dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_awan" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="171dp"
+            android:layout_height="171dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_golapak_logo" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Sawit Jaya"
+            android:textColor="@color/color_blue_golapak"
+            android:textSize="38sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jaldi_regular"
+            android:text="Aplikasi Jual Beli Tandan Buah Segar \n By CV Sawit Jaya "
+            android:textColor="@color/color_blue_golapak"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_version"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_button_rounded" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center"
+                android:text="Registrasi"
+                android:textColor="@color/color_blue_another1" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageButton
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_button_rounded"
+                app:tint="@color/color_blue_another1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center"
+                android:drawablePadding="20dp"
+                android:text="Sign In"
+                android:textColor="@color/white" />
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/btn_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/jaldi_regular"
+        android:paddingHorizontal="20dp"
+        android:text="v.0.0.0"
+        android:textAlignment="center"
+        android:textColor="@color/color_blue_golapak"
+        android:textSize="14sp" />
+
+
+</RelativeLayout>

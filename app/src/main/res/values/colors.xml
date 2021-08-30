@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="color_blue_golapak">#22215B</color>
+    <color name="color_blue_another1">#567DF4</color>
+    <color name="home_secondary">#59597C</color>
+    <color name="blue_menu">#EEF7FE</color>
+    <color name="menu1_color">#415EB6</color>
+    <color name="yellow_menu">#FFFBEC</color>
+    <color name="menu_yellow">#FFB110</color>
+    <color name="light_cyan">#F0FFFF</color>
+    <color name="menu_cyan">#23B0B0</color>
+    <color name="color_cat">#4EB0E8</color>
+    <color name="color_price">#1492D2</color>
+    <color name="blue_auth">#1F244B</color>
 </resources>

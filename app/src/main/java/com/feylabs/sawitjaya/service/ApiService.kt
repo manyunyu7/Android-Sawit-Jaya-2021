@@ -14,7 +14,7 @@ object ApiService {
 
     fun getClient(context: Context): MainEndpoint{
 
-        val baseURL = "http://192.168.1.161:3202/"
+        val baseURL = "http://192.168.1.161:3202/api/"
 
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)

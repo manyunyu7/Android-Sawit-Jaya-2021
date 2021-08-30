@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.data.ui
+package com.feylabs.sawitjaya.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
