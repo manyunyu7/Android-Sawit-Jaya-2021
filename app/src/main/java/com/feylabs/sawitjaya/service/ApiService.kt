@@ -1,5 +1,6 @@
 package com.feylabs.sawitjaya.service
 
+
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -11,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiService {
 
-    fun getClient(context: Context): ApiService {
+    fun getClient(context: Context): MainEndpoint{
 
         val baseURL = "http://192.168.1.161:3202/"
 
@@ -40,7 +41,7 @@ object ApiService {
             .client(client)
             .build()
 
-        return retrofitz.create(ApiService::class.java)
+        return retrofitz.create(MainEndpoint::class.java)
 
     }
 
