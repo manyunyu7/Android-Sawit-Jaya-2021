@@ -4,6 +4,7 @@ import android.content.Context
 import com.feylabs.sawitjaya.data.AuthRepository
 import com.feylabs.sawitjaya.data.remote.RemoteDataSource
 import com.feylabs.sawitjaya.service.ApiService
+import com.feylabs.sawitjaya.service.MainEndpoint
 
 object ServiceLocator {
 
