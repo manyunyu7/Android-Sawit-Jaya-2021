@@ -6,8 +6,8 @@ class AuthRepository(
     private val rds: RemoteDataSource,
 ) {
 
-    suspend fun login(username: String, password: String) =
-        rds.login(username,password)
+    fun login(username: String, password: String) =
+        rds.login(username, password)
 
 
 }
