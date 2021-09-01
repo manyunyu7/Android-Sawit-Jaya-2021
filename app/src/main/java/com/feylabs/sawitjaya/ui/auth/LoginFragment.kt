@@ -2,6 +2,7 @@ package com.feylabs.sawitjaya.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,28 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.base.BaseFragment
+import com.feylabs.sawitjaya.data.local.preference.MyPreference
+import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
 import com.feylabs.sawitjaya.data.remote.response.LoginResponse
+import com.feylabs.sawitjaya.data.remote.response.User
+import com.feylabs.sawitjaya.databinding.ContentUserMainMenuBinding
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.databinding.FragmentLoginBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.service.Resource
+import com.feylabs.sawitjaya.ui.ContainerUserHomeActivity
 import com.feylabs.sawitjaya.ui.staff.StaffMainMenu
 import timber.log.Timber
+import android.util.Log
+import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
+
+import java.io.ByteArrayOutputStream
+
+import java.io.InputStream
+
+import java.net.URLConnection
+
+import java.net.URL
 
 
 class LoginFragment : BaseFragment() {
@@ -37,7 +53,7 @@ class LoginFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_login, container, false)
         _binding = FragmentLoginBinding.bind(view)
@@ -67,6 +83,8 @@ class LoginFragment : BaseFragment() {
             authViewModel.login(username, password).observe(viewLifecycleOwner, observerLogin)
         }
 
+        getNews()
+
     }
 
     private fun setLoginObserver() {
@@ -90,8 +108,9 @@ class LoginFragment : BaseFragment() {
 
 //                    binding.loginProgressBar.visibility = View.GONE
                     showToast("Login Berhasil")
-                    proceedLogin()
+                    proceedLogin(it.data?.user, it.data?.access_token.toString())
                 }
+
                 is Resource.Error -> {
 //                    swLoadingDialog.cancel()
                     Timber.d("login gagal")
@@ -102,10 +121,71 @@ class LoginFragment : BaseFragment() {
         }
     }
 
+    private fun isLoginValid() {
 
-    private fun proceedLogin() {
-        requireActivity().finish()
-        startActivity(Intent(requireContext(), StaffMainMenu::class.java))
     }
+
+    private fun checkToken() {
+
+    }
+
+
+    private fun proceedLogin(user: User?, token: String) {
+        requireActivity().finish()
+        Timber.d("user data --login ${user.toString()}")
+
+        user?.let {
+            val entity = AuthEntity(
+                user_id = user.id,
+                name = user.name,
+                email = user.email,
+                contact = user.contact,
+                photo = user.photo_path,
+                role = user.role,
+                status = user.status,
+                photo_base64 = ""
+            )
+            authViewModel.saveAuthInfo(entity)
+        }
+
+
+
+        MyPreference(requireContext()).save("TOKEN", "Bearer " + token)
+
+        startActivity(Intent(requireContext(), ContainerUserHomeActivity::class.java))
+    }
+
+
+    fun getNews() {
+        authViewModel.getNews()
+        authViewModel.newsLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is Resource.Success -> {
+                    showToast("Berhasil Fetch News")
+
+                    it.data?.forEachIndexed { index, news ->
+                        authViewModel.saveNews(
+                            NewsEntity(
+                                id = news.id,
+                                title = news.title,
+                                author = news.author,
+                                content = news.content,
+                                photo = news.photo,
+                                created_at = news.createdAt,
+                                updated_at = news.updatedAt,
+                            )
+                        )
+                    }
+                }
+                is Resource.Error -> {
+                    showToast(it.message.toString())
+                }
+                is Resource.Loading -> {
+                    showToast("loading news")
+                }
+            }
+        })
+    }
+
 
 }

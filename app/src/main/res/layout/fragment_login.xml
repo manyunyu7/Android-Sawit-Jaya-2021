@@ -76,6 +76,7 @@
                 android:inputType="textEmailAddress"
                 android:fontFamily="@font/poppins_regular"
                 android:hint="Masukkan Email"
+                android:text="firriezky@gmail.com"
                 android:textColor="@color/blue_auth" />
 
             <TextView
@@ -93,6 +94,7 @@
                 android:fontFamily="@font/poppins_regular"
                 android:hint="Masukkan Kata Sandi"
                 android:inputType="textPassword"
+                android:text="password"
                 android:textColor="@color/blue_auth" />
 
             <com.google.android.material.button.MaterialButton
