@@ -4,19 +4,23 @@ import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.feylabs.sawitjaya.data.local.room.dao.AuthDAO
+import com.feylabs.sawitjaya.data.local.room.dao.NewsDAO
 import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
+import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
 
 @Database(
     entities = [
-        AuthEntity::class],
-    version = 4
+        AuthEntity::class,
+        NewsEntity::class],
+    version = 5
 )
 abstract class MyRoomDatabase : RoomDatabase() {
 
-    abstract fun authDao() : AuthDAO
+    abstract fun authDao(): AuthDAO
+    abstract fun newsDao(): NewsDAO
 
     companion object {
-        const val DB_NAME = "sawit_jaya.db"
+        const val DB_NAME = "MyDatabase.db"
 
         @Volatile
         private var instance: MyRoomDatabase? = null
