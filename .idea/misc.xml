@@ -8,12 +8,16 @@
         <entry key="app/src/main/res/drawable/ic_button_rounded.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/drawable/ic_golapak_logo.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/layout/activity_container_auth.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_container_user_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15" />
         <entry key="app/src/main/res/layout/content_user_main_menu.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_auth_fragment.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_auth_fragmet.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_change_profile_picture.xml" value="0.14" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/settings_fragment.xml" value="0.1" />
       </map>
     </option>
   </component>

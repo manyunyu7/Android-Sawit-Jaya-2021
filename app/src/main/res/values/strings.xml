@@ -13,4 +13,6 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="petunjuk_ganti_foto">1. Permission untuk camera dan akses galeri untuk aplikasi harus diaktifkan \n\n
+    2. Klik Tombol Pilih Foto dan ambil gambar dari kamera atau galleri anda, \n\n 3. Klik Simpan Perubahan untuk mengganti file</string>
 </resources>
