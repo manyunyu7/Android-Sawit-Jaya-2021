@@ -9,6 +9,7 @@ import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
 import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
+import com.feylabs.sawitjaya.data.remote.response.PriceResponse
 import com.feylabs.sawitjaya.service.Resource
 import kotlinx.coroutines.launch
 import java.io.File
@@ -19,6 +20,7 @@ class AuthViewModel(
 ) : ViewModel() {
 
     val newsLiveData = MutableLiveData<Resource<NewsResponse?>>()
+    val pricesLiveData = MutableLiveData<Resource<PriceResponse?>>()
 
     fun login(username: String, password: String) =
         authRepository.login(username, password)
@@ -67,6 +69,19 @@ class AuthViewModel(
             }
         } catch (e: Exception) {
             newsLiveData.postValue(Resource.Error(e.message.toString()))
+        }
+    }
+
+    fun getPrices(saveLocally :  Boolean =false) = viewModelScope.launch {
+        try {
+            val data = sawitRepository.getPrices()
+            if (data.isSuccessful) {
+                pricesLiveData.postValue(Resource.Success(data.body()))
+            } else {
+                pricesLiveData.postValue(Resource.Error("Terjadi Kesalahan"))
+            }
+        } catch (e: Exception) {
+            pricesLiveData.postValue(Resource.Error(e.message.toString()))
         }
     }
 

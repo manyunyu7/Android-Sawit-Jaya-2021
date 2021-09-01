@@ -83,6 +83,16 @@ interface MainEndpoint {
         @Header("Authorization") authHeader: String?,
     ): Response<NewsResponse?>
 
+    /**
+     * news
+     * @param get news data
+     * @return the token
+     */
+    @GET("price")
+    suspend fun getPrice(
+        @Header("Authorization") authHeader: String?,
+    ): Response<PriceResponse?>
+
 
 
 }

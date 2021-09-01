@@ -176,13 +176,20 @@ class RemoteDataSource(
 
 
     /**
-     * Register
+     * get news
      * @param body,callback
      *
      */
     suspend fun getNews() =
         api.getNews(token)
 
+    /**
+     * get price
+     * @param body,callback
+     *
+     */
+    suspend fun getPrices() =
+        api.getPrice(token)
 
     /**
      * Register
@@ -251,6 +258,10 @@ class RemoteDataSource(
     }
 
     interface CallbackNews {
+        fun value(response: Resource<NewsResponse?>)
+    }
+
+    interface CallbackPrice {
         fun value(response: Resource<NewsResponse?>)
     }
 
