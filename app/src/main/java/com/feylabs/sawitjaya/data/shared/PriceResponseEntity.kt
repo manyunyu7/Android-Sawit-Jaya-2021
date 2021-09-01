@@ -2,6 +2,7 @@ package com.feylabs.sawitjaya.data.local.room.entity
 
 
 import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,14 +12,14 @@ import com.google.gson.annotations.SerializedName
 data class PriceResponseEntity(
     @PrimaryKey
     @NonNull
+    @SerializedName("id")
+    @ColumnInfo(defaultValue = "")
+    val id: Int,
 
     @ColumnInfo(defaultValue = "")
+    @Nullable
     @SerializedName("created_at")
     val createdAt: String?,
-
-    @ColumnInfo(defaultValue = "")
-    @SerializedName("id")
-    val id: Int?,
 
     @ColumnInfo(defaultValue = "")
     @SerializedName("margin")
@@ -28,5 +29,5 @@ data class PriceResponseEntity(
     @SerializedName("price")
     val price: Double?,
     @SerializedName("updated_at")
-    val updatedAt: Any?
+    val updatedAt: String?
 )

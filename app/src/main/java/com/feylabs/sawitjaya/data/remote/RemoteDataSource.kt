@@ -3,6 +3,7 @@ package com.feylabs.sawitjaya.data.remote
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
@@ -203,6 +204,7 @@ class RemoteDataSource(
         AndroidNetworking.upload(
             ApiService.baseURL + "user/update-photo"
         )
+            .setPriority(Priority.HIGH)
             .addMultipartFile("photo", file)
             .addHeaders("Authorization", token)
             .build()

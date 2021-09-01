@@ -4,6 +4,7 @@ import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.data.local.room.MyRoomDatabase
 import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
 import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
+import com.feylabs.sawitjaya.data.local.room.entity.PriceResponseEntity
 
 class LocalDataSource(
     private val db: MyRoomDatabase,
@@ -20,7 +21,12 @@ class LocalDataSource(
         db.newsDao().insert(newsEntity)
     }
 
+    fun savePrices(entity: PriceResponseEntity) {
+        db.pricesDao().insert(entity)
+    }
+
     fun getNews() = db.newsDao().findAll()
+    suspend fun getPrice() = db.pricesDao().findAll()
 
     fun updatePhoto(photo: String) {
         db.authDao().updatePhoto(photo)

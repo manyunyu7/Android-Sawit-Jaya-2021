@@ -72,11 +72,21 @@ class AuthViewModel(
         }
     }
 
-    fun getPrices(saveLocally :  Boolean =false) = viewModelScope.launch {
+    fun getPrices(saveLocally: Boolean = false) = viewModelScope.launch {
         try {
             val data = sawitRepository.getPrices()
             if (data.isSuccessful) {
                 pricesLiveData.postValue(Resource.Success(data.body()))
+
+                if (saveLocally) {
+                    data.body()?.forEachIndexed { index, priceResponseEntity ->
+                        sawitRepository.insertPrice(
+                            priceResponseEntity
+                        )
+                    }
+                }
+
+
             } else {
                 pricesLiveData.postValue(Resource.Error("Terjadi Kesalahan"))
             }
@@ -85,17 +95,17 @@ class AuthViewModel(
         }
     }
 
-    fun saveNewsFromResponse(newsResponse: NewsResponse.NewsResponseItem){
+    fun saveNewsFromResponse(newsResponse: NewsResponse.NewsResponseItem) {
         saveNews(
             NewsEntity(
-            newsResponse.id,
-            newsResponse.title,
-            newsResponse.author,
-            newsResponse.content,
-            newsResponse.photo,
-            newsResponse.createdAt,
-            newsResponse.updatedAt
-        )
+                newsResponse.id,
+                newsResponse.title,
+                newsResponse.author,
+                newsResponse.content,
+                newsResponse.photo,
+                newsResponse.createdAt,
+                newsResponse.updatedAt
+            )
         )
     }
 

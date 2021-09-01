@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.feylabs.sawitjaya.R
-import com.feylabs.sawitjaya.ViewModelFactory
 import com.feylabs.sawitjaya.databinding.ActivityContainerUserHomeBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.service.Resource
@@ -31,7 +30,7 @@ class ContainerUserHomeActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_user_home)
         setupActionBarWithNavController(navController)
 
-        getPriceData()
+        getPriceData(true)
 
         authViewModel.pricesLiveData.observe(this, Observer {
             when(it){
@@ -39,7 +38,7 @@ class ContainerUserHomeActivity : AppCompatActivity() {
                     UIHelper.showLongToast(this,"Price Loading")
                 }
                 is Resource.Error->{
-                    UIHelper.showLongToast(this,"Price Error")
+                    UIHelper.showLongToast(this,it.message.toString())
                 }
                 is Resource.Loading->{
 
@@ -49,8 +48,8 @@ class ContainerUserHomeActivity : AppCompatActivity() {
 
     }
 
-    fun getPriceData(){
-        authViewModel.getPrices()
+    fun getPriceData(saveLocally:Boolean){
+        authViewModel.getPrices(saveLocally)
     }
 
 
