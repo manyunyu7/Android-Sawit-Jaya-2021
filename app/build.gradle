@@ -66,6 +66,9 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
 
+    //Fast Android Networking --->OKHTTP Based
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+
     // Chucker
     debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
@@ -122,10 +125,17 @@ dependencies {
     implementation 'com.kingfisherphuoc:easy-recyclerview-indicator:1.3'
     implementation "com.tapadoo.android:alerter:6.2.1"
 
+    // Easy Permission
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
 
     //  ----------UI LIBRARY--------------
 
     // Sweet Alert
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
+
+    implementation 'com.github.florent37:expansionpanel:1.2.4'
+
+    implementation 'com.library.tangxiaolv:telegramgallery:1.0.5'
 
 }

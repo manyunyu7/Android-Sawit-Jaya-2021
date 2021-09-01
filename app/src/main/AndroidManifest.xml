@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--Declaring the required permissions-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -12,7 +17,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SawitJaya"
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.ContainerUserHomeActivity"
+            android:exported="true" />
+
+
+        <activity android:name="com.tangxiaolv.telegramgallery.GalleryActivity" />
+        <activity android:name="com.feylabs.sawitjaya.utils.TelegramGalleryActivity" />
+
         <activity
             android:name=".ui.staff.StaffMainMenu"
             android:exported="true"
@@ -29,7 +43,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>
