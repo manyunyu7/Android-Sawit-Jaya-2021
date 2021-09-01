@@ -3,6 +3,7 @@ package com.feylabs.sawitjaya.data.local.room.entity
 import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
@@ -13,16 +14,19 @@ class AuthEntity(
     @PrimaryKey
     @NonNull
     var user_id: Int? = null,
-    @Nullable
+    @ColumnInfo(defaultValue = "")
     var name: String? = null,
-    @Nullable
+    @ColumnInfo(defaultValue = "")
     var email: String? = null,
-    @Nullable
+    @ColumnInfo(defaultValue = "")
     var contact: String? = null,
-    @Nullable
+    @ColumnInfo(defaultValue = "")
     var photo: String? = null,
+    @ColumnInfo(defaultValue = "")
     var role: String? = null,
-    var status: String? = null,
+    @ColumnInfo(defaultValue = "")
+    var status: String? = "",
+    @ColumnInfo(defaultValue = "")
     var photo_base64: String? = null,
 ) : Parcelable {
 
