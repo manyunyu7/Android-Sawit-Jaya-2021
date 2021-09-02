@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.base
+package com.feylabs.sawitjaya.utils.base
 
 import androidx.appcompat.app.AppCompatActivity
 

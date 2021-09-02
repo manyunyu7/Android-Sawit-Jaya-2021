@@ -1,7 +1,6 @@
 package com.feylabs.sawitjaya.ui.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +8,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.feylabs.sawitjaya.R
-import com.feylabs.sawitjaya.base.BaseFragment
+import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.databinding.FragmentRegisterBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
-import com.feylabs.sawitjaya.service.Resource
+import com.feylabs.sawitjaya.utils.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 
 

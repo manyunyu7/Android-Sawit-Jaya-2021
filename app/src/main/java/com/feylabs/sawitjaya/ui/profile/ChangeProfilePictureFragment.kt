@@ -16,20 +16,13 @@ import com.tangxiaolv.telegramgallery.GalleryConfig
 import timber.log.Timber
 import java.io.File
 
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Environment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.feylabs.sawitjaya.base.BaseFragment
+import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.feylabs.sawitjaya.injection.ServiceLocator
-import com.feylabs.sawitjaya.service.Resource
+import com.feylabs.sawitjaya.utils.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
-import android.graphics.Bitmap
-
-import android.graphics.drawable.BitmapDrawable
-import android.widget.ImageView
-import androidx.core.graphics.drawable.toBitmap
 
 
 class ChangeProfilePictureFragment : BaseFragment() {

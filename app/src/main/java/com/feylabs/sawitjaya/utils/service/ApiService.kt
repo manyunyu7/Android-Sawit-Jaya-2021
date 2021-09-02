@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.service
+package com.feylabs.sawitjaya.utils.service
 
 
 import android.content.Context
@@ -8,11 +8,6 @@ import com.google.gson.GsonBuilder
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
-
-import okhttp3.Interceptor.*
-
-import okhttp3.Interceptor
 
 import okhttp3.OkHttpClient
 

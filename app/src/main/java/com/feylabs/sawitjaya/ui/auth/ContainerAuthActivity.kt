@@ -1,6 +1,7 @@
 package com.feylabs.sawitjaya.ui.auth
 
 import android.Manifest
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
@@ -17,23 +18,22 @@ import androidx.core.content.ContextCompat
 import java.util.ArrayList
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.feylabs.sawitjaya.injection.ServiceLocator
+import com.feylabs.sawitjaya.ui.ContainerUserHomeActivity
 
 import com.feylabs.sawitjaya.ui.MainActivity
+import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import java.io.File
-
-
-
-
-
-
-
-
 
 
 class ContainerAuthActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityContainerAuthBinding.inflate(layoutInflater)
     }
+
+    lateinit var authViewModel: AuthViewModel
 
     var permissions = arrayOf<String>(
         Manifest.permission.CAMERA,
@@ -42,6 +42,7 @@ class ContainerAuthActivity : AppCompatActivity() {
     )
 
     private val REQUEST_MULTIPLE_PERMISSIONS = 117
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +54,22 @@ class ContainerAuthActivity : AppCompatActivity() {
         val databasesDir = File(this.dataDir.toString() + "/databases")
         File(databasesDir, "MyDatabase.db").delete()
         checkPermissions()
+
+        val factory = ServiceLocator.provideFactory(this)
+        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+
+        authViewModel.getProfileLocally()
+        authViewModel.localProfileLD.observe(this, Observer {
+            if (it.role == "3") {
+                startActivity(Intent(this, ContainerUserHomeActivity::class.java))
+            }
+        })
+
+        checkIfLoggedIn()
+    }
+
+    private fun checkIfLoggedIn() {
+
     }
 
     private fun checkPermissions(): Boolean {

@@ -18,7 +18,7 @@
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_news_detail.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_news.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_news_new.xml" value="0.33" />
         <entry key="app/src/main/res/layout/settings_fragment.xml" value="0.1" />

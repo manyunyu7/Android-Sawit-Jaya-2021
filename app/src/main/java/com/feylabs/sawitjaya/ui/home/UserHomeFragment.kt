@@ -5,19 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
 import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
 import com.feylabs.sawitjaya.databinding.FragmentUserHomeBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
-import com.feylabs.sawitjaya.service.Resource
+import com.feylabs.sawitjaya.utils.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_AUTHOR
 import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_CONTENT
@@ -27,6 +27,7 @@ import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_TITLE
 import com.feylabs.sawitjaya.utils.UIHelper
 import com.yabu.livechart.model.DataPoint
 import com.yabu.livechart.model.Dataset
+import timber.log.Timber
 
 class UserHomeFragment : Fragment() {
 
@@ -35,6 +36,8 @@ class UserHomeFragment : Fragment() {
     val binding get() = _binding as FragmentUserHomeBinding
 
     lateinit var authViewModel: AuthViewModel
+
+    var priceDataSetList = mutableListOf<DataPoint>()
 
     val adapterNews by lazy { NewsAdapter() }
 
@@ -45,6 +48,7 @@ class UserHomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         getNews()
+        authViewModel.getPrices(true)
     }
 
     override fun onCreateView(
@@ -64,29 +68,6 @@ class UserHomeFragment : Fragment() {
         setNewsAdapter()
         setNewsRecylerView()
 
-        val liveChart = binding.liveChart
-
-        val dataset = Dataset(
-            mutableListOf(
-                DataPoint(0f, 1f),
-                DataPoint(1f, 3f),
-                DataPoint(2f, 6f),
-                DataPoint(3f, 36f),
-                DataPoint(4f, 61f),
-                DataPoint(5f, 43f),
-                DataPoint(6f, 70f),
-                DataPoint(7f, 30f),
-                DataPoint(8f, 10f),
-            )
-        )
-
-        // set dataset, display options, and ... draw!
-        liveChart.setDataset(dataset)
-            .drawYBounds()
-            .drawBaseline()
-            .drawFill()
-            .drawSmoothPath()
-            .drawDataset()
 
         val factory = ServiceLocator.provideFactory(requireContext())
         authViewModel = ViewModelProvider(requireActivity(), factory).get(AuthViewModel::class.java)
@@ -103,7 +84,72 @@ class UserHomeFragment : Fragment() {
         authViewModel.newsLocalLiveData.observe(requireActivity(), Observer {
             refreshNewsAdapter(it)
         })
+
+        authViewModel.priceLocalLiveData.observe(requireActivity(), Observer {
+            if (it.size > 0) {
+                val newestPrice = it[0]?.price.toString()
+                val newestMargin = (it[0]?.margin)?.times(100)
+                binding.tvPriceToday.text = "Rp. $newestPrice"
+                binding.tvMargin.text =
+                    "Margin : ${newestMargin}% dari total harga jual tandan buah segar"
+
+                val tempList = mutableListOf<DataPoint>()
+                tempList.clear()
+                var maxIndex = it.size
+                it.forEachIndexed { index, priceResponseEntity ->
+                    val price = (priceResponseEntity?.price)?.div(1000)?.toFloat()
+                    Timber.d("price chared $price")
+                    tempList.add(DataPoint(maxIndex.toFloat(), price!!))
+                    maxIndex--
+                }
+
+
+                Timber.d("added set : ${tempList.asReversed()}")
+                val dataset = Dataset(
+                    tempList.asReversed()
+                )
+
+
+                binding.liveChart.setDataset(dataset)
+                binding.liveChart.setDataset(dataset)
+                    // Draws the Y Axis bounds with Text data points.
+                    .drawYBounds()
+                    // Draws a customizable base line from the first point of the dataset or manually set a data point
+                    .drawBaseline()
+                    // Set manually the data point from where the baseline draws,
+                    .setBaselineManually(1.5f)
+                    // Draws a fill on the chart line. You can set whether to draw with a transparent gradient
+                    // or a solid fill. Defaults to gradient.
+                    .drawFill(withGradient = true)
+                    // draws the color of the path and fill conditional to being above/below the baseline datapoint
+                    .drawBaselineConditionalColor()
+                    // Draw Guidelines in the background
+                    .drawVerticalGuidelines(steps = 4)
+                    .drawHorizontalGuidelines(steps = 4)
+                    // Draw smooth path
+                    .drawSmoothPath()
+                    // Draw last point tag label
+                    .drawLastPointLabel()
+                    .drawDataset()
+            } else {
+                binding.tvPriceToday.text = "Loading...."
+            }
+        })
+
+        authViewModel.getPrices(true)
+
     }
+
+    fun drawChart(dataSet: Dataset) {
+        // set dataset, display options, and ... draw!
+        binding.liveChart.setDataset(dataSet)
+            .drawYBounds()
+            .drawBaseline()
+            .drawFill()
+            .drawSmoothPath()
+            .drawDataset()
+    }
+
 
     private fun refreshNewsAdapter(list: List<NewsEntity?>) {
         adapterNews.setWithNewData(list.toMutableList())
@@ -143,6 +189,8 @@ class UserHomeFragment : Fragment() {
             val showedText =
                 Glide.with(requireActivity())
                     .load(prof?.photo)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(binding.ivProfileTopLeft)
         }
     }

@@ -14,7 +14,7 @@ interface PriceDAO {
     @Query("SELECT * FROM price WHERE id=:id")
     fun findById(id: Int): NewsEntity
 
-    @Query("SELECT * FROM price ORDER BY id ASC")
+    @Query("SELECT * FROM price ORDER BY id DESC")
     fun findAll(): List<PriceResponseEntity>
 
     @Query("SELECT * FROM price ORDER BY id ASC")

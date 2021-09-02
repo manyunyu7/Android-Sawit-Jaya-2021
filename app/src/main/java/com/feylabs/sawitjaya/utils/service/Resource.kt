@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.service
+package com.feylabs.sawitjaya.utils.service
 
 sealed class Resource<T>(
     val data: T? = null,

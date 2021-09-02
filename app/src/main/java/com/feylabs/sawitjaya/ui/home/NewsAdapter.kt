@@ -38,6 +38,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
             }
 
             binding.tvSecondary.text = model?.created_at
+
 //            binding.tvSecondary.text =
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //                    (Html.fromHtml("${model?.content}", Html.FROM_HTML_MODE_COMPACT));

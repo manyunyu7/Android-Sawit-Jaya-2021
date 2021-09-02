@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.base
+package com.feylabs.sawitjaya.utils.base
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment

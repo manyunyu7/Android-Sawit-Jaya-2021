@@ -7,10 +7,11 @@ import com.feylabs.sawitjaya.data.AuthRepository
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
 import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
+import com.feylabs.sawitjaya.data.local.room.entity.PriceResponseEntity
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
 import com.feylabs.sawitjaya.data.remote.response.PriceResponse
-import com.feylabs.sawitjaya.service.Resource
+import com.feylabs.sawitjaya.utils.service.Resource
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -26,6 +27,7 @@ class AuthViewModel(
     val pricesLiveData = MutableLiveData<Resource<PriceResponse?>>()
 
     val newsLocalLiveData = MutableLiveData<List<NewsEntity?>>()
+    val priceLocalLiveData = MutableLiveData<List<PriceResponseEntity?>>()
 
 
     fun login(username: String, password: String) =
@@ -86,6 +88,13 @@ class AuthViewModel(
     }
 
 
+    fun getPriceLocally() {
+        viewModelScope.launch {
+            val data = sawitRepository.getPricesLocally()
+            priceLocalLiveData.postValue(data)
+        }
+    }
+
     fun getPrices(saveLocally: Boolean = false) = viewModelScope.launch {
         try {
             val data = sawitRepository.getPrices()
@@ -100,6 +109,7 @@ class AuthViewModel(
                     }
                 }
 
+                priceLocalLiveData.postValue(sawitRepository.getPricesLocally())
 
             } else {
                 pricesLiveData.postValue(Resource.Error("Terjadi Kesalahan"))
@@ -126,7 +136,8 @@ class AuthViewModel(
     fun getProfileLocally() {
         viewModelScope.launch {
             val ld = authRepository.getUserInfoLocally()
-            localProfileLD.postValue(ld[0])
+            if (ld.isNotEmpty())
+                localProfileLD.postValue(ld[0])
         }
     }
 

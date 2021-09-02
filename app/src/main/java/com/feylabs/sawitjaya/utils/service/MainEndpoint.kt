@@ -1,9 +1,8 @@
-package com.feylabs.sawitjaya.service
+package com.feylabs.sawitjaya.utils.service
 
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.response.*
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*

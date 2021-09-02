@@ -12,11 +12,9 @@ import com.feylabs.sawitjaya.data.remote.response.ChangePasswordResponse
 import com.feylabs.sawitjaya.data.remote.response.LoginResponse
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
 import com.feylabs.sawitjaya.data.remote.response.UserUpdateProfileResponse
-import com.feylabs.sawitjaya.service.ApiService
-import com.feylabs.sawitjaya.service.MainEndpoint
-import com.feylabs.sawitjaya.service.Resource
-import com.google.gson.Gson
-import com.google.gson.JsonObject
+import com.feylabs.sawitjaya.utils.service.ApiService
+import com.feylabs.sawitjaya.utils.service.MainEndpoint
+import com.feylabs.sawitjaya.utils.service.Resource
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call

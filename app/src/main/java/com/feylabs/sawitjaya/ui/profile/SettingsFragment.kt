@@ -2,7 +2,6 @@ package com.feylabs.sawitjaya.ui.profile
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +10,14 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.feylabs.sawitjaya.R
-import com.feylabs.sawitjaya.base.BaseFragment
+import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
 import com.feylabs.sawitjaya.data.remote.response.ChangePasswordResponse
 import com.feylabs.sawitjaya.data.remote.response.User
 import com.feylabs.sawitjaya.data.remote.response.UserUpdateProfileResponse
 import com.feylabs.sawitjaya.databinding.SettingsFragmentBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
-import com.feylabs.sawitjaya.service.Resource
+import com.feylabs.sawitjaya.utils.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import timber.log.Timber
 

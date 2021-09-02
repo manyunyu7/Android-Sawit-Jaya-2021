@@ -9,9 +9,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.ActivityContainerUserHomeBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
-import com.feylabs.sawitjaya.service.Resource
+import com.feylabs.sawitjaya.utils.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
-import com.feylabs.sawitjaya.utils.UIHelper
 
 class ContainerUserHomeActivity : AppCompatActivity() {
     val binding by lazy { ActivityContainerUserHomeBinding.inflate(layoutInflater)}
@@ -35,13 +34,10 @@ class ContainerUserHomeActivity : AppCompatActivity() {
         authViewModel.pricesLiveData.observe(this, Observer {
             when(it){
                 is Resource.Success->{
-                    UIHelper.showLongToast(this,"Price Loading")
                 }
                 is Resource.Error->{
-                    UIHelper.showLongToast(this,it.message.toString())
                 }
                 is Resource.Loading->{
-
                 }
             }
         })

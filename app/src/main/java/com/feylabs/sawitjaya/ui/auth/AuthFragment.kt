@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.FragmentAuthFragmentBinding
+import com.feylabs.sawitjaya.injection.ServiceLocator
+import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 
 
 class AuthFragment : Fragment() {
@@ -15,6 +18,7 @@ class AuthFragment : Fragment() {
 
     var _binding: FragmentAuthFragmentBinding? = null
     private val binding get() = _binding as FragmentAuthFragmentBinding
+    lateinit var authViewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +37,13 @@ class AuthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        authViewModel = ViewModelProvider(
+            requireActivity(),
+            ServiceLocator.provideFactory(requireContext())
+        ).get(AuthViewModel::class.java)
+
+
 
         binding.btnLogin.setOnClickListener {
             findNavController().navigate(R.id.action_authFragment_to_loginFragment)

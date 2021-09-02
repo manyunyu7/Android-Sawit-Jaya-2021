@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5FDFB"
     tools:context=".ui.home.UserHomeFragment">
 
     <ImageView
@@ -68,7 +69,7 @@
                     android:singleLine="true"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    tools:text="Muhammad Razky Febriansyah" />
+                    tools:text="Muhammad FIrriezky" />
 
                 <RelativeLayout
                     android:id="@+id/group_end_header"
@@ -90,6 +91,57 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_card_sawit_2"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/label_price_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:fontFamily="@font/philosopher_b"
+                    android:text="Harga Jual Sawit Hari Ini"
+                    android:textColor="@color/color_blue_golapak"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_price_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_price_today"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/philosopher_b"
+                    android:text="Rp. 9000/Kg"
+                    android:textColor="@color/color_blue_golapak"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/tv_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_price_today"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/philosopher_b"
+                    android:text="Margin : 5% dari total harga jual"
+                    android:textColor="@color/color_blue_golapak"
+                    android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_news"
                 android:layout_width="match_parent"
@@ -98,6 +150,7 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_news" />
+
 
 
             <androidx.cardview.widget.CardView
@@ -163,9 +216,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/philosopher_b"
-                        android:text="Grafik Harga"
+                        android:text="Grafik Harga Sawit"
                         android:textColor="@color/color_blue_golapak"
-                        android:textSize="25sp" />
+                        android:textSize="18sp" />
 
                     <com.yabu.livechart.view.LiveChart
                         android:id="@+id/live_chart"
@@ -187,7 +240,6 @@
                 android:text="Kabar Sawit Terbaru"
                 android:textColor="@color/color_blue_golapak"
                 android:textSize="18sp" />
-
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -217,7 +269,6 @@
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 
 </RelativeLayout>
