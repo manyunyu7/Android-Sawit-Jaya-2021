@@ -14,7 +14,7 @@ interface NewsDAO {
     fun findById(id: Int): NewsEntity
 
     @Query("SELECT * FROM news ORDER BY id ASC")
-    fun findAll(): List<AuthEntity>
+    fun findAll(): List<NewsEntity>
 
     @Query("SELECT * FROM news ORDER BY id ASC")
     fun findAllData(): List<NewsEntity?>?

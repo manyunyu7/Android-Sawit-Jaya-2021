@@ -19,8 +19,14 @@ class AuthViewModel(
     private val sawitRepository: SawitRepository,
 ) : ViewModel() {
 
+    val localProfileLD = MutableLiveData<AuthEntity>()
+
+    // for remote
     val newsLiveData = MutableLiveData<Resource<NewsResponse?>>()
     val pricesLiveData = MutableLiveData<Resource<PriceResponse?>>()
+
+    val newsLocalLiveData = MutableLiveData<List<NewsEntity?>>()
+
 
     fun login(username: String, password: String) =
         authRepository.login(username, password)
@@ -72,6 +78,14 @@ class AuthViewModel(
         }
     }
 
+    fun getNewsLocally() {
+        viewModelScope.launch {
+            val newsLocal = sawitRepository.getNewsLocally()
+            newsLocalLiveData.postValue(newsLocal)
+        }
+    }
+
+
     fun getPrices(saveLocally: Boolean = false) = viewModelScope.launch {
         try {
             val data = sawitRepository.getPrices()
@@ -107,6 +121,13 @@ class AuthViewModel(
                 newsResponse.updatedAt
             )
         )
+    }
+
+    fun getProfileLocally() {
+        viewModelScope.launch {
+            val ld = authRepository.getUserInfoLocally()
+            localProfileLD.postValue(ld[0])
+        }
     }
 
 }

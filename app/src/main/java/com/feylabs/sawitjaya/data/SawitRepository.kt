@@ -19,7 +19,7 @@ class SawitRepository(
     suspend fun getPrices() = remoteDs.getPrices()
 
     suspend fun getPricesLocally() = localDs.getPrice()
-
+    suspend fun getNewsLocally() = localDs.getNews()
 
     suspend fun insertNews(newsEntity: NewsEntity) = localDs.saveNews(newsEntity)
     suspend fun insertPrice(priceResponseEntity: PriceResponseEntity) =

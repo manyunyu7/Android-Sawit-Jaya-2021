@@ -83,7 +83,6 @@ class LoginFragment : BaseFragment() {
             authViewModel.login(username, password).observe(viewLifecycleOwner, observerLogin)
         }
 
-        getNews()
 
     }
 
@@ -148,44 +147,13 @@ class LoginFragment : BaseFragment() {
             authViewModel.saveAuthInfo(entity)
         }
 
-
-
         MyPreference(requireContext()).save("TOKEN", "Bearer " + token)
 
         startActivity(Intent(requireContext(), ContainerUserHomeActivity::class.java))
     }
 
 
-    fun getNews() {
-        authViewModel.getNews()
-        authViewModel.newsLiveData.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is Resource.Success -> {
-                    showToast("Berhasil Fetch News")
 
-                    it.data?.forEachIndexed { index, news ->
-                        authViewModel.saveNews(
-                            NewsEntity(
-                                id = news.id,
-                                title = news.title,
-                                author = news.author,
-                                content = news.content,
-                                photo = news.photo,
-                                created_at = news.createdAt,
-                                updated_at = news.updatedAt,
-                            )
-                        )
-                    }
-                }
-                is Resource.Error -> {
-                    showToast(it.message.toString())
-                }
-                is Resource.Loading -> {
-                    showToast("loading news")
-                }
-            }
-        })
-    }
 
 
 }

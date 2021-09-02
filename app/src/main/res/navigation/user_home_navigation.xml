@@ -7,12 +7,15 @@
 
     <fragment
         android:id="@+id/userHomeFragment"
-        android:name="com.feylabs.sawitjaya.ui.UserHomeFragment"
+        android:name="com.feylabs.sawitjaya.ui.home.UserHomeFragment"
         android:label="fragment_user_home"
         tools:layout="@layout/fragment_user_home" >
         <action
             android:id="@+id/action_userHomeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_userHomeFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -28,5 +31,11 @@
         android:name="com.feylabs.sawitjaya.ui.profile.ChangeProfilePictureFragment"
         android:label="ChangeProfilePictureFragment"
         tools:layout="@layout/fragment_change_profile_picture"
+        />
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.feylabs.sawitjaya.ui.news.NewsDetailFragment"
+        android:label="NewsDetailFragment"
+        tools:layout="@layout/fragment_news_detail"
         />
 </navigation>

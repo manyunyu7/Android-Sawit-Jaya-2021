@@ -1,5 +1,8 @@
 package com.feylabs.sawitjaya.utils
 
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.util.Base64
 import android.util.Log
 import java.io.ByteArrayOutputStream
@@ -24,6 +27,17 @@ object MyHelper {
             Log.d("Error", e.toString())
         }
         return null
+    }
+
+
+    fun renderHTML(text: String): String {
+        var returnValue: Spanned? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            returnValue = Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT)
+        } else {
+            returnValue = Html.fromHtml(text)
+        }
+        return returnValue.toString()
     }
 
 

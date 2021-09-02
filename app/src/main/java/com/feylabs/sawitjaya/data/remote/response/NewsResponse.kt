@@ -15,6 +15,8 @@ class NewsResponse : ArrayList<NewsResponse.NewsResponseItem>(){
         val id: Int?,
         @SerializedName("photo")
         val photo: String?,
+        @SerializedName("photo_path")
+        val photo_path: String?,
         @SerializedName("title")
         val title: String?,
         @SerializedName("updated_at")
