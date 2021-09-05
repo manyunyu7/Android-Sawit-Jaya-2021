@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_userHomeFragment_to_newsDetailFragment"
             app:destination="@id/newsDetailFragment" />
+        <action
+            android:id="@+id/action_userHomeFragment_to_rsPickLocationFragment"
+            app:destination="@id/rsPickLocationFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -38,4 +41,18 @@
         android:label="NewsDetailFragment"
         tools:layout="@layout/fragment_news_detail"
         />
+    <fragment
+        android:id="@+id/rsPickLocationFragment"
+        android:name="com.feylabs.sawitjaya.ui.rs.RsPickLocationFragment"
+        android:label="fragment_rs_pick_location"
+        tools:layout="@layout/fragment_rs_pick_location" >
+        <action
+            android:id="@+id/action_rsPickLocationFragment_to_rsDetailFragment"
+            app:destination="@id/rsDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rsDetailFragment"
+        android:name="com.feylabs.sawitjaya.ui.rs.RsDetailFragment"
+        android:label="rs_detail_fragment"
+        tools:layout="@layout/rs_detail_fragment" />
 </navigation>

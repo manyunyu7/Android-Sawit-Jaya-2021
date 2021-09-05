@@ -51,8 +51,8 @@ class ContainerAuthActivity : AppCompatActivity() {
         actionBar?.hide()
         val navController = findNavController(R.id.nav_host_auth)
         setupActionBarWithNavController(navController)
-        val databasesDir = File(this.dataDir.toString() + "/databases")
-        File(databasesDir, "MyDatabase.db").delete()
+
+        resetRoomDatabase()
         checkPermissions()
 
         val factory = ServiceLocator.provideFactory(this)
@@ -66,6 +66,12 @@ class ContainerAuthActivity : AppCompatActivity() {
         })
 
         checkIfLoggedIn()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun resetRoomDatabase() {
+        val databasesDir = File(this.dataDir.toString() + "/databases")
+        File(databasesDir, "MyDatabase.db").delete()
     }
 
     private fun checkIfLoggedIn() {

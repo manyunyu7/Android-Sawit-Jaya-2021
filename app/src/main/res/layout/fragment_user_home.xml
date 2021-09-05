@@ -92,9 +92,9 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -142,6 +142,22 @@
 
             </RelativeLayout>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btn_request_sell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_artboard_4" />
+
+            </androidx.cardview.widget.CardView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_news"
                 android:layout_width="match_parent"
@@ -150,7 +166,6 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_news" />
-
 
 
             <androidx.cardview.widget.CardView

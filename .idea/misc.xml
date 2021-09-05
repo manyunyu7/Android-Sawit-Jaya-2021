@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/ic_button_rounded.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/drawable/ic_golapak_logo.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/drawable/ic_header_home.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_placeholder.xml" value="0.13385416666666666" />
         <entry key="app/src/main/res/layout/activity_container_auth.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_container_user_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15" />
@@ -18,9 +19,16 @@
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_news_detail.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_rs_pick_location.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/header_with_back_and_title.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/header_with_back_next_title.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_news.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_news_new.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_photo_rs.xml" value="0.10625" />
+        <entry key="app/src/main/res/layout/layout_info_rs.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_info_user.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/rs_detail_fragment.xml" value="0.2" />
         <entry key="app/src/main/res/layout/settings_fragment.xml" value="0.1" />
       </map>
     </option>

@@ -68,6 +68,10 @@ class UserHomeFragment : Fragment() {
         setNewsAdapter()
         setNewsRecylerView()
 
+        binding.btnRequestSell.setOnClickListener {
+            findNavController().navigate(R.id.rsPickLocationFragment)
+        }
+
 
         val factory = ServiceLocator.provideFactory(requireContext())
         authViewModel = ViewModelProvider(requireActivity(), factory).get(AuthViewModel::class.java)
@@ -189,6 +193,7 @@ class UserHomeFragment : Fragment() {
             val showedText =
                 Glide.with(requireActivity())
                     .load(prof?.photo)
+                    .placeholder(R.drawable.ic_placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(binding.ivProfileTopLeft)

@@ -107,6 +107,7 @@ class SettingsFragment : BaseFragment() {
                 Glide
                     .with(requireContext())
                     .load(it.photo)
+                    .placeholder(R.drawable.ic_placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(binding.ivProfilePicture)

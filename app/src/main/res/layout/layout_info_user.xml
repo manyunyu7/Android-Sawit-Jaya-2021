@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/label_informasi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Informasi Akun"
+        android:textColor="@color/color_blue_golapak"
+        android:textSize="20sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_below="@id/label_informasi"
+        android:id="@+id/container_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="40dp"
+        >
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:src="@drawable/ic_placeholder"
+            android:scaleType="centerCrop"
+            app:riv_oval="true" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/label_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_informasi"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/btn_detail"
+        android:layout_toEndOf="@id/container_image"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/color_blue_golapak"
+        android:textSize="18sp"
+        tool:text="Nama Saya Budi" />
+
+    <TextView
+        android:id="@+id/label_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_name"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/container_image"
+        android:fontFamily="@font/philosopher_b"
+        android:textColor="@color/color_blue_golapak"
+        android:textSize="15sp"
+        tool:text="firriezky@gmail.com" />
+
+    <TextView
+        android:id="@+id/label_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_email"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/container_image"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/philosopher_b"
+        android:textColor="@color/color_blue_golapak"
+        android:textSize="15sp"
+        tool:text="firriezky@gmail.com" />
+
+    <ImageView
+        android:id="@+id/btn_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_icon_kebab" />
+
+</RelativeLayout>
