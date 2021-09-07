@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_add_photo_placeholder.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/drawable/ic_awan_for_login.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_ios_new_24.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/drawable/ic_button_rounded.xml" value="0.11041666666666666" />

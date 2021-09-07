@@ -6,6 +6,7 @@ import com.feylabs.sawitjaya.data.AuthRepository
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.ui.profile.SettingsViewModel
+import com.feylabs.sawitjaya.ui.rs.RsDetailViewModel
 
 class ViewModelFactory constructor(
     private val repoSawit: SawitRepository,
@@ -21,6 +22,10 @@ class ViewModelFactory constructor(
             }
             modelClass.isAssignableFrom(SettingsViewModel::class.java) -> {
                 SettingsViewModel(repoAuth) as T
+            }
+
+            modelClass.isAssignableFrom(RsDetailViewModel::class.java) -> {
+                RsDetailViewModel(repoSawit) as T
             }
 
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)

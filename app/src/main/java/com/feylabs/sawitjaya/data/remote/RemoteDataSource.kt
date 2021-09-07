@@ -8,6 +8,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
+import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
 import com.feylabs.sawitjaya.data.remote.response.ChangePasswordResponse
 import com.feylabs.sawitjaya.data.remote.response.LoginResponse
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
@@ -240,6 +241,68 @@ class RemoteDataSource(
 
     }
 
+    /**
+     * Send Request Sell From User
+     * @param body,callback
+     *
+     */
+    fun sendRequestSell(
+        rsReq : RequestSellRequest,
+        callback: CallbackUploadRS,
+    ) {
+        val myNetwork = AndroidNetworking.upload(
+            ApiService.baseURL + "request-sell/store"
+        )
+        val file = rsReq.uploadFile
+
+        myNetwork.apply {
+            setPriority(Priority.HIGH)
+            addHeaders("Authorization", token)
+            addMultipartParameter("lat",rsReq.lat)
+            addMultipartParameter("long",rsReq.long)
+            addMultipartParameter("address",rsReq.address)
+            addMultipartParameter("est_weight",rsReq.estWeight)
+            addMultipartParameter("contact",rsReq.contact)
+            addMultipartParameter("status",rsReq.status)
+            file?.forEachIndexed { index, file ->
+                addMultipartFile("upload_file[$index]", file)
+            }
+        }
+            .build()
+            .setUploadProgressListener { bytesUploaded, totalBytes ->
+                val value = "${bytesUploaded / 1024} KB of ${totalBytes / 1024} KB"
+                callback.value(Resource.Loading(value))
+            }
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+                    Timber.d("FAN Upload Success : $response")
+                    val res = response
+                    val status_code = res?.getInt("status_code") ?: 0
+                    val message = res?.getString("message_id") ?: "Default Message"
+                    if (status_code == 1) {
+                        callback.value(Resource.Success(message, message))
+                    } else {
+                        //IF UPLOAD FILE IS FAILED
+                        //Show the reason
+                        Timber.d("FAN Upload Error : response statcode")
+                        callback.value(Resource.Error(message, message))
+                    }
+                }
+
+                override fun onError(anError: ANError?) {
+                    Timber.d("FAN Upload Error : $anError")
+                    Timber.d("FAN Upload Error Body : ${anError?.errorBody}")
+                    Timber.d("FAN Upload Error Code : ${anError?.errorCode}")
+                    Timber.d("FAN Upload Error Detail : ${anError?.errorDetail}")
+                    Timber.d("FAN Upload Error Localized Message : ${anError?.localizedMessage}")
+                    callback.value(Resource.Error("Error : " + anError))
+                }
+
+            })
+
+
+    }
+
 
     interface CallbackUpdateProfile {
         fun value(response: Resource<UserUpdateProfileResponse?>)
@@ -263,6 +326,10 @@ class RemoteDataSource(
 
     interface CallbackPrice {
         fun value(response: Resource<NewsResponse?>)
+    }
+
+    interface CallbackUploadRS {
+        fun value(response: Resource<String?>)
     }
 
 

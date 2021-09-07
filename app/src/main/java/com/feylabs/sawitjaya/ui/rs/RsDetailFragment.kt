@@ -9,13 +9,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.text.isDigitsOnly
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
+import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
 import com.feylabs.sawitjaya.databinding.RsDetailFragmentBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
@@ -24,6 +23,7 @@ import com.feylabs.sawitjaya.ui.rs.model.RsModel
 import com.feylabs.sawitjaya.ui.rs.model.RsPhotoModel
 import com.feylabs.sawitjaya.utils.TelegramGalleryActivity
 import com.feylabs.sawitjaya.utils.base.BaseFragment
+import com.feylabs.sawitjaya.utils.service.Resource
 import com.tangxiaolv.telegramgallery.GalleryActivity
 import com.tangxiaolv.telegramgallery.GalleryConfig
 import timber.log.Timber
@@ -44,7 +44,14 @@ class RsDetailFragment : BaseFragment() {
     var newestPrice: Double? = 0.0 ?: 0.0
     var etEst = 0
 
+    var tempFileListGlobal = mutableListOf<File?>()
+
+    lateinit var rsModel: RsModel
+
     private val mAdapter by lazy { RsPhotoAdapter() }
+
+    //Observer for upload rs progress
+    lateinit var uploadRSObserver: Observer<Resource<String?>>
 
     companion object {
         fun newInstance() = RsDetailFragment()
@@ -63,7 +70,6 @@ class RsDetailFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RsDetailViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,18 +79,27 @@ class RsDetailFragment : BaseFragment() {
 
         setupRecyclerView()
 
+        setupObserver()
+
 
         val factory = ServiceLocator.provideFactory(requireContext())
         authVIewModel = ViewModelProvider(requireActivity(), factory).get(AuthViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), factory).get(RsDetailViewModel::class.java)
 
+        //get model data from arguments ( parcelable )
         val model = arguments?.get("rs") as RsModel
+        rsModel = model
 
+        binding.labelAddress.text = model.address
+
+
+        authVIewModel.getPrices(true)
         authVIewModel.getProfileLocally()
         authVIewModel.getPriceLocally()
 
         authVIewModel.priceLocalLiveData.observe(requireActivity(), Observer {
 
-            if (it.size > 0) {
+            if (it.isNotEmpty()) {
                 if (it[0] != null) {
                     newestPrice = it[0]?.price
                     newestMargin = (it[0]?.margin)?.times(100)
@@ -93,7 +108,28 @@ class RsDetailFragment : BaseFragment() {
 
         })
 
-        binding.labelAddress.text = model.address
+
+        // On Request Sell submit button click
+        binding.btnSubmit.setOnClickListener {
+            val sEstWeight = binding.etEst.text.toString()
+            val sAddress = binding.labelAddress.text.toString()
+            val sLat = rsModel.lat.toString()
+            val sLong = rsModel.long.toString()
+            val sContact = binding.etContact.text.toString()
+            viewModel.uploadData(
+                RequestSellRequest(
+                    additionalContact = sContact,
+                    address = sAddress,
+                    contact = sContact,
+                    lat = sLat,
+                    long = sLong,
+                    status = "3",
+                    uploadFile = tempFileListGlobal,
+                    estWeight = sEstWeight
+                )
+            ).observe(viewLifecycleOwner, uploadRSObserver)
+        }
+
         binding.etEst.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -126,6 +162,27 @@ class RsDetailFragment : BaseFragment() {
                 }
             }
         })
+    }
+
+    private fun setupObserver() {
+        uploadRSObserver = Observer {
+            when (it) {
+                is Resource.Success -> {
+                    binding.tvUploadProgress.visibility = View.GONE
+                    showToast("BERHASIL MELAKUKAN REQUEST JUAL")
+//                    findNavController().navigate(R.id.userHomeFragment)
+                }
+                is Resource.Error -> {
+                    binding.tvUploadProgress.visibility = View.GONE
+                    showToast("error")
+                }
+                is Resource.Loading -> {
+                    binding.tvUploadProgress.visibility = View.VISIBLE
+                    binding.tvUploadProgress.text = it.data
+                    showToast("loading")
+                }
+            }
+        }
     }
 
     private fun countSimul() {
@@ -215,6 +272,7 @@ class RsDetailFragment : BaseFragment() {
                 //Clear adapter data
 
                 mAdapter.clearData()
+                tempFileListGlobal.clear()
                 val tempList = mutableListOf<RsPhotoModel>()
                 photos.forEachIndexed { index, s ->
                     Timber.d("photo loop @${index}")
@@ -223,6 +281,7 @@ class RsDetailFragment : BaseFragment() {
                     val mFileUri = Uri.parse(uriFIle) //for glide
                     val uploadedFile = File(Uri.parse(uriFIle).path.toString())
                     tempList.add(RsPhotoModel(mFileUri, uploadedFile))
+                    tempFileListGlobal.add(uploadedFile)
                 }
                 mAdapter.setWithNewData(tempList)
                 mAdapter.notifyDataSetChanged()
