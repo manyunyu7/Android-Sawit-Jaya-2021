@@ -19,7 +19,7 @@
         <entry key="app/src/main/res/layout/fragment_auth_fragmet.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_change_profile_picture.xml" value="0.14" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_news_detail.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_news_detail.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_rs_pick_location.xml" value="0.14" />
         <entry key="app/src/main/res/layout/fragment_user_home.xml" value="0.22" />

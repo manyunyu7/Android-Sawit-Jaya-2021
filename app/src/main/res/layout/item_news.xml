@@ -45,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/jaldi_bold"
                 android:textSize="16sp"
-                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="marquee"
                 android:textColor="@color/color_blue_golapak"
                 android:text="Keindahan Ranu Kumbolo"/>
             <TextView
