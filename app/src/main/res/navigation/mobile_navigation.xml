@@ -3,23 +3,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/userHomeFragment">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.feylabs.sawitjaya.ui.staff.home.StaffHomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_staff_home" />
-
+        android:id="@+id/userHomeFragment"
+        android:name="com.feylabs.sawitjaya.ui.home.UserHomeFragment"
+        android:label="fragment_user_home"
+        tools:layout="@layout/fragment_user_home" >
+        <action
+            android:id="@+id/action_userHomeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_userHomeFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
+        <action
+            android:id="@+id/action_userHomeFragment_to_rsPickLocationFragment"
+            app:destination="@id/rsPickLocationFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.feylabs.sawitjaya.ui.staff.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
+        android:id="@+id/settingsFragment"
+        android:name="com.feylabs.sawitjaya.ui.profile.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_changeProfilePictureFragment"
+            app:destination="@id/changeProfilePictureFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.feylabs.sawitjaya.ui.staff.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/changeProfilePictureFragment"
+        android:name="com.feylabs.sawitjaya.ui.profile.ChangeProfilePictureFragment"
+        android:label="ChangeProfilePictureFragment"
+        tools:layout="@layout/fragment_change_profile_picture"
+        />
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.feylabs.sawitjaya.ui.news.NewsDetailFragment"
+        android:label="NewsDetailFragment"
+        tools:layout="@layout/fragment_news_detail"
+        />
+    <fragment
+        android:id="@+id/rsPickLocationFragment"
+        android:name="com.feylabs.sawitjaya.ui.rs.RsPickLocationFragment"
+        android:label="fragment_rs_pick_location"
+        tools:layout="@layout/fragment_rs_pick_location" >
+        <action
+            android:id="@+id/action_rsPickLocationFragment_to_rsDetailFragment"
+            app:destination="@id/rsDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rsDetailFragment"
+        android:name="com.feylabs.sawitjaya.ui.rs.RsDetailFragment"
+        android:label="rs_detail_fragment"
+        tools:layout="@layout/rs_detail_fragment" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_home"-->
+<!--        android:name="com.feylabs.sawitjaya.ui.staff.home.StaffHomeFragment"-->
+<!--        android:label="@string/menu_home"-->
+<!--        tools:layout="@layout/fragment_staff_home" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_gallery"-->
+<!--        android:name="com.feylabs.sawitjaya.ui.staff.gallery.GalleryFragment"-->
+<!--        android:label="@string/menu_gallery"-->
+<!--        tools:layout="@layout/fragment_gallery" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_slideshow"-->
+<!--        android:name="com.feylabs.sawitjaya.ui.staff.slideshow.SlideshowFragment"-->
+<!--        android:label="@string/menu_slideshow"-->
+<!--        tools:layout="@layout/fragment_slideshow" />-->
 </navigation>

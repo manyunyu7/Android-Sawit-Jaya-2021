@@ -18,7 +18,7 @@ import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.databinding.FragmentLoginBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.utils.service.Resource
-import com.feylabs.sawitjaya.ui.ContainerUserHomeActivity
+import com.feylabs.sawitjaya.ui.staff.MainMenuContainer
 import timber.log.Timber
 
 
@@ -136,7 +136,7 @@ class LoginFragment : BaseFragment() {
 
         MyPreference(requireContext()).save("TOKEN", "Bearer " + token)
 
-        startActivity(Intent(requireContext(), ContainerUserHomeActivity::class.java))
+        startActivity(Intent(requireContext(), MainMenuContainer::class.java))
     }
 
 

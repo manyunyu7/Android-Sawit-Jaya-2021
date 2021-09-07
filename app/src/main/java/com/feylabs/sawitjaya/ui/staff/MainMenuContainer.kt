@@ -11,19 +11,44 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.feylabs.sawitjaya.R
-import com.feylabs.sawitjaya.databinding.ActivityUserMainMenuBinding
+import com.feylabs.sawitjaya.databinding.ActivityMainMenuContainerBinding
+import com.feylabs.sawitjaya.injection.ServiceLocator
+import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
+import com.feylabs.sawitjaya.utils.service.Resource
 
-class StaffMainMenu : AppCompatActivity() {
+class MainMenuContainer : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityUserMainMenuBinding
+    private lateinit var binding: ActivityMainMenuContainerBinding
+
+    lateinit var authViewModel: AuthViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityUserMainMenuBinding.inflate(layoutInflater)
+        binding = ActivityMainMenuContainerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val factory = ServiceLocator.provideFactory(this)
+        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+
+        getPriceData(true)
+
+        authViewModel.pricesLiveData.observe(this, Observer {
+            when (it) {
+                is Resource.Success -> {
+                }
+                is Resource.Error -> {
+                }
+                is Resource.Loading -> {
+                }
+            }
+        })
+
 
         setSupportActionBar(binding.appBarUserMainMenu.toolbar)
 
@@ -38,7 +63,7 @@ class StaffMainMenu : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.userHomeFragment, R.id.nav_gallery, R.id.nav_slideshow
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -55,4 +80,10 @@ class StaffMainMenu : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_user_main_menu)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
+    fun getPriceData(saveLocally: Boolean) {
+        authViewModel.getPrices(saveLocally)
+    }
+
 }
