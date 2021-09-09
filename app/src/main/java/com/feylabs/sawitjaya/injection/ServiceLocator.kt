@@ -16,7 +16,7 @@ object ServiceLocator {
         val apiService = ApiService.getClient(context)
         val remoteDataSource = RemoteDataSource(apiService,context)
         val roomDb = MyRoomDatabase.invoke(context)
-        val localDataSource = LocalDataSource(roomDb, MyPreference(context))
+        val localDataSource = LocalDataSource(roomDb)
         val authRepository = AuthRepository(remoteDataSource, localDataSource)
 
         return authRepository
@@ -26,7 +26,7 @@ object ServiceLocator {
         val apiService = ApiService.getClient(context)
         val remoteDataSource = RemoteDataSource(apiService,context)
         val roomDb = MyRoomDatabase.invoke(context)
-        val localDataSource = LocalDataSource(roomDb, MyPreference(context))
+        val localDataSource = LocalDataSource(roomDb)
         val repo = SawitRepository(remoteDataSource, localDataSource)
 
         return repo
@@ -37,7 +37,7 @@ object ServiceLocator {
         val apiService = ApiService.getClient(context)
         val remoteDataSource = RemoteDataSource(apiService,context)
         val roomDb = MyRoomDatabase.invoke(context)
-        val localDataSource = LocalDataSource(roomDb, MyPreference(context))
+        val localDataSource = LocalDataSource(roomDb)
         val authRepository = AuthRepository(remoteDataSource, localDataSource)
         val sawitRepository = SawitRepository(remoteDataSource, localDataSource)
 
