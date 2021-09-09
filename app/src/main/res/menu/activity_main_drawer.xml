@@ -17,4 +17,15 @@
             android:icon="@drawable/ic_baseline_settings_24"
             android:title="Pengaturan" />
     </group>
+
+    <group
+        android:id="@+id/menu_others"
+        android:checkableBehavior="none" >
+        <item
+            android:icon="@drawable/ic_baseline_logout_24"
+            android:title="Logout" />
+
+    </group>
+
+
 </menu>

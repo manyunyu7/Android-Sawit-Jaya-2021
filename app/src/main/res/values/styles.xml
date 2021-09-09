@@ -7,4 +7,8 @@
         <item name="android:checkable">true</item>
     </style>
 
+    <style name="NavdrawStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/jaldi_regular</item>
+    </style>
+
 </resources>
