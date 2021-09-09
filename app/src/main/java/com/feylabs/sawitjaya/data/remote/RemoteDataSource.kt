@@ -174,6 +174,23 @@ class RemoteDataSource(
             })
     }
 
+    /**
+     * get request sell by user id
+     * @param userID : String
+     *
+     */
+    suspend fun getRequestSellByUser(
+        userID: String,
+        page: Int, per_page: Int,paginate:Boolean = true
+    ) =
+        api.getRequestSellByUser(
+            userID = userID,
+            paginate = paginate,
+            page = page,
+            per_page = per_page,
+            authHeader = token,
+        )
+
 
     /**
      * get news
@@ -247,9 +264,10 @@ class RemoteDataSource(
      *
      */
     fun sendRequestSell(
-        rsReq : RequestSellRequest,
+        rsReq: RequestSellRequest,
         callback: CallbackUploadRS,
     ) {
+        Timber.d("send request sell")
         val myNetwork = AndroidNetworking.upload(
             ApiService.baseURL + "request-sell/store"
         )
@@ -258,12 +276,12 @@ class RemoteDataSource(
         myNetwork.apply {
             setPriority(Priority.HIGH)
             addHeaders("Authorization", token)
-            addMultipartParameter("lat",rsReq.lat)
-            addMultipartParameter("long",rsReq.long)
-            addMultipartParameter("address",rsReq.address)
-            addMultipartParameter("est_weight",rsReq.estWeight)
-            addMultipartParameter("contact",rsReq.contact)
-            addMultipartParameter("status",rsReq.status)
+            addMultipartParameter("lat", rsReq.lat)
+            addMultipartParameter("long", rsReq.long)
+            addMultipartParameter("address", rsReq.address)
+            addMultipartParameter("est_weight", rsReq.estWeight)
+            addMultipartParameter("contact", rsReq.contact)
+            addMultipartParameter("status", rsReq.status)
             file?.forEachIndexed { index, file ->
                 addMultipartFile("upload_file[$index]", file)
             }
@@ -325,6 +343,10 @@ class RemoteDataSource(
     }
 
     interface CallbackPrice {
+        fun value(response: Resource<NewsResponse?>)
+    }
+
+    interface CallbackRequestSell {
         fun value(response: Resource<NewsResponse?>)
     }
 

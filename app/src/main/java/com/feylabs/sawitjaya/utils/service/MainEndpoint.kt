@@ -1,5 +1,6 @@
 package com.feylabs.sawitjaya.utils.service
 
+import com.feylabs.sawitjaya.data.remote.request.GetRDSPaginationReq
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.response.*
 import okhttp3.ResponseBody
@@ -92,6 +93,20 @@ interface MainEndpoint {
         @Header("Authorization") authHeader: String?,
     ): Response<PriceResponse?>
 
+
+    /**
+     * news
+     * @param get request sell by user
+     * @return
+     */
+    @GET("user/{id}/request-sell/?")
+    suspend fun getRequestSellByUser(
+        @Path("id")  userID : String?,
+        @Query("is_paginate") paginate : Boolean = true,
+        @Query("page") page: Int = 1,
+        @Query("per_page") per_page: Int = 10,
+        @Header("Authorization") authHeader: String?,
+    ): Response<GetRequestSellByUserReq?>
 
 
 }

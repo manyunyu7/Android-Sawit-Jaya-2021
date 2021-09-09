@@ -134,6 +134,8 @@ class LoginFragment : BaseFragment() {
             authViewModel.saveAuthInfo(entity)
         }
 
+        MyPreference(requireContext()).saveUserID(user?.id.toString())
+        MyPreference(requireContext()).saveUserID(user?.id.toString())
         MyPreference(requireContext()).save("TOKEN", "Bearer " + token)
 
         startActivity(Intent(requireContext(), MainMenuContainer::class.java))

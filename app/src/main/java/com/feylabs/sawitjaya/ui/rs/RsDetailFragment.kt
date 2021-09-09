@@ -174,12 +174,11 @@ class RsDetailFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     binding.tvUploadProgress.visibility = View.GONE
-                    showToast("error")
+                    showToast(it.data.toString())
                 }
                 is Resource.Loading -> {
                     binding.tvUploadProgress.visibility = View.VISIBLE
                     binding.tvUploadProgress.text = it.data
-                    showToast("loading")
                 }
             }
         }
@@ -192,7 +191,6 @@ class RsDetailFragment : BaseFragment() {
             val localeID = Locale("in", "ID")
             val formatRupiah =
                 NumberFormat.getCurrencyInstance(localeID)
-
             val weightBruto = weight
             val weightMargin = weight * (newestMargin?.div(100.0)!!)
             Timber.d("weight margin ${weightMargin}")

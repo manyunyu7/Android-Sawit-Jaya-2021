@@ -13,12 +13,25 @@ class SawitRepository(
     private val localDs: LocalDataSource,
 ) {
 
-    fun saveNewJWTToken(token: String) {
-        localDs.saveNewJWTToken(token)
-    }
+
+    suspend fun getUserID() = localDs.getUserID()
+    suspend fun getToken() = localDs.getUserID()
 
     suspend fun getNews() = remoteDs.getNews()
     suspend fun getPrices() = remoteDs.getPrices()
+
+    suspend fun getRequestSellByUser(
+        userID: String,
+        page: Int,
+        per_page: Int,
+        paginate: Boolean = true
+    ) =
+        remoteDs.getRequestSellByUser(
+            userID = userID,
+            per_page = per_page,
+            page = page,
+            paginate = paginate
+        )
 
     suspend fun getPricesLocally() = localDs.getPrice()
     suspend fun getNewsLocally() = localDs.getNews()

@@ -8,7 +8,6 @@ import com.feylabs.sawitjaya.data.local.room.entity.PriceResponseEntity
 
 class LocalDataSource(
     private val db: MyRoomDatabase,
-    private val pref: MyPreference
 ) {
 
 
@@ -16,6 +15,8 @@ class LocalDataSource(
         db.authDao().clear();
         db.authDao().insertOrUpdate(userBaseInfoLocalEntity)
     }
+
+    suspend fun getUserID() = db.authDao().getUserID()
 
     fun saveNews(newsEntity: NewsEntity) {
         db.newsDao().insert(newsEntity)
@@ -30,10 +31,6 @@ class LocalDataSource(
 
     fun updatePhoto(photo: String) {
         db.authDao().updatePhoto(photo)
-    }
-
-    fun saveNewJWTToken(token: String) {
-        pref.save("TOKEN", token)
     }
 
     fun getUserInfo() = db.authDao().findAll()

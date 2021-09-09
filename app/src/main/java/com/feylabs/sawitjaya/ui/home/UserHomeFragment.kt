@@ -190,13 +190,17 @@ class UserHomeFragment : Fragment() {
     private fun updateView(prof: AuthEntity?) {
         binding.apply {
             binding.greetingName.text = prof?.name
-            val showedText =
-                Glide.with(requireActivity())
+            try{
+                Glide.with(requireContext())
                     .load(prof?.photo)
                     .placeholder(R.drawable.ic_placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(binding.ivProfileTopLeft)
+            }catch (e:Exception){
+
+            }
+
         }
     }
 
