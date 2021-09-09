@@ -36,12 +36,6 @@ class AuthViewModel(
     fun register(body: RegisterRequestBody) =
         authRepository.register(body)
 
-    fun saveNewJWTToken(token: String) {
-        viewModelScope.launch {
-            authRepository.saveNewJWTToken(token)
-        }
-    }
-
     fun saveNews(newsEntity: NewsEntity) {
         viewModelScope.launch {
             sawitRepository.insertNews(newsEntity)

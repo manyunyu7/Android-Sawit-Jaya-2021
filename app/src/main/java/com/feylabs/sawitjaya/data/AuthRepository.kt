@@ -15,10 +15,6 @@ class AuthRepository(
     private val localDs: LocalDataSource,
 ) {
 
-    fun saveNewJWTToken(token: String) {
-        localDs.saveNewJWTToken(token)
-    }
-
     fun login(username: String, password: String) =
         remoteDs.login(username, password)
 

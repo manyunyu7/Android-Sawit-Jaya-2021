@@ -11,6 +11,7 @@ import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.FragmentAuthFragmentBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class AuthFragment : Fragment() {
@@ -18,7 +19,9 @@ class AuthFragment : Fragment() {
 
     var _binding: FragmentAuthFragmentBinding? = null
     private val binding get() = _binding as FragmentAuthFragmentBinding
-    lateinit var authViewModel: AuthViewModel
+//    lateinit var authViewModel: AuthViewModel
+
+    val authViewModel : AuthViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +41,10 @@ class AuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        authViewModel = ViewModelProvider(
-            requireActivity(),
-            ServiceLocator.provideFactory(requireContext())
-        ).get(AuthViewModel::class.java)
+//        authViewModel = ViewModelProvider(
+//            requireActivity(),
+//            ServiceLocator.provideFactory(requireContext())
+//        ).get(AuthViewModel::class.java)
 
 
 
