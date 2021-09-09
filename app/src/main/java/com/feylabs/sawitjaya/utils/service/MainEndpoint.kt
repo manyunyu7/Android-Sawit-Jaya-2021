@@ -101,10 +101,11 @@ interface MainEndpoint {
      */
     @GET("user/{id}/request-sell/?")
     suspend fun getRequestSellByUser(
-        @Path("id")  userID : String?,
-        @Query("is_paginate") paginate : Boolean = true,
+        @Path("id") userID: String?,
+        @Query("is_paginate") paginate: Boolean = true,
         @Query("page") page: Int = 1,
         @Query("per_page") per_page: Int = 10,
+        @Query("status") status: String? = null,
         @Header("Authorization") authHeader: String?,
     ): Response<GetRequestSellByUserReq?>
 

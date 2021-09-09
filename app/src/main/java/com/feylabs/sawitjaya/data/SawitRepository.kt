@@ -23,6 +23,7 @@ class SawitRepository(
     suspend fun getRequestSellByUser(
         userID: String,
         page: Int,
+        status:String?=null,
         per_page: Int,
         paginate: Boolean = true
     ) =
@@ -30,7 +31,8 @@ class SawitRepository(
             userID = userID,
             per_page = per_page,
             page = page,
-            paginate = paginate
+            paginate = paginate,
+            status = status
         )
 
     suspend fun getPricesLocally() = localDs.getPrice()

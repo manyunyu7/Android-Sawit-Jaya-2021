@@ -15,6 +15,7 @@ class HistoryViewModel(
     val sawitRepository: SawitRepository
 ) : ViewModel() {
 
+    var filterStatus: MutableLiveData<String> = MutableLiveData("3");
 
     var _historyDataLD =
         MutableLiveData<Resource<HistoryPagingModel>>()
@@ -24,11 +25,13 @@ class HistoryViewModel(
 
     fun getRSByUser(
         userID: String, paginate: Boolean = true,
-        page: Int = 1, perPage: Int = 10
+        page: Int = 1, perPage: Int = 10, status: String? = filterStatus.value
     ) {
+        _historyDataLD.postValue(Resource.Loading())
         viewModelScope.launch {
             val request = sawitRepository.getRequestSellByUser(
-                userID = userID, paginate = paginate, page = page, per_page = perPage
+                userID = userID, paginate = paginate, page = page, per_page = perPage,
+                status = status
             )
             try {
                 val mBody = historyResponseDataToHistoryModelMapper(request.body()!!)

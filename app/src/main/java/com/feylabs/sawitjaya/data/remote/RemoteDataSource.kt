@@ -181,6 +181,7 @@ class RemoteDataSource(
      */
     suspend fun getRequestSellByUser(
         userID: String,
+        status:String? = null,
         page: Int, per_page: Int,paginate:Boolean = true
     ) =
         api.getRequestSellByUser(
@@ -189,6 +190,7 @@ class RemoteDataSource(
             page = page,
             per_page = per_page,
             authHeader = token,
+            status = status,
         )
 
 
