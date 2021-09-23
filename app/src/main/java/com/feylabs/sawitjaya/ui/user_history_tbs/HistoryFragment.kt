@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.size
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +19,8 @@ import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.databinding.BsActionHistoryBinding
 import com.feylabs.sawitjaya.databinding.FragmentHistoryBinding
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
+import com.feylabs.sawitjaya.ui.rs.request.RsDetailFragment
+import com.feylabs.sawitjaya.ui.user_history_tbs.detail.DetailHistoryFragmentArgs
 import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.feylabs.sawitjaya.utils.service.Resource
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -28,6 +34,9 @@ class HistoryFragment : BaseFragment() {
     companion object {
         fun newInstance() = HistoryFragment()
     }
+
+    private val menuNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_content_user_main_menu) }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -62,6 +71,59 @@ class HistoryFragment : BaseFragment() {
         )
     }
 
+    override fun initUI() {
+    }
+
+    override fun initObserver() {
+        historyObserver = Observer {
+            when (it) {
+                is Resource.Loading -> {
+                    viewVisible(binding.includeLoading.root)
+                }
+                is Resource.Success -> {
+                    val dataSize = it.data?.data?.size
+
+                    //hide desc/error view
+                    viewGone(binding.includeDesc.root)
+                    binding.includeDesc.tvDesc.text = ""
+
+                    showToast("${it.data?.data?.size}")
+
+
+                    if (dataSize == 0) {
+                        viewGone(binding.includeLoading.root)
+                        binding.includeDesc.apply {
+                            root.visibility = View.VISIBLE
+                            tvDesc.text = "Belum Ada Data"
+                            viewVisible(this.root)
+                        }
+                    } else {
+                        viewGone(binding.includeLoading.root)
+                    }
+                    it.data?.data?.let { data ->
+                        adapterHistory.addData(data)
+                        adapterHistory.notifyDataSetChanged()
+                    }
+                }
+
+                is Resource.Error -> {
+                    viewGone(binding.includeLoading.root)
+                    binding.includeDesc.apply {
+                        root.visibility = View.VISIBLE
+                        tvDesc.text = it.data.toString() + " " + it.message
+                        viewVisible(this.root)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun initAction() {
+    }
+
+    override fun initData() {
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,12 +143,10 @@ class HistoryFragment : BaseFragment() {
 
         setupBottomSheet()
         setupRecyclerView(LAYOUT_TYPE.LINEAR)
-        setupHistoryObserver()
         setupChip()
 
         binding.group.setOnCheckedChangeListener { groupz, checkedId ->
             val ids: List<Int> = groupz.checkedChipIds
-
             for (id in ids) {
                 val chip: Chip = groupz.findViewById(id)
                 Timber.d("checked_chip ${chip.text}")
@@ -94,10 +154,13 @@ class HistoryFragment : BaseFragment() {
         }
 
 
-
         adapterHistory.setInterface(object : HistoryAdapter.HistoryItemInterface {
             override fun onclick(model: HistoryPagingModel.HistoryModel) {
                 bottomSheetDialog.show()
+                bsBinding.btnDetailOrEdit.setOnClickListener {
+                    goToFragmentDetail(model.id)
+                    bottomSheetDialog.dismiss()
+                }
                 bsBinding.bottomAction.setOnClickListener {
                     bottomSheetDialog.dismiss()
                 }
@@ -107,7 +170,15 @@ class HistoryFragment : BaseFragment() {
 
         val id = MyPreference(requireContext()).getUserID()
         viewModel.getRSByUser(id.toString())
-        viewModel.historyDataLD.observe(viewLifecycleOwner, historyObserver )
+        viewModel.historyDataLD.observe(viewLifecycleOwner, historyObserver)
+    }
+
+    private fun goToFragmentDetail(id: Int) {
+        val directions =
+            HistoryFragmentDirections.actionHistoryFragmentToDetailHistoryFragment(
+                id.toString()
+            )
+        menuNavController?.navigate(directions)
     }
 
 
@@ -139,49 +210,6 @@ class HistoryFragment : BaseFragment() {
                         viewModel.getRSByUser(userID = userID, status = "1")
                     }
 
-                }
-            }
-        }
-    }
-
-    private fun setupHistoryObserver() {
-        historyObserver = Observer {
-            when (it) {
-                is Resource.Loading -> {
-                    viewVisible(binding.includeLoading.root)
-                }
-                is Resource.Success -> {
-
-                    val dataSize = it.data?.data?.size
-
-                    //hide desc/error view
-                    viewGone(binding.includeDesc.root)
-                    binding.includeDesc.tvDesc.text = ""
-
-//                    showToast("${it.data?.data?.size}")
-                    it.data?.data?.let { data ->
-                        adapterHistory.addData(data)
-                        adapterHistory.notifyDataSetChanged()
-                    }
-
-                    if (dataSize == 0) {
-                        binding.includeDesc.apply {
-                            root.visibility = View.VISIBLE
-                            tvDesc.text = "Belum Ada Data"
-                            viewVisible(this.root)
-                        }
-                    } else {
-                        viewGone(binding.includeLoading.root)
-                    }
-                }
-
-                is Resource.Error -> {
-                    viewGone(binding.includeLoading.root)
-                    binding.includeDesc.apply {
-                        root.visibility = View.VISIBLE
-                        tvDesc.text = it.data.toString() + " " + it.message
-                        viewVisible(this.root)
-                    }
                 }
             }
         }

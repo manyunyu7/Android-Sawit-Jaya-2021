@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.ItemGridRsBinding
 import com.feylabs.sawitjaya.utils.BusinessHelper
+import com.feylabs.sawitjaya.utils.UIHelper.setColorStatus
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
@@ -33,16 +34,9 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
 
             //Change Card Color
             val context = binding.root.context
-            var color = R.color.colorGold
-            when (data.status) {
-                "0" -> color = R.color.bootstrapRed
-                "1" -> color = R.color.colorGreen
-                "3" -> color = R.color.colorWaiting
-                "4" -> color = R.color.colorNeoBlue
-                "2" -> color = R.color.colorPurple
-            }
+            val color = setColorStatus(data.status)
             binding.etStatus.setTextColor(ContextCompat.getColor(context, R.color.white))
-            binding.containerStatus.setCardBackgroundColor(ContextCompat.getColor(context,color))
+            binding.containerStatus.setCardBackgroundColor(ContextCompat.getColor(context, color))
 
 
             itemView.setOnClickListener {

@@ -8,6 +8,7 @@ import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.local.LocalDataSource
 import com.feylabs.sawitjaya.data.local.room.MyRoomDatabase
 import com.feylabs.sawitjaya.data.remote.RemoteDataSource
+import com.feylabs.sawitjaya.injection.ServiceLocator.BASE_URL
 import com.feylabs.sawitjaya.utils.service.ApiService
 import com.feylabs.sawitjaya.utils.service.MainEndpoint
 import okhttp3.OkHttpClient
@@ -49,7 +50,8 @@ val networkModule = module {
     }
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.1.161:3202/api/")
+            .baseUrl(BASE_URL)
+//            .baseUrl("http://sawit-jaya.feylabs.my.id/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()

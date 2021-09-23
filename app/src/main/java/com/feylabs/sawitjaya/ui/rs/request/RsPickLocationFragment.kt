@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.ui.rs
+package com.feylabs.sawitjaya.ui.rs.request
 
 import android.location.Address
 import android.location.Geocoder
@@ -12,8 +12,8 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.FragmentRsPickLocationBinding
-import com.feylabs.sawitjaya.ui.rs.model.GeoCoderModel
-import com.feylabs.sawitjaya.ui.rs.model.RsModel
+import com.feylabs.sawitjaya.ui.rs.request.model.GeoCoderModel
+import com.feylabs.sawitjaya.ui.rs.request.model.RsModel
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -148,6 +148,18 @@ class RsPickLocationFragment : BaseFragment() {
 
 
         }
+    }
+
+    override fun initUI() {
+    }
+
+    override fun initObserver() {
+    }
+
+    override fun initAction() {
+    }
+
+    override fun initData() {
     }
 
     override fun onCreateView(

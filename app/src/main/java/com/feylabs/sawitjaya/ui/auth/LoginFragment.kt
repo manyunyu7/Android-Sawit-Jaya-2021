@@ -18,7 +18,7 @@ import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.databinding.FragmentLoginBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.utils.service.Resource
-import com.feylabs.sawitjaya.ui.staff.MainMenuContainer
+import com.feylabs.sawitjaya.ui.MainMenuContainer
 import timber.log.Timber
 
 
@@ -31,6 +31,17 @@ class LoginFragment : BaseFragment() {
 
 
     lateinit var observerLogin: Observer<Resource<LoginResponse?>>
+    override fun initUI() {
+    }
+
+    override fun initObserver() {
+    }
+
+    override fun initAction() {
+    }
+
+    override fun initData() {
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +78,8 @@ class LoginFragment : BaseFragment() {
         binding.btnLogin.setOnClickListener {
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
+            viewGone(binding.btnLogin)
+            viewVisible(binding.loginLoading)
             authViewModel.login(username, password).observe(viewLifecycleOwner, observerLogin)
         }
 
@@ -78,13 +91,12 @@ class LoginFragment : BaseFragment() {
             when (it) {
                 is Resource.Loading -> {
                     Timber.d("login loading")
-//                    binding.loginProgressBar.show()
                 }
                 is Resource.Success -> {
                     Timber.d("login success")
 
                     //Save user token
-//                    PreferenceApp.setToken(this, it.data.toString())
+                    //PreferenceApp.setToken(this, it.data.toString())
                     Timber.d("api_token from db= ${it.data.toString()}")
                     Timber.d("api_token from pref = ${it.data.toString()}")
 
@@ -102,6 +114,8 @@ class LoginFragment : BaseFragment() {
                     Timber.d("login gagal")
 //                    binding.loginProgressBar.hide()
                     showToast("Login Gagal")
+                    viewGone(binding.loginLoading)
+                    viewVisible(binding.btnLogin)
                 }
             }
         }
@@ -136,10 +150,12 @@ class LoginFragment : BaseFragment() {
 
         MyPreference(requireContext()).saveUserID(user?.id.toString())
         MyPreference(requireContext()).saveUserID(user?.id.toString())
-        MyPreference(requireContext()).save("TOKEN", "Bearer " + token)
+        MyPreference(requireContext()).save("TOKEN", "Bearer $token")
 
         startActivity(Intent(requireContext(), MainMenuContainer::class.java))
     }
+
+
 
 
 

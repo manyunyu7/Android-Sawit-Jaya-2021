@@ -6,7 +6,7 @@ import com.feylabs.sawitjaya.data.AuthRepository
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.ui.profile.SettingsViewModel
-import com.feylabs.sawitjaya.ui.rs.RsDetailViewModel
+import com.feylabs.sawitjaya.ui.rs.request.RsDetailViewModel
 
 class ViewModelFactory constructor(
     private val repoSawit: SawitRepository,

@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.ui.rs.model
+package com.feylabs.sawitjaya.ui.rs.request.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

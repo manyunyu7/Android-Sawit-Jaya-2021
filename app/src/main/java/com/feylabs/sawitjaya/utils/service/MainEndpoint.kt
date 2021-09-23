@@ -18,7 +18,6 @@ interface MainEndpoint {
     @GET("/test")
     suspend fun testAPI(): Response<String>
 
-
     @FormUrlEncoded
     @POST("auth/login")
     fun login(
@@ -108,6 +107,17 @@ interface MainEndpoint {
         @Query("status") status: String? = null,
         @Header("Authorization") authHeader: String?,
     ): Response<GetRequestSellByUserReq?>
+
+    /**
+     * rs
+     * @param get request sell by id ( detailed )
+     * @return
+     */
+    @GET("request-sell/{id}/detail")
+    suspend fun getRequestSellDetail(
+        @Path("id") userID: String?,
+        @Header("Authorization") authHeader: String?,
+    ): Response<HistoryDetailResponse?>
 
 
 }

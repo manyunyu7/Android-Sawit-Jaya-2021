@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.ui.staff
+package com.feylabs.sawitjaya.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

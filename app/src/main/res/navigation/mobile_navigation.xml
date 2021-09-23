@@ -47,7 +47,7 @@
         />
     <fragment
         android:id="@+id/rsPickLocationFragment"
-        android:name="com.feylabs.sawitjaya.ui.rs.RsPickLocationFragment"
+        android:name="com.feylabs.sawitjaya.ui.rs.request.RsPickLocationFragment"
         android:label="Pilih Lokasi"
         tools:layout="@layout/fragment_rs_pick_location" >
         <action
@@ -56,14 +56,29 @@
     </fragment>
     <fragment
         android:id="@+id/rsDetailFragment"
-        android:name="com.feylabs.sawitjaya.ui.rs.RsDetailFragment"
+        android:name="com.feylabs.sawitjaya.ui.rs.request.RsDetailFragment"
         android:label="Detail Penjualan"
         tools:layout="@layout/rs_detail_fragment" />
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.feylabs.sawitjaya.ui.user_history_tbs.HistoryFragment"
-        android:label="Riwayat Pemesanan"
-        tools:layout="@layout/fragment_history" />
+        android:label="Riwayat Transaksi"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_detailHistoryFragment"
+            app:destination="@id/detailHistoryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailHistoryFragment"
+        android:name="com.feylabs.sawitjaya.ui.user_history_tbs.detail.DetailHistoryFragment"
+        android:label="Detail Transaksi"
+        tools:layout="@layout/fragment_detail_history" >
+        <argument
+            android:name="rsID"
+            app:argType="string" />
+    </fragment>
+
 
     <!--    <fragment-->
 <!--        android:id="@+id/nav_home"-->

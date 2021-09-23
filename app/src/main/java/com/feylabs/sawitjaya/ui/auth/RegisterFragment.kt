@@ -26,6 +26,18 @@ class RegisterFragment : BaseFragment() {
 
     lateinit var authViewModel: AuthViewModel
 
+    override fun initUI() {
+    }
+
+    override fun initObserver() {
+    }
+
+    override fun initAction() {
+    }
+
+    override fun initData() {
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

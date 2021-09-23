@@ -13,6 +13,7 @@ import com.feylabs.sawitjaya.data.remote.response.ChangePasswordResponse
 import com.feylabs.sawitjaya.data.remote.response.LoginResponse
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
 import com.feylabs.sawitjaya.data.remote.response.UserUpdateProfileResponse
+import com.feylabs.sawitjaya.injection.ServiceLocator.BASE_URL
 import com.feylabs.sawitjaya.utils.service.ApiService
 import com.feylabs.sawitjaya.utils.service.MainEndpoint
 import com.feylabs.sawitjaya.utils.service.Resource
@@ -181,8 +182,8 @@ class RemoteDataSource(
      */
     suspend fun getRequestSellByUser(
         userID: String,
-        status:String? = null,
-        page: Int, per_page: Int,paginate:Boolean = true
+        status: String? = null,
+        page: Int, per_page: Int, paginate: Boolean = true
     ) =
         api.getRequestSellByUser(
             userID = userID,
@@ -192,7 +193,6 @@ class RemoteDataSource(
             authHeader = token,
             status = status,
         )
-
 
     /**
      * get news
@@ -220,7 +220,7 @@ class RemoteDataSource(
         callback: CallbackChangeProfilePicture,
     ) {
         AndroidNetworking.upload(
-            ApiService.baseURL + "user/update-photo"
+            BASE_URL + "user/update-photo"
         )
             .setPriority(Priority.HIGH)
             .addMultipartFile("photo", file)
@@ -271,12 +271,12 @@ class RemoteDataSource(
     ) {
         Timber.d("send request sell")
         val myNetwork = AndroidNetworking.upload(
-            ApiService.baseURL + "request-sell/store"
+            BASE_URL + "request-sell/store"
         )
         val file = rsReq.uploadFile
 
         myNetwork.apply {
-            setPriority(Priority.HIGH)
+            setPriority(Priority.IMMEDIATE)
             addHeaders("Authorization", token)
             addMultipartParameter("lat", rsReq.lat)
             addMultipartParameter("long", rsReq.long)
@@ -311,6 +311,7 @@ class RemoteDataSource(
 
                 override fun onError(anError: ANError?) {
                     Timber.d("FAN Upload Error : $anError")
+                    Timber.d("FAN Upload Error : ${anError?.errorBody}")
                     Timber.d("FAN Upload Error Body : ${anError?.errorBody}")
                     Timber.d("FAN Upload Error Code : ${anError?.errorCode}")
                     Timber.d("FAN Upload Error Detail : ${anError?.errorDetail}")
@@ -323,6 +324,8 @@ class RemoteDataSource(
 
     }
 
+    suspend fun getDetailRequestSell(id: String) =
+        api.getRequestSellDetail(id, token)
 
     interface CallbackUpdateProfile {
         fun value(response: Resource<UserUpdateProfileResponse?>)

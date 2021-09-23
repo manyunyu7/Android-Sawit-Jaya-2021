@@ -42,6 +42,18 @@ class SettingsFragment : BaseFragment() {
     lateinit var remoteUpdateProfileObserver: Observer<Resource<UserUpdateProfileResponse?>>
     lateinit var remoteChangePasswordeObserver: Observer<Resource<ChangePasswordResponse?>>
 
+    override fun initUI() {
+    }
+
+    override fun initObserver() {
+    }
+
+    override fun initAction() {
+    }
+
+    override fun initData() {
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

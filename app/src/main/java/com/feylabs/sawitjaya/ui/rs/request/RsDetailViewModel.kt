@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.ui.rs
+package com.feylabs.sawitjaya.ui.rs.request
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

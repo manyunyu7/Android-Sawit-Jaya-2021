@@ -9,9 +9,9 @@ import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.FragmentNewsDetailBinding
 import com.feylabs.sawitjaya.utils.MyHelper
+import com.feylabs.sawitjaya.utils.base.BaseFragment
 
-
-class NewsDetailFragment : Fragment() {
+class NewsDetailFragment : BaseFragment() {
 
     var _binding : FragmentNewsDetailBinding? = null
     val binding get() = _binding as FragmentNewsDetailBinding
@@ -23,6 +23,18 @@ class NewsDetailFragment : Fragment() {
         const val DET_NEWS_CONTENT = "dsaDWE"
         const val DET_NEWS_CREATED_AT = "dRWsa"
         const val DET_NEWS_PHOTO = "FQFdsa"
+    }
+
+    override fun initUI() {
+    }
+
+    override fun initObserver() {
+    }
+
+    override fun initAction() {
+    }
+
+    override fun initData() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,9 +70,10 @@ class NewsDetailFragment : Fragment() {
             tvContent.text = MyHelper.renderHTML(content.toString())
             tvDate.text = created_at
             tvMain.text = title
-
             Glide.with(binding.root).load(photo).into(ivMainImage)
         }
+
+
 
     }
 

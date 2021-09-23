@@ -12,6 +12,8 @@ import com.feylabs.sawitjaya.utils.service.ApiService
 
 object ServiceLocator {
 
+    const val BASE_URL = "http://192.168.1.161:3202/api/"
+
     fun provideAuthRepository(context: Context): AuthRepository {
         val apiService = ApiService.getClient(context)
         val remoteDataSource = RemoteDataSource(apiService,context)

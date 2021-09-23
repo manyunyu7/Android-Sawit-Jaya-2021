@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/userHomeFragment"
         android:name="com.feylabs.sawitjaya.ui.home.UserHomeFragment"
-        android:label="fragment_user_home"
+        android:label="Dashboard"
         tools:layout="@layout/fragment_user_home" >
         <action
             android:id="@+id/action_userHomeFragment_to_settingsFragment"
@@ -19,11 +19,14 @@
         <action
             android:id="@+id/action_userHomeFragment_to_rsPickLocationFragment"
             app:destination="@id/rsPickLocationFragment" />
+        <action
+            android:id="@+id/action_userHomeFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.feylabs.sawitjaya.ui.profile.SettingsFragment"
-        android:label="settings_fragment"
+        android:label="Settings"
         tools:layout="@layout/settings_fragment" >
         <action
             android:id="@+id/action_settingsFragment_to_changeProfilePictureFragment"
@@ -38,13 +41,13 @@
     <fragment
         android:id="@+id/newsDetailFragment"
         android:name="com.feylabs.sawitjaya.ui.news.NewsDetailFragment"
-        android:label="NewsDetailFragment"
+        android:label="Berita"
         tools:layout="@layout/fragment_news_detail"
         />
     <fragment
         android:id="@+id/rsPickLocationFragment"
-        android:name="com.feylabs.sawitjaya.ui.rs.RsPickLocationFragment"
-        android:label="fragment_rs_pick_location"
+        android:name="com.feylabs.sawitjaya.ui.rs.request.RsPickLocationFragment"
+        android:label="Pilih Lokasi"
         tools:layout="@layout/fragment_rs_pick_location" >
         <action
             android:id="@+id/action_rsPickLocationFragment_to_rsDetailFragment"
@@ -52,7 +55,10 @@
     </fragment>
     <fragment
         android:id="@+id/rsDetailFragment"
-        android:name="com.feylabs.sawitjaya.ui.rs.RsDetailFragment"
-        android:label="rs_detail_fragment"
+        android:name="com.feylabs.sawitjaya.ui.rs.request.RsDetailFragment"
+        android:label="Detail Permintaan Jual"
         tools:layout="@layout/rs_detail_fragment" />
+
+
+
 </navigation>

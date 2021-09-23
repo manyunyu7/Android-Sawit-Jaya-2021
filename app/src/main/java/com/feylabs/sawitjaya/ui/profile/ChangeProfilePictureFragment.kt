@@ -99,6 +99,18 @@ class ChangeProfilePictureFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun initUI() {
+    }
+
+    override fun initObserver() {
+    }
+
+    override fun initAction() {
+    }
+
+    override fun initData() {
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //list of photos of seleced

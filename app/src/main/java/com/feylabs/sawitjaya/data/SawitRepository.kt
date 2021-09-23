@@ -19,11 +19,12 @@ class SawitRepository(
 
     suspend fun getNews() = remoteDs.getNews()
     suspend fun getPrices() = remoteDs.getPrices()
+    suspend fun getDetailRs(id: String) = remoteDs.getDetailRequestSell(id)
 
     suspend fun getRequestSellByUser(
         userID: String,
         page: Int,
-        status:String?=null,
+        status: String? = null,
         per_page: Int,
         paginate: Boolean = true
     ) =

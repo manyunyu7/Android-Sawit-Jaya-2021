@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.ui.rs.model
+package com.feylabs.sawitjaya.ui.rs.request.model
 
 import android.net.Uri
 import java.io.File

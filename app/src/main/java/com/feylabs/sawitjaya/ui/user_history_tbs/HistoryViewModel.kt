@@ -9,6 +9,7 @@ import com.feylabs.sawitjaya.data.remote.response.GetRequestSellByUserReq
 import com.feylabs.sawitjaya.ui.user_history_tbs.HistoryPagingModel.HistoryModel
 import com.feylabs.sawitjaya.utils.service.Resource
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.lang.Exception
 
 class HistoryViewModel(
@@ -33,15 +34,16 @@ class HistoryViewModel(
                 userID = userID, paginate = paginate, page = page, per_page = perPage,
                 status = status
             )
+
             try {
                 val mBody = historyResponseDataToHistoryModelMapper(request.body()!!)
                 if (request.isSuccessful) {
-                    _historyDataLD?.postValue(Resource.Success(mBody))
+                    _historyDataLD.postValue(Resource.Success(mBody))
                 } else {
-                    _historyDataLD?.postValue(Resource.Error("Gagal Mengambil Data"))
+                    _historyDataLD.postValue(Resource.Error("Gagal Mengambil Data"))
                 }
             } catch (e: Exception) {
-                _historyDataLD?.postValue(Resource.Error("Terjadi Kesalahan : ${e.message}"))
+                _historyDataLD.postValue(Resource.Error("Terjadi Kesalahan : ${e.message}"))
             }
 
         }

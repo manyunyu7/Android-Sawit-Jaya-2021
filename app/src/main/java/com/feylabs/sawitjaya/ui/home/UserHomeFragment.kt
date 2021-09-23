@@ -25,11 +25,12 @@ import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_CREAT
 import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_PHOTO
 import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_TITLE
 import com.feylabs.sawitjaya.utils.UIHelper
+import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.yabu.livechart.model.DataPoint
 import com.yabu.livechart.model.Dataset
 import timber.log.Timber
 
-class UserHomeFragment : Fragment() {
+class UserHomeFragment : BaseFragment() {
 
 
     var _binding: FragmentUserHomeBinding? = null
@@ -40,6 +41,18 @@ class UserHomeFragment : Fragment() {
     var priceDataSetList = mutableListOf<DataPoint>()
 
     val adapterNews by lazy { NewsAdapter() }
+
+    override fun initUI() {
+    }
+
+    override fun initObserver() {
+    }
+
+    override fun initAction() {
+    }
+
+    override fun initData() {
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

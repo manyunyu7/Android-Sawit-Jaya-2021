@@ -1,21 +1,21 @@
-package com.feylabs.sawitjaya.ui.rs.adapter
+package com.feylabs.sawitjaya.ui.user_history_tbs.detail
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.ItemPhotoRsBinding
-import com.feylabs.sawitjaya.ui.rs.model.RsPhotoModel
+import com.feylabs.sawitjaya.ui.rs.request.model.RsPhotoModel
+import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 
-class RsPhotoAdapter : RecyclerView.Adapter<RsPhotoAdapter.RsPhotoViewHolder>() {
+class DetailHistoryPhotoAdapter :
+    RecyclerView.Adapter<DetailHistoryPhotoAdapter.RsPhotoViewHolder>() {
 
-    val data = mutableListOf<RsPhotoModel?>()
+    val data = mutableListOf<PhotoListModel?>()
     lateinit var adapterInterface: RsPhotoItemInterface
 
-    fun setWithNewData(data: MutableList<RsPhotoModel>) {
+    fun setWithNewData(data: MutableList<PhotoListModel>) {
         this.data.addAll(data)
         notifyDataSetChanged()
     }
@@ -33,30 +33,13 @@ class RsPhotoAdapter : RecyclerView.Adapter<RsPhotoAdapter.RsPhotoViewHolder>() 
 
         var binding: ItemPhotoRsBinding = ItemPhotoRsBinding.bind(itemView)
 
-        fun onBInd(model: RsPhotoModel?) {
-//            binding.tvMain.text = model?.title
+        fun onBind(model: PhotoListModel?) {
             binding.tvMain.visibility = View.GONE
             binding.root.setOnClickListener {
                 adapterInterface.onclick(model)
             }
 
-
-            if (model?.photoUri != null) {
-                Glide.with(binding.root)
-                    .load(model?.photoUri)
-                    .placeholder(R.drawable.ic_add_photo_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(binding.ivMainImage)
-            } else {
-                Glide.with(binding.root)
-                    .load(R.drawable.ic_placeholder)
-                    .placeholder(R.drawable.ic_add_photo_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(binding.ivMainImage)
-            }
-
+            binding.ivMainImage.loadImageFromURL(binding.root.context, model?.url.toString())
 
         }
     }
@@ -68,7 +51,7 @@ class RsPhotoAdapter : RecyclerView.Adapter<RsPhotoAdapter.RsPhotoViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: RsPhotoViewHolder, position: Int) {
-        holder.onBInd(data[position])
+        holder.onBind(data[position])
     }
 
     override fun getItemCount(): Int {
@@ -76,6 +59,6 @@ class RsPhotoAdapter : RecyclerView.Adapter<RsPhotoAdapter.RsPhotoViewHolder>() 
     }
 
     interface RsPhotoItemInterface {
-        fun onclick(model: RsPhotoModel?)
+        fun onclick(model: PhotoListModel?)
     }
 }

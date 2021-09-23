@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.ui.rs
+package com.feylabs.sawitjaya.ui.rs.request
 
 import android.content.Intent
 import android.net.Uri
@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
@@ -18,9 +17,9 @@ import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
 import com.feylabs.sawitjaya.databinding.RsDetailFragmentBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
-import com.feylabs.sawitjaya.ui.rs.adapter.RsPhotoAdapter
-import com.feylabs.sawitjaya.ui.rs.model.RsModel
-import com.feylabs.sawitjaya.ui.rs.model.RsPhotoModel
+import com.feylabs.sawitjaya.ui.rs.request.adapter.RsPhotoAdapter
+import com.feylabs.sawitjaya.ui.rs.request.model.RsModel
+import com.feylabs.sawitjaya.ui.rs.request.model.RsPhotoModel
 import com.feylabs.sawitjaya.utils.TelegramGalleryActivity
 import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.feylabs.sawitjaya.utils.service.Resource
@@ -255,6 +254,18 @@ class RsDetailFragment : BaseFragment() {
 
     private fun checkCameraPermission() {
 
+    }
+
+    override fun initUI() {
+    }
+
+    override fun initObserver() {
+    }
+
+    override fun initAction() {
+    }
+
+    override fun initData() {
     }
 
 
