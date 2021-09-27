@@ -24,6 +24,7 @@ import com.feylabs.sawitjaya.databinding.ActivityMainMenuContainerBinding
 import com.feylabs.sawitjaya.databinding.NavHeaderUserMainMenuBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
+import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.utils.service.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -33,7 +34,6 @@ class MainMenuContainer : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainMenuContainerBinding
-
 
 
     val authViewModel: AuthViewModel by viewModel()
@@ -75,9 +75,6 @@ class MainMenuContainer : AppCompatActivity() {
         val navView: NavigationView = binding.navView
 
 
-
-
-
         val navController = findNavController(R.id.nav_host_fragment_content_user_main_menu)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -89,8 +86,8 @@ class MainMenuContainer : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val navigationView : NavigationView  = findViewById(R.id.nav_view)
-        val headerView : View = navigationView.getHeaderView(0)
+        val navigationView: NavigationView = findViewById(R.id.nav_view)
+        val headerView: View = navigationView.getHeaderView(0)
         val navUserName: TextView = headerView.findViewById(R.id.tv_name)
         val navUserEmail: TextView = headerView.findViewById(R.id.tv_email)
         val navPicture: ImageView = headerView.findViewById(R.id.iv_profile_picture)
@@ -104,11 +101,7 @@ class MainMenuContainer : AppCompatActivity() {
                 navUserName.text = it.name
                 navUserEmail.text = it.email
                 Timber.d("photo navdraw ${it.photo}")
-                Glide.with(this)
-                    .load(it.photo)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(navPicture)
+                navPicture.loadImageFromURL(this, it.photo.toString())
             } catch (e: Exception) {
 
             }

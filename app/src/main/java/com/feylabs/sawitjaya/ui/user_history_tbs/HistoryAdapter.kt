@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.ItemGridRsBinding
 import com.feylabs.sawitjaya.utils.BusinessHelper
+import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.utils.UIHelper.setColorStatus
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
@@ -28,16 +29,14 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
         fun bind(data: HistoryPagingModel.HistoryModel) {
             binding.tvEstWeight.text = "${data.estWeight} Kg"
             binding.tvUserName.text = data.userName
-
-            binding.etStatus.text = data.statusDesc
-
+            binding.status.build(
+                type = data.status,
+                text = data.statusDesc
+            )
 
             //Change Card Color
             val context = binding.root.context
             val color = setColorStatus(data.status)
-            binding.etStatus.setTextColor(ContextCompat.getColor(context, R.color.white))
-            binding.containerStatus.setCardBackgroundColor(ContextCompat.getColor(context, color))
-
 
             itemView.setOnClickListener {
                 itemInterface.onclick(data)
@@ -52,13 +51,9 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
 
             binding.tvEstPrice.text = "Estimasi Harga : ${price}"
 
-            Glide.with(binding.root)
-                .load(data.userPhoto)
-                .into(binding.ivProfilePicture)
 
-            Glide.with(binding.root)
-                .load(data.photo)
-                .into(binding.ivMainImage)
+            binding.ivProfilePicture.loadImageFromURL(binding.root.context, data.userPhoto)
+            binding.ivMainImage.loadImageFromURL(binding.root.context, data.photo)
         }
     }
 
@@ -69,6 +64,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
 
     fun addData(model: MutableList<HistoryPagingModel.HistoryModel>) {
         data.addAll(model)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {

@@ -19,6 +19,7 @@ import com.feylabs.sawitjaya.databinding.SettingsFragmentBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.utils.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
+import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import timber.log.Timber
 
 class SettingsFragment : BaseFragment() {
@@ -116,13 +117,7 @@ class SettingsFragment : BaseFragment() {
                 etContact.setText(it.contact)
                 etEmail.setText(it.email)
                 etNama.setText(it.name)
-                Glide
-                    .with(requireContext())
-                    .load(it.photo)
-                    .placeholder(R.drawable.ic_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(binding.ivProfilePicture)
+                ivProfilePicture.loadImageFromURL(requireContext(),it.photo.toString())
             }
         }
 

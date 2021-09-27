@@ -1,20 +1,27 @@
 package com.feylabs.sawitjaya.ui.user_history_tbs.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.feylabs.razkyui.RazVerticalStepperAdapter
+import com.feylabs.razkyui.RazVerticalStepperAdapter.*
+import com.feylabs.razkyui.enum.RazAlertType
+import com.feylabs.razkyui.model.VerticalStepperModel
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.remote.response.HistoryDetailResponse
 import com.feylabs.sawitjaya.databinding.FragmentDetailHistoryBinding
 import com.feylabs.sawitjaya.utils.UIHelper
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
+import com.feylabs.sawitjaya.utils.UIHelper.renderHtmlToString
+import com.feylabs.sawitjaya.utils.UIHelper.showLongToast
 import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.feylabs.sawitjaya.utils.service.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -23,8 +30,9 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class DetailHistoryFragment : BaseFragment() {
 
     val viewModel: DetailHistoryViewModel by viewModel()
-
     val photoAdapter by lazy { DetailHistoryPhotoAdapter() }
+
+    var previewState = false //true if preview photo state is visible
 
     var _binding: FragmentDetailHistoryBinding? = null
     val binding get() = _binding as FragmentDetailHistoryBinding
@@ -46,36 +54,13 @@ class DetailHistoryFragment : BaseFragment() {
             when (it) {
                 is Resource.Success -> {
                     viewGone(binding.includeLoading.root)
-                    val mData = it.data
-                    binding.includeInfoUser.apply {
-                        val userData = mData?.userData
-                        imageView.loadImageFromURL(
-                            requireContext(),
-                            mData?.data?.userPhoto.toString()
-                        )
-                        this.labelName.text = userData?.name
-                        this.labelEmail.text = userData?.email
-                        this.labelContact.text = userData?.contact
-
-                        mData?.data?.mapToPhotoModel()?.let { listPhoto ->
-                            photoAdapter.setWithNewData(
-                                listPhoto
-                            )
-                        }
-                    }
-
-                    val color = UIHelper.setColorStatus(mData?.data?.status.toString())
-                    binding.etStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                    binding.containerStatus.setCardBackgroundColor(ContextCompat.getColor(requireContext(), color))
-                    binding.etStatus.text = mData?.data?.statusDesc.toString()
-                    binding.labelAddress.text = mData?.data?.address
-                    binding.labelSimulasi.text = mData?.data?.address
+                    setupDetailUI(it)
                 }
                 is Resource.Error -> {
                     viewGone(binding.includeLoading.root)
                 }
 
-                is Resource.Loading->{
+                is Resource.Loading -> {
                     viewVisible(binding.includeLoading.root)
                 }
 
@@ -85,22 +70,91 @@ class DetailHistoryFragment : BaseFragment() {
         }
     }
 
+    private fun setupDetailUI(it: Resource.Success<HistoryDetailResponse>) {
+        val mData = it.data
+        val userData = mData?.userData
+
+        binding.includeDetailRs.tvEstPrice.title("Estimasi Harga")
+        binding.includeDetailRs.tvEstPrice.value("")
+
+        binding.includeInfoUser.apply {
+
+            userData?.let { usr ->
+                tvUserName.text = usr.name
+                tvUserContact.text = usr.contact
+                tvUserEmail.text = usr.email
+                ivProfilePicture.loadImageFromURL(requireContext(), usr.photoPath)
+            }
+
+            if (mData?.historyData?.isNotEmpty() == true) {
+                val rsData = mData.data
+                val historyData = mData.historyData
+                val firstHistoryData = historyData.get(0)
+
+
+                historyData.forEachIndexed { index, item ->
+
+                    val type = RazAlertType.PRIMARY
+
+                    when(item.status){
+
+                    }
+
+                    binding.razVerticalStepper.addData(
+                        VerticalStepperModel(
+                            id = item.id.toString(),
+                            number = index.toString(),
+                            title = item.statusDesc,
+                            description = (item.desc).renderHtmlToString(),
+                        )
+                    )
+                }
+
+
+                binding.razVerticalStepper.setStepperInterface(object : VerticalStepperInterface {
+                    override fun onclick(model: VerticalStepperModel) {
+                        showLongToast(requireContext(), model.number + " " + model.description)
+                    }
+
+                })
+
+            } else {
+//                binding.alertContainer.build(
+//                    "Belum Ada Riwayat",
+//                    "Transaksi Ini Belum Diproses",
+//                    RazAlertType.PRIMARY
+//                )
+            }
+
+        }
+
+        mData?.data?.mapToPhotoModel()?.let { listPhoto ->
+            photoAdapter.setWithNewData(
+                listPhoto
+            )
+        }
+    }
+
     override fun initAction() {
         photoAdapter.setAdapterInterfacez(object : DetailHistoryPhotoAdapter.RsPhotoItemInterface {
             override fun onclick(model: PhotoListModel?) {
-                requireActivity().actionBar?.hide()
-                (activity as AppCompatActivity?)?.supportActionBar?.hide()
+                hideActionBar()
                 viewVisible(binding.includePreview.root)
-                Glide.with(requireContext()).load(model?.url)
-                    .into(binding.includePreview.fullscreenContent)
+                enabledBackButton(false)
+
+                binding.includePreview.fullscreenContent.loadImageFromURL(
+                    requireContext(), model?.url.toString()
+                )
+
                 binding.includePreview.btnBack.setOnClickListener {
-                    requireActivity().actionBar?.show()
-                    (activity as AppCompatActivity?)?.supportActionBar?.show()
+                    enabledBackButton(true)
+                    showActionBar()
                     viewGone(binding.includePreview.root)
                 }
             }
-
         })
+
+
     }
 
     override fun initData() {

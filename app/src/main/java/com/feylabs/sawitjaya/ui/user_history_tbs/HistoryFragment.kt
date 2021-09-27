@@ -31,12 +31,12 @@ import timber.log.Timber
 
 class HistoryFragment : BaseFragment() {
 
-    companion object {
-        fun newInstance() = HistoryFragment()
+    override fun onResume() {
+        super.onResume()
+        adapterHistory.clear()
     }
 
     private val menuNavController: NavController? by lazy { activity?.findNavController(R.id.nav_host_fragment_content_user_main_menu) }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -48,8 +48,7 @@ class HistoryFragment : BaseFragment() {
 
     private val adapterHistory by lazy { HistoryAdapter() }
 
-    lateinit private var historyObserver: Observer<Resource<HistoryPagingModel>>
-
+    private lateinit var historyObserver: Observer<Resource<HistoryPagingModel>>
 
     val viewModel: HistoryViewModel by viewModel()
     val authViewModel: AuthViewModel by viewModel()
@@ -82,13 +81,9 @@ class HistoryFragment : BaseFragment() {
                 }
                 is Resource.Success -> {
                     val dataSize = it.data?.data?.size
-
                     //hide desc/error view
                     viewGone(binding.includeDesc.root)
                     binding.includeDesc.tvDesc.text = ""
-
-                    showToast("${it.data?.data?.size}")
-
 
                     if (dataSize == 0) {
                         viewGone(binding.includeLoading.root)
@@ -98,12 +93,12 @@ class HistoryFragment : BaseFragment() {
                             viewVisible(this.root)
                         }
                     } else {
+                        it.data?.data?.let { data ->
+                            adapterHistory.addData(data)
+                        }
                         viewGone(binding.includeLoading.root)
                     }
-                    it.data?.data?.let { data ->
-                        adapterHistory.addData(data)
-                        adapterHistory.notifyDataSetChanged()
-                    }
+
                 }
 
                 is Resource.Error -> {
@@ -122,6 +117,9 @@ class HistoryFragment : BaseFragment() {
     }
 
     override fun initData() {
+        val userId = MyPreference(requireContext()).getUserID()
+        viewModel.getRSByUser(userId.toString())
+        viewModel.historyDataLD.observe(viewLifecycleOwner, historyObserver)
     }
 
 
@@ -132,10 +130,6 @@ class HistoryFragment : BaseFragment() {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
         _binding = FragmentHistoryBinding.bind(view)
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -168,9 +162,6 @@ class HistoryFragment : BaseFragment() {
 
         })
 
-        val id = MyPreference(requireContext()).getUserID()
-        viewModel.getRSByUser(id.toString())
-        viewModel.historyDataLD.observe(viewLifecycleOwner, historyObserver)
     }
 
     private fun goToFragmentDetail(id: Int) {

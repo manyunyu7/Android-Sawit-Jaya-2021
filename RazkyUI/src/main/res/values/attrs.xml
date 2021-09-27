@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RazAlertContainer">
+        <attr name="alertTitle" format="string" />
+        <attr name="alertContent" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="RazCustomInfo">
+        <attr name="customInfoTitle" format="string" />
+        <attr name="customInfoContent" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="SawitCustomStatus">
+        <attr name="sawitCustomTitle" format="string" />
+        <attr name="sawitCustomStatus" format="string" />
+    </declare-styleable>
+</resources>

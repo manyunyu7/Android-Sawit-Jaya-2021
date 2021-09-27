@@ -16,7 +16,7 @@ class HistoryViewModel(
     val sawitRepository: SawitRepository
 ) : ViewModel() {
 
-    var filterStatus: MutableLiveData<String> = MutableLiveData("3");
+    var filterStatus: MutableLiveData<String> = MutableLiveData(null);
 
     var _historyDataLD =
         MutableLiveData<Resource<HistoryPagingModel>>()
