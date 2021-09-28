@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.remote.response.HistoryDetailResponse
 import com.feylabs.sawitjaya.utils.service.Resource
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
@@ -14,6 +15,9 @@ import java.lang.Exception
 class DetailHistoryViewModel(
     val sawitRepository: SawitRepository
 ) : ViewModel() {
+
+    val isMapReady = MutableLiveData<Boolean>()
+    val mapLatLngLv = MutableLiveData<LatLng>()
 
     private var _detailRsLD = MutableLiveData<Resource<HistoryDetailResponse?>>()
     val detailRsLD get() = _detailRsLD as LiveData<Resource<HistoryDetailResponse>?>

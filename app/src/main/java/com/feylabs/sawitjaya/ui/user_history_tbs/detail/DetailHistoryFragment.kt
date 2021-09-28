@@ -1,41 +1,41 @@
 package com.feylabs.sawitjaya.ui.user_history_tbs.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.feylabs.razkyui.RazVerticalStepperAdapter
 import com.feylabs.razkyui.RazVerticalStepperAdapter.*
 import com.feylabs.razkyui.enum.RazAlertType
 import com.feylabs.razkyui.model.VerticalStepperModel
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.remote.response.HistoryDetailResponse
 import com.feylabs.sawitjaya.databinding.FragmentDetailHistoryBinding
-import com.feylabs.sawitjaya.utils.UIHelper
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.utils.UIHelper.renderHtmlToString
 import com.feylabs.sawitjaya.utils.UIHelper.showLongToast
 import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.feylabs.sawitjaya.utils.service.Resource
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class DetailHistoryFragment : BaseFragment() {
+class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
-    val viewModel: DetailHistoryViewModel by viewModel()
-    val photoAdapter by lazy { DetailHistoryPhotoAdapter() }
+    private val viewModel: DetailHistoryViewModel by viewModel()
+    private val photoAdapter by lazy { DetailHistoryPhotoAdapter() }
 
-    var previewState = false //true if preview photo state is visible
+    private var _binding: FragmentDetailHistoryBinding? = null
+    private val binding get() = _binding as FragmentDetailHistoryBinding
 
-    var _binding: FragmentDetailHistoryBinding? = null
-    val binding get() = _binding as FragmentDetailHistoryBinding
+    private lateinit var mMap: GoogleMap
 
     lateinit var detailObserver: Observer<Resource<HistoryDetailResponse>?>
 
@@ -68,6 +68,19 @@ class DetailHistoryFragment : BaseFragment() {
                 }//Do Nothing
             }
         }
+
+        viewModel.mapLatLngLv.observe(viewLifecycleOwner, Observer {
+            if (it != null && viewModel.isMapReady.value == true) {
+                setupPinOnMap(it)
+            }
+        })
+
+    }
+
+    private fun setupPinOnMap(location: LatLng) {
+        mMap.addMarker(MarkerOptions().position(location).title("Lokasi Penjemputan"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+        mMap.animateCamera( CameraUpdateFactory.zoomTo( 11.0f ) );
     }
 
     private fun setupDetailUI(it: Resource.Success<HistoryDetailResponse>) {
@@ -96,6 +109,15 @@ class DetailHistoryFragment : BaseFragment() {
             requireContext(), rsData?.photoPath?.toString()
         )
 
+        // setUpMarker Into Map
+        var location = LatLng(-34.0, 151.0)
+        val apiLat = rsData?.lat?.toDouble()
+        val apiLong = rsData?.long?.toDouble()
+        if (apiLat != null && apiLong != null) {
+            location = LatLng(apiLat, apiLong)
+        }
+        viewModel.mapLatLngLv.value = location
+
         if (mData?.driverData != null) {
             val driverData = mData.driverData
             binding.includeDriverInfo.apply {
@@ -105,9 +127,9 @@ class DetailHistoryFragment : BaseFragment() {
                 this.labelUserEmail.build("Email : ", driverData.email, showHint = false)
                 this.labelContact.build("Contact : ", driverData.contact, showHint = false)
             }
-        }else{
+        } else {
             viewGone(binding.includeDriverInfo.containerContent)
-            binding.includeDriverInfo.labelTitle.text= "Belum Ada Driver"
+            binding.includeDriverInfo.labelTitle.text = "Belum Ada Driver"
         }
 
         if (mData?.staffData != null) {
@@ -117,12 +139,14 @@ class DetailHistoryFragment : BaseFragment() {
                 ivMainImage.loadImageFromURL(requireContext(), staffData.photo_path)
                 labelUserName.build("Nama : ", staffData.name, showHint = false)
                 labelUserEmail.build("Email : ", staffData.email, showHint = false)
-                labelContact.build("Contact : ", staffData.contact, showHint = true,
-                    hint = "Klik Untuk Hubungi Driver")
+                labelContact.build(
+                    "Contact : ", staffData.contact, showHint = true,
+                    hint = "Klik Untuk Hubungi Driver"
+                )
             }
-        }else{
+        } else {
             viewGone(binding.includeStaffInfo.containerContent)
-            binding.includeStaffInfo.labelTitle.text= "Belum Ada Staff"
+            binding.includeStaffInfo.labelTitle.text = "Belum Ada Staff"
         }
 
         binding.includeInfoUser.apply {
@@ -213,11 +237,8 @@ class DetailHistoryFragment : BaseFragment() {
     }
 
     override fun initData() {
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        viewModel.getDetail(args.rsID)
+        viewModel.detailRsLD.observe(viewLifecycleOwner, detailObserver)
     }
 
     override fun onCreateView(
@@ -232,8 +253,14 @@ class DetailHistoryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getDetail(args.rsID)
-        viewModel.detailRsLD.observe(viewLifecycleOwner, detailObserver)
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.prev_map) as SupportMapFragment?
+        mapFragment?.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        viewModel.isMapReady.postValue(true)
     }
 
 

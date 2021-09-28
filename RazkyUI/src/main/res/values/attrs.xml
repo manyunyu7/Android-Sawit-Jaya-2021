@@ -10,6 +10,13 @@
         <attr name="customInfoContent" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="RazCustomInfoSingleLine">
+        <attr name="customInfoHzTitle" format="string" />
+        <attr name="customInfoHzContent" format="string" />
+        <attr name="customInfoHzHint" format="string" />
+        <attr name="isHintVisible" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="SawitCustomStatus">
         <attr name="sawitCustomTitle" format="string" />
         <attr name="sawitCustomStatus" format="string" />

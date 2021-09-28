@@ -24,6 +24,7 @@ import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.ui.ContainerUserHomeActivity
 
 import com.feylabs.sawitjaya.ui.MainActivity
+import com.feylabs.sawitjaya.ui.MainMenuContainer
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import java.io.File
 
@@ -52,7 +53,7 @@ class ContainerAuthActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_auth)
         setupActionBarWithNavController(navController)
 
-        resetRoomDatabase()
+//        resetRoomDatabase()
         checkPermissions()
 
         val factory = ServiceLocator.provideFactory(this)
@@ -60,8 +61,9 @@ class ContainerAuthActivity : AppCompatActivity() {
 
         authViewModel.getProfileLocally()
         authViewModel.localProfileLD.observe(this, Observer {
-            if (it.role == "3") {
-                startActivity(Intent(this, ContainerUserHomeActivity::class.java))
+            Toast.makeText(this,it.name + " " +it.role,Toast.LENGTH_LONG).show()
+            if (it.role == "3" || it.role=="1") {
+                startActivity(Intent(this, MainMenuContainer::class.java))
             }
         })
 

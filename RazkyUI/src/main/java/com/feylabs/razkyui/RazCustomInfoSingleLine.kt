@@ -13,7 +13,9 @@ class RazCustomInfoSingleLine : FrameLayout {
     private var title: String = ""
     private var value: String = ""
     private var hint: String = ""
-    private var binding: RazCustomInfoHorizontalBinding = RazCustomInfoHorizontalBinding.inflate(LayoutInflater.from(context))
+    private var isHintVisible: Boolean = false
+    private var binding: RazCustomInfoHorizontalBinding =
+        RazCustomInfoHorizontalBinding.inflate(LayoutInflater.from(context))
 
 
     constructor(context: Context) : super(context) {
@@ -46,7 +48,12 @@ class RazCustomInfoSingleLine : FrameLayout {
         hint(hint)
     }
 
-    fun build(title: String = "", value: String = "", hint: String = "", showHint: Boolean = false) {
+    fun build(
+        title: String = "",
+        value: String = "",
+        hint: String = "",
+        showHint: Boolean = false
+    ) {
         title(title)
         value(value)
         hint(hint)
@@ -61,9 +68,18 @@ class RazCustomInfoSingleLine : FrameLayout {
         binding.tvInfoTitle.text = title
     }
 
+    fun isHintVisible(value: Boolean = false) {
+        if (value) {
+            binding.tvHint.visibility = View.VISIBLE
+        } else {
+            binding.tvHint.visibility = View.GONE
+        }
+    }
+
     fun hint(hint: String) {
         this.hint = hint
         binding.tvHint.text = hint
+        isHintVisible()
     }
 
     fun value(value: String) {
@@ -82,9 +98,14 @@ class RazCustomInfoSingleLine : FrameLayout {
     }
 
     private fun extractAttributes(attrs: AttributeSet) {
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RazCustomInfo)
-        title = typedArray.getString(R.styleable.RazCustomInfo_customInfoTitle) ?: title
-        value = typedArray.getString(R.styleable.RazCustomInfo_customInfoContent) ?: value
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RazCustomInfoSingleLine)
+        typedArray.apply {
+            title = getString(R.styleable.RazCustomInfoSingleLine_customInfoHzTitle) ?: title
+            hint = getString(R.styleable.RazCustomInfoSingleLine_customInfoHzHint) ?: hint
+            value = getString(R.styleable.RazCustomInfoSingleLine_customInfoHzContent) ?: value
+            isHintVisible = getBoolean(R.styleable.RazCustomInfoSingleLine_isHintVisible, false)
+        }
+
         typedArray.recycle()
     }
 }
