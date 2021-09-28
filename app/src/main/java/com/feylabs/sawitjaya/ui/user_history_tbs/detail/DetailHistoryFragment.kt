@@ -73,9 +73,57 @@ class DetailHistoryFragment : BaseFragment() {
     private fun setupDetailUI(it: Resource.Success<HistoryDetailResponse>) {
         val mData = it.data
         val userData = mData?.userData
+        val rsData = mData?.data
 
-        binding.includeDetailRs.tvEstPrice.title("Estimasi Harga")
-        binding.includeDetailRs.tvEstPrice.value("")
+        binding.includeDetailRs.tvEstPriceOld.build(
+            title = "Estimasi Harga Lama : ",
+            value = "Rp. " + mData?.data?.resultEstPriceOld.toString(),
+            hint = "Harga Estimasi Saat Request Dilakukan"
+        )
+
+        binding.includeDetailRs.tvEstPriceNow.build(
+            title = "Estimasi Harga Saat Ini : ",
+            value = "Rp. " + mData?.data?.resultEstPriceNow.toString(),
+            hint = "Harga Estimasi Berdasarkan data hari ini"
+        )
+
+        binding.includeDetailRs.tvAddress.build(
+            title = "Alamat Pengantaran",
+            value = rsData?.address.toString()
+        )
+
+        binding.includeDetailRs.ivMainImage.loadImageFromURL(
+            requireContext(), rsData?.photoPath?.toString()
+        )
+
+        if (mData?.driverData != null) {
+            val driverData = mData.driverData
+            binding.includeDriverInfo.apply {
+                this.labelTitle.text = "Informasi Driver"
+                this.ivMainImage.loadImageFromURL(requireContext(), driverData.photo_path)
+                this.labelUserName.build("Nama : ", driverData.name, showHint = false)
+                this.labelUserEmail.build("Email : ", driverData.email, showHint = false)
+                this.labelContact.build("Contact : ", driverData.contact, showHint = false)
+            }
+        }else{
+            viewGone(binding.includeDriverInfo.containerContent)
+            binding.includeDriverInfo.labelTitle.text= "Belum Ada Driver"
+        }
+
+        if (mData?.staffData != null) {
+            val staffData = mData.staffData
+            binding.includeStaffInfo.apply {
+                labelTitle.text = "Informasi Driver"
+                ivMainImage.loadImageFromURL(requireContext(), staffData.photo_path)
+                labelUserName.build("Nama : ", staffData.name, showHint = false)
+                labelUserEmail.build("Email : ", staffData.email, showHint = false)
+                labelContact.build("Contact : ", staffData.contact, showHint = true,
+                    hint = "Klik Untuk Hubungi Driver")
+            }
+        }else{
+            viewGone(binding.includeStaffInfo.containerContent)
+            binding.includeStaffInfo.labelTitle.text= "Belum Ada Staff"
+        }
 
         binding.includeInfoUser.apply {
 
@@ -96,10 +144,11 @@ class DetailHistoryFragment : BaseFragment() {
 
                     val type = RazAlertType.PRIMARY
 
-                    when(item.status){
+                    when (item.status) {
 
                     }
 
+                    binding.razVerticalStepper.adapter.clearData()
                     binding.razVerticalStepper.addData(
                         VerticalStepperModel(
                             id = item.id.toString(),
@@ -136,6 +185,12 @@ class DetailHistoryFragment : BaseFragment() {
     }
 
     override fun initAction() {
+
+        binding.srl.setOnRefreshListener {
+            binding.srl.isRefreshing = false
+            viewModel.getDetail(args.rsID)
+        }
+
         photoAdapter.setAdapterInterfacez(object : DetailHistoryPhotoAdapter.RsPhotoItemInterface {
             override fun onclick(model: PhotoListModel?) {
                 hideActionBar()

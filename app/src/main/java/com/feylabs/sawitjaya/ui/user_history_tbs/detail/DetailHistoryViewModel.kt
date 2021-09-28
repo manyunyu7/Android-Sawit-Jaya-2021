@@ -16,19 +16,22 @@ class DetailHistoryViewModel(
 ) : ViewModel() {
 
     private var _detailRsLD = MutableLiveData<Resource<HistoryDetailResponse?>>()
-    val detailRsLD  get() = _detailRsLD as LiveData<Resource<HistoryDetailResponse>?>
+    val detailRsLD get() = _detailRsLD as LiveData<Resource<HistoryDetailResponse>?>
 
     fun getDetail(id: String) {
+        _detailRsLD.postValue(Resource.Loading())
         viewModelScope.launch {
             try {
-                val request = sawitRepository.getDetailRs(id)
-                Timber.d("log detailx ${request.body().toString()}")
-                if (request.isSuccessful) {
-                    _detailRsLD.postValue(Resource.Success(request.body()))
-                } else {
-                    _detailRsLD.postValue(Resource.Error(request.message()))
-                }
+            val request = sawitRepository.getDetailRs(id)
+            Timber.d("log detailx ${request.body().toString()}")
+            if (request.isSuccessful) {
+                _detailRsLD.postValue(Resource.Success(request.body()))
+            } else {
+                _detailRsLD.postValue(Resource.Error(request.message()))
+            }
             } catch (e: Exception) {
+                Timber.d("log detailx ${e.toString()}")
+                Timber.d("log detailx ${e.stackTrace}")
                 _detailRsLD.postValue(Resource.Error(e.toString()))
             }
         }

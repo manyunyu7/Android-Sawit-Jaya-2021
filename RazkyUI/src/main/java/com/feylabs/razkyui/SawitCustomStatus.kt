@@ -6,8 +6,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import com.feylabs.razkyui.R
-import com.feylabs.razkyui.databinding.RazCustomInfoBinding
 import com.feylabs.razkyui.databinding.SawitCustomStatusBinding
 
 class SawitCustomStatus : FrameLayout {
@@ -15,7 +13,12 @@ class SawitCustomStatus : FrameLayout {
     private var title: String = ""
     private var color: Int = R.color.bs_alert_primary
 
-    val binding = SawitCustomStatusBinding.inflate(LayoutInflater.from(context), this, true)
+    private lateinit var binding: SawitCustomStatusBinding
+
+    init { // inflate binding and add as view
+        binding = SawitCustomStatusBinding.inflate(LayoutInflater.from(context))
+        addView(binding.root)
+    }
 
     constructor(context: Context) : super(context) {
         initView(context)
@@ -36,10 +39,9 @@ class SawitCustomStatus : FrameLayout {
     }
 
     private fun initView(context: Context?) {
-        val inflater: LayoutInflater =
-            context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.sawit_custom_status, this)
-
+//        val inflater: LayoutInflater =
+//            context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//        val view  = inflater.inflate(R.layout.sawit_custom_status, this)
         title(title)
 
     }
@@ -74,6 +76,7 @@ class SawitCustomStatus : FrameLayout {
             }
         }
         binding.tvStatus.setTextColor(colorText)
+        binding.tvStatus.text=text
         binding.containerStatus.setCardBackgroundColor(ContextCompat.getColor(context, colorCard))
     }
 

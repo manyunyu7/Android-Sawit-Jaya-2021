@@ -64,16 +64,30 @@ data class HistoryDetailResponse(
         val truck: Truck,
         @SerializedName("truck_id")
         val truckId: Int,
+        @SerializedName("truck_name")
+        val truckName: String,
         @SerializedName("updated_at")
         val updatedAt: String,
         @SerializedName("updated_by")
-        val updatedBy: Any,
+        val updatedBy: String,
         @SerializedName("user_id")
-        val userId: Int,
+        val userId: String,
         @SerializedName("user_name")
         val userName: String,
         @SerializedName("user_photo")
-        val userPhoto: String
+        val userPhoto: String,
+        @SerializedName("final_price")
+        val finalPrice: String,
+        @SerializedName("final_weight")
+        val finalWeight: String,
+        @SerializedName("created_at_idn")
+        val created_at_idn: String,
+        @SerializedName("updated_at_idn")
+        val updated_at_idn: String,
+        @SerializedName("result_est_price_now")
+        val resultEstPriceNow: String,
+        @SerializedName("result_est_price_old")
+        val resultEstPriceOld: String,
     ) {
         fun mapToPhotoModel(): MutableList<PhotoListModel> {
             val tempList = mutableListOf<PhotoListModel>()

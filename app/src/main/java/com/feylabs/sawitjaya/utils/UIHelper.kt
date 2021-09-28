@@ -23,7 +23,7 @@ object UIHelper {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.ic_placeholder)
-            .thumbnail(Glide.with(context).load(R.raw.ic_loading_google))
+            .thumbnail(Glide.with(context).load(R.raw.ic_loading_google).fitCenter())
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(this)

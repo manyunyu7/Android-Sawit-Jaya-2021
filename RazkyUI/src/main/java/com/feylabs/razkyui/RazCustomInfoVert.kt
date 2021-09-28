@@ -28,9 +28,11 @@ class RazCustomInfoVert : FrameLayout {
     }
 
     private fun initView(context: Context?) {
-        val inflater: LayoutInflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.raz_custom_info_vert, this)
+        title(title)
+        value(value)
+    }
 
+    fun build(title:String,value:String){
         title(title)
         value(value)
     }

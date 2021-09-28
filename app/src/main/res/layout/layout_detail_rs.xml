@@ -40,7 +40,7 @@
 
                         <ImageView
                             android:id="@+id/iv_main_image"
-                            android:layout_width="386dp"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ranu_kumbolo" />
@@ -140,13 +140,21 @@
             </RelativeLayout>
 
             <com.feylabs.razkyui.RazCustomInfoSingleLine
-                android:id="@+id/tv_est_price"
+                android:id="@+id/tv_est_price_old"
+                android:layout_marginStart="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <com.feylabs.razkyui.RazCustomInfoSingleLine
+                android:id="@+id/tv_est_price_now"
+                android:layout_marginStart="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
 
             <com.feylabs.razkyui.RazCustomInfoVert
-                android:id="@+id/tv_real_price"
+                android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"

@@ -30,12 +30,11 @@ class HistoryViewModel(
     ) {
         _historyDataLD.postValue(Resource.Loading())
         viewModelScope.launch {
-            val request = sawitRepository.getRequestSellByUser(
-                userID = userID, paginate = paginate, page = page, per_page = perPage,
-                status = status
-            )
-
             try {
+                val request = sawitRepository.getRequestSellByUser(
+                    userID = userID, paginate = paginate, page = page, per_page = perPage,
+                    status = status
+                )
                 val mBody = historyResponseDataToHistoryModelMapper(request.body()!!)
                 if (request.isSuccessful) {
                     _historyDataLD.postValue(Resource.Success(mBody))

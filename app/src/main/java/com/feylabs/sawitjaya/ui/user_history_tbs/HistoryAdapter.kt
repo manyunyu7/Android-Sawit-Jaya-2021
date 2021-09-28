@@ -29,6 +29,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
         fun bind(data: HistoryPagingModel.HistoryModel) {
             binding.tvEstWeight.text = "${data.estWeight} Kg"
             binding.tvUserName.text = data.userName
+
             binding.status.build(
                 type = data.status,
                 text = data.statusDesc
@@ -48,10 +49,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
                 weight = data.estWeight.toDouble()
             )
 
-
             binding.tvEstPrice.text = "Estimasi Harga : ${price}"
-
-
             binding.ivProfilePicture.loadImageFromURL(binding.root.context, data.userPhoto)
             binding.ivMainImage.loadImageFromURL(binding.root.context, data.photo)
         }

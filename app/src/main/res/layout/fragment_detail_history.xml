@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/srl"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5FDFB">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
     <include
@@ -12,7 +17,7 @@
         layout="@layout/header_with_back_next_title"
         android:visibility="gone" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/include_header"
@@ -76,6 +81,21 @@
                 <include
                     android:id="@+id/include_detail_rs"
                     layout="@layout/layout_detail_rs" />
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/include_driver_info"
+                    layout="@layout/layout_info_staff"
+                    />
+
+                <include
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/include_staff_info"
+                    layout="@layout/layout_info_staff"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    />
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -161,16 +181,17 @@
                 app:cornerRadius="10dp" />
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/include_loading"
-        layout="@layout/layout_loading_screen"
+        layout="@layout/layout_loading_screen_full"
         android:visibility="gone" />
 
     <include
         android:id="@+id/include_preview"
         layout="@layout/layout_image_preview"
         android:visibility="gone" />
+    </RelativeLayout>
 
-</RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

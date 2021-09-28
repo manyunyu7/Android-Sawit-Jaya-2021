@@ -9,26 +9,41 @@
         android:id="@+id/tvInfoTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
         android:fontFamily="@font/jaldi_bold"
         android:textColor="@color/color_blue_golapak"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Info"
-        />
+        tools:text="Info" />
 
     <TextView
         android:id="@+id/tvInfoValue"
         style="@style/Montserrat.Black2.14sp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="-"
         android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tvInfoTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvInfoTitle"
         app:layout_constraintTop_toTopOf="parent"
+        tools:text="Content" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierLine1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="tvInfoTitle,tvInfoValue" />
+
+    <TextView
+        android:id="@+id/tvHint"
+        style="@style/Montserrat.Black3.10sp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:visibility="visible"
+        android:textColor="@color/bg_secondary"
+        app:layout_constraintTop_toBottomOf="@+id/barrierLine1"
         tools:text="Content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

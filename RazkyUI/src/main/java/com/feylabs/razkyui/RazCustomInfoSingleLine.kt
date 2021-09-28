@@ -4,40 +4,66 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import com.feylabs.razkyui.databinding.RazCustomInfoHorizontalBinding
+import com.feylabs.razkyui.databinding.SawitCustomStatusBinding
 
 class RazCustomInfoSingleLine : FrameLayout {
     private var title: String = ""
     private var value: String = ""
-    val binding = RazCustomInfoHorizontalBinding.inflate(LayoutInflater.from(context), this, true)
+    private var hint: String = ""
+    private var binding: RazCustomInfoHorizontalBinding = RazCustomInfoHorizontalBinding.inflate(LayoutInflater.from(context))
 
 
     constructor(context: Context) : super(context) {
         initView(context)
     }
 
+
+    init { // inflate binding and add as view
+        addView(binding.root)
+    }
+
+
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
         extractAttributes(attributeSet)
         initView(context)
     }
 
-    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(context, attributeSet, defStyle) {
+    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(
+        context,
+        attributeSet,
+        defStyle
+    ) {
         extractAttributes(attributeSet)
         initView(context)
     }
 
     private fun initView(context: Context?) {
-        val inflater: LayoutInflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.raz_custom_info_vert, this)
-
         title(title)
         value(value)
+        hint(hint)
+    }
+
+    fun build(title: String = "", value: String = "", hint: String = "", showHint: Boolean = false) {
+        title(title)
+        value(value)
+        hint(hint)
+        if (showHint)
+            binding.tvHint.visibility = View.VISIBLE
+        else
+            binding.tvHint.visibility = View.GONE
     }
 
     fun title(title: String) {
         this.title = title
         binding.tvInfoTitle.text = title
+    }
+
+    fun hint(hint: String) {
+        this.hint = hint
+        binding.tvHint.text = hint
     }
 
     fun value(value: String) {
