@@ -79,7 +79,7 @@ class MainMenuContainer : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
-            setOf(
+            setOf(R.id.newsFragment,
                 R.id.userHomeFragment, R.id.historyFragment, R.id.settingsFragment
             ), drawerLayout
         )

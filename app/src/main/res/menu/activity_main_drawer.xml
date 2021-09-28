@@ -12,15 +12,23 @@
             android:id="@+id/historyFragment"
             android:icon="@drawable/ic_baseline_history_24"
             android:title="Riwayat Penjualan" />
+
         <item
             android:id="@+id/settingsFragment"
             android:icon="@drawable/ic_baseline_settings_24"
             android:title="Pengaturan" />
     </group>
 
+    <group android:id="@+id/menu_others1">
+        <item
+            android:id="@+id/newsFragment"
+            android:icon="@drawable/ic_icons8_news"
+            android:title="Informasi Sawit" />
+    </group>
+
     <group
         android:id="@+id/menu_others"
-        android:checkableBehavior="none" >
+        android:checkableBehavior="none">
         <item
             android:icon="@drawable/ic_baseline_logout_24"
             android:title="Logout" />

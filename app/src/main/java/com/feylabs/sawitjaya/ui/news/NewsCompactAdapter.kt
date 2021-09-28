@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.ui.home
+package com.feylabs.sawitjaya.ui.news
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,12 @@ import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
 import com.feylabs.sawitjaya.databinding.ItemNewsBinding
+import com.feylabs.sawitjaya.databinding.ItemNewsCompactBinding
+import com.feylabs.sawitjaya.utils.UIHelper
+import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
+import com.feylabs.sawitjaya.utils.UIHelper.renderHtmlToString
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsCompactAdapter : RecyclerView.Adapter<NewsCompactAdapter.NewsViewHolder>() {
 
     val data = mutableListOf<NewsEntity?>()
     lateinit var adapterInterface: NewsItemInterface
@@ -25,7 +29,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     inner class NewsViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
-        var binding: ItemNewsBinding = ItemNewsBinding.bind(itemView)
+        var binding: ItemNewsCompactBinding = ItemNewsCompactBinding.bind(itemView)
 
         fun onBInd(model: NewsEntity?) {
             binding.tvMain.text = model?.title
@@ -36,21 +40,14 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
             binding.tvSecondary.text = model?.created_at
 
-//            binding.tvSecondary.text =
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                    (Html.fromHtml("${model?.content}", Html.FROM_HTML_MODE_COMPACT));
-//                } else {
-//                    (Html.fromHtml("${model?.content}"));
-//                }
+            binding.tvDescription.text = model?.content?.renderHtmlToString()
 
-            Glide.with(binding.root)
-                .load(model?.photo)
-                .into(binding.ivMainImage)
+            binding.ivMainImage.loadImageFromURL(binding.root.context,model?.photo)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_news_compact, parent, false)
         return NewsViewHolder(view)
     }
 

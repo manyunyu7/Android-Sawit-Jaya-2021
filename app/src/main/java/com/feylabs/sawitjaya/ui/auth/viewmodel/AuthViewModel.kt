@@ -13,6 +13,7 @@ import com.feylabs.sawitjaya.data.remote.response.NewsResponse
 import com.feylabs.sawitjaya.data.remote.response.PriceResponse
 import com.feylabs.sawitjaya.utils.service.Resource
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 
 class AuthViewModel(
@@ -62,8 +63,10 @@ class AuthViewModel(
         }
 
     fun getNews() = viewModelScope.launch {
+        newsLiveData.postValue(Resource.Loading())
         try {
             val news = sawitRepository.getNews()
+            Timber.d("newzz $news")
             if (news.isSuccessful) {
                 newsLiveData.postValue(Resource.Success(news.body()))
             } else {
