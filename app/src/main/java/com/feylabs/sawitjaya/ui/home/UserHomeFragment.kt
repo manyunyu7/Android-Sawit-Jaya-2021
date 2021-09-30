@@ -25,6 +25,7 @@ import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_CREAT
 import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_PHOTO
 import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_TITLE
 import com.feylabs.sawitjaya.utils.UIHelper
+import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.yabu.livechart.model.DataPoint
 import com.yabu.livechart.model.Dataset
@@ -204,12 +205,9 @@ class UserHomeFragment : BaseFragment() {
         binding.apply {
             binding.greetingName.text = prof?.name
             try{
-                Glide.with(requireContext())
-                    .load(prof?.photo)
-                    .placeholder(R.drawable.ic_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(binding.ivProfileTopLeft)
+                binding.ivProfileTopLeft.loadImageFromURL(
+                    requireContext(),prof?.photo
+                )
             }catch (e:Exception){
 
             }
