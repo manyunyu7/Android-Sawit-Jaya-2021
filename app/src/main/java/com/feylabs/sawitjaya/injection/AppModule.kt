@@ -1,6 +1,7 @@
 package com.feylabs.sawitjaya.injection
 
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
+import com.feylabs.sawitjaya.ui.mnotification.MNotificationViewModel
 import com.feylabs.sawitjaya.ui.news.NewsViewModel
 import com.feylabs.sawitjaya.ui.profile.SettingsViewModel
 import com.feylabs.sawitjaya.ui.rs.request.RsDetailViewModel
@@ -19,5 +20,6 @@ val viewModelModule = module {
     viewModel { HistoryViewModel(get()) }
     viewModel { DetailHistoryViewModel(get()) }
     viewModel { NewsViewModel(get()) }
+    viewModel { MNotificationViewModel(get()) }
 }
 
