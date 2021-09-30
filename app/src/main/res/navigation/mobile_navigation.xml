@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_userHomeFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_userHomeFragment_to_MNotificationFragment"
+            app:destination="@id/mNotificationFragment" />
     </fragment>
 
     <fragment
@@ -84,6 +87,12 @@
         android:name="com.feylabs.sawitjaya.ui.news.NewsFragment"
         android:label="Artikel Sawit"
         tools:layout="@layout/fragment_news" />
+
+    <fragment
+        android:id="@+id/mNotificationFragment"
+        android:name="com.feylabs.sawitjaya.ui.mnotification.MNotificationFragment"
+        android:label="fragment_m_notification"
+        tools:layout="@layout/fragment_m_notification" />
 
 
     <!--    <fragment-->

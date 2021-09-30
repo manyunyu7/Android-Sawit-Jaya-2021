@@ -18,14 +18,18 @@
             tools:listitem="@layout/item_news_compact"
             />
 
+        <include
+            android:id="@+id/include_loading"
+            android:visibility="gone"
+            layout="@layout/layout_loading_screen"/>
+
+        <include
+            android:id="@+id/include_error"
+            android:visibility="gone"
+            layout="@layout/layout_loading_error"
+            />
+
     </RelativeLayout>
 
-    <include
-        android:id="@+id/include_loading"
-        layout="@layout/layout_loading_screen"/>
 
-    <include
-        android:id="@+id/include_error"
-        layout="@layout/layout_loading_error"
-        />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

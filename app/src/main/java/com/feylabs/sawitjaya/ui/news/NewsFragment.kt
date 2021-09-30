@@ -26,6 +26,7 @@ class NewsFragment : BaseFragment() {
     val binding get() = _binding as FragmentNewsBinding
 
     override fun initUI() {
+        viewVisible(binding.includeLoading.root)
         binding.rvNews.layoutManager = LinearLayoutManager(requireContext())
         binding.rvNews.adapter = adapter
 

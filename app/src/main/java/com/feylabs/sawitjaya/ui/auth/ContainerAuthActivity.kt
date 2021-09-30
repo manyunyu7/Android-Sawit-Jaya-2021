@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.ui.ContainerUserHomeActivity
 
@@ -61,10 +62,7 @@ class ContainerAuthActivity : AppCompatActivity() {
 
         authViewModel.getProfileLocally()
         authViewModel.localProfileLD.observe(this, Observer {
-            Toast.makeText(this,it.name + " " +it.role,Toast.LENGTH_LONG).show()
-            if (it.role == "3" || it.role=="1") {
-                startActivity(Intent(this, MainMenuContainer::class.java))
-            }
+
         })
 
         checkIfLoggedIn()
@@ -77,7 +75,10 @@ class ContainerAuthActivity : AppCompatActivity() {
     }
 
     private fun checkIfLoggedIn() {
-
+        val role = MyPreference(this).getPrefString("ROLE")
+        if (role == "3" || role == "1") {
+            startActivity(Intent(this, MainMenuContainer::class.java))
+        }
     }
 
     private fun checkPermissions(): Boolean {

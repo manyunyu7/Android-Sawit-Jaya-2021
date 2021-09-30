@@ -20,6 +20,9 @@ class SawitRepository(
     suspend fun getNews() = remoteDs.getNews()
     suspend fun getPrices() = remoteDs.getPrices()
     suspend fun getDetailRs(id: String) = remoteDs.getDetailRequestSell(id)
+    suspend fun getMNotificationByUser(userID: String) = remoteDs.getMNotificationByUser(userID)
+
+
 
     suspend fun getRequestSellByUser(
         userID: String,

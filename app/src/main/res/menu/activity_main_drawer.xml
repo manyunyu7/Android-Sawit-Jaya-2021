@@ -6,17 +6,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/userHomeFragment"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/historyFragment"
             android:icon="@drawable/ic_baseline_history_24"
             android:title="Riwayat Penjualan" />
-
         <item
             android:id="@+id/settingsFragment"
             android:icon="@drawable/ic_baseline_settings_24"
             android:title="Pengaturan" />
+        <item
+            android:id="@+id/mNotificationFragment"
+            android:icon="@drawable/ic_baseline_notifications_none_24"
+            android:title="Notifikasi" />
     </group>
 
     <group android:id="@+id/menu_others1">
@@ -30,6 +33,7 @@
         android:id="@+id/menu_others"
         android:checkableBehavior="none">
         <item
+            android:id="@+id/logout"
             android:icon="@drawable/ic_baseline_logout_24"
             android:title="Logout" />
 

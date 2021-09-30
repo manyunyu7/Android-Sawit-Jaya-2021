@@ -119,5 +119,16 @@ interface MainEndpoint {
         @Header("Authorization") authHeader: String?,
     ): Response<HistoryDetailResponse?>
 
+    /**
+     * rs
+     * @param get request sell by id ( detailed )
+     * @return
+     */
+    @GET("mnotification/user/{id}")
+    suspend fun getMNotificationByUser(
+        @Path("id") userID: String?,
+        @Header("Authorization") authHeader: String?,
+    ): Response<MNotificationResponse?>
+
 
 }

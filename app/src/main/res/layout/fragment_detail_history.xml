@@ -85,9 +85,9 @@
                         layout="@layout/layout_detail_rs" />
 
                     <include
-                        android:visibility="gone"
                         android:id="@+id/include_driver_info"
                         layout="@layout/layout_info_staff"
+                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -96,7 +96,7 @@
                         layout="@layout/layout_info_staff"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp" />
+                        android:layout_marginTop="10dp" />
 
                 </LinearLayout>
 

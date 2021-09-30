@@ -211,9 +211,16 @@ class RemoteDataSource(
         api.getPrice(token)
 
     /**
-     * Register
+     * get mnotification
      * @param body,callback
      *
+     */
+    suspend fun getMNotificationByUser(userID: String) =
+        api.getMNotificationByUser(userID,token)
+
+    /**
+     * Register
+     * @param body,callback
      */
     fun changeProfiePicture(
         file: File,

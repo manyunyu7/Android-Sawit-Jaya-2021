@@ -135,7 +135,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         if (mData?.staffData != null) {
             val staffData = mData.staffData
             binding.includeStaffInfo.apply {
-                labelTitle.text = "Informasi Driver"
+                labelTitle.text = "Informasi Staff"
                 ivMainImage.loadImageFromURL(requireContext(), staffData.photo_path)
                 labelUserName.build("Nama : ", staffData.name, showHint = false)
                 labelUserEmail.build("Email : ", staffData.email, showHint = false)
