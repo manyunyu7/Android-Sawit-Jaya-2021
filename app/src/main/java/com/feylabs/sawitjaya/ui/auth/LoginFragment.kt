@@ -18,7 +18,7 @@ import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.databinding.FragmentLoginBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.utils.service.Resource
-import com.feylabs.sawitjaya.ui.MainMenuContainer
+import com.feylabs.sawitjaya.ui.MainMenuContainerActivity
 import timber.log.Timber
 
 
@@ -151,7 +151,7 @@ class LoginFragment : BaseFragment() {
         MyPreference(requireContext()).save("ROLE", user?.role.toString())
         MyPreference(requireContext()).saveUserID(user?.id.toString())
         MyPreference(requireContext()).save("TOKEN", "Bearer $token")
-        startActivity(Intent(requireContext(), MainMenuContainer::class.java))
+        startActivity(Intent(requireContext(), MainMenuContainerActivity::class.java))
     }
 
 

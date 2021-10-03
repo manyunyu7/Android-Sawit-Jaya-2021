@@ -23,6 +23,7 @@ import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.utils.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class ChangeProfilePictureFragment : BaseFragment() {
@@ -31,7 +32,7 @@ class ChangeProfilePictureFragment : BaseFragment() {
     val binding get() = _binding as FragmentChangeProfilePictureBinding
     lateinit var uploadedFile: File
 
-    private lateinit var authViewModel: AuthViewModel
+    private val authViewModel: AuthViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +40,6 @@ class ChangeProfilePictureFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val factory = ServiceLocator.provideFactory(requireContext())
-        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
 
         binding.btnChoosePhoto.setOnClickListener {
             //open album
@@ -64,7 +62,7 @@ class ChangeProfilePictureFragment : BaseFragment() {
                     is Resource.Success -> {
                         binding.tvProgress.text = ""
                         showToast(it.data.toString())
-                        updatePhotoLocally()
+                        authViewModel.getProfileByUser()
                     }
                     is Resource.Error -> {
                         binding.tvProgress.text = ""
@@ -74,10 +72,6 @@ class ChangeProfilePictureFragment : BaseFragment() {
 
             })
         }
-    }
-
-    private fun updatePhotoLocally() {
-
     }
 
 

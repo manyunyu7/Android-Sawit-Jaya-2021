@@ -22,10 +22,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.injection.ServiceLocator
-import com.feylabs.sawitjaya.ui.ContainerUserHomeActivity
 
-import com.feylabs.sawitjaya.ui.MainActivity
-import com.feylabs.sawitjaya.ui.MainMenuContainer
+import com.feylabs.sawitjaya.ui.MainMenuContainerActivity
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import java.io.File
 
@@ -77,7 +75,7 @@ class ContainerAuthActivity : AppCompatActivity() {
     private fun checkIfLoggedIn() {
         val role = MyPreference(this).getPrefString("ROLE")
         if (role == "3" || role == "1") {
-            startActivity(Intent(this, MainMenuContainer::class.java))
+            startActivity(Intent(this, MainMenuContainerActivity::class.java))
         }
     }
 

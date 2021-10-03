@@ -5,17 +5,16 @@ import com.feylabs.sawitjaya.ViewModelFactory
 import com.feylabs.sawitjaya.data.AuthRepository
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.local.LocalDataSource
-import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.data.local.room.MyRoomDatabase
 import com.feylabs.sawitjaya.data.remote.RemoteDataSource
-import com.feylabs.sawitjaya.utils.service.ApiService
+import com.feylabs.sawitjaya.utils.service.ApiClient
 
 object ServiceLocator {
 
     const val BASE_URL = "http://192.168.1.161:3202/api/"
 
     fun provideAuthRepository(context: Context): AuthRepository {
-        val apiService = ApiService.getClient(context)
+        val apiService = ApiClient.getClient(context)
         val remoteDataSource = RemoteDataSource(apiService,context)
         val roomDb = MyRoomDatabase.invoke(context)
         val localDataSource = LocalDataSource(roomDb)
@@ -25,7 +24,7 @@ object ServiceLocator {
     }
 
     fun provideSawitRepository(context: Context): SawitRepository {
-        val apiService = ApiService.getClient(context)
+        val apiService = ApiClient.getClient(context)
         val remoteDataSource = RemoteDataSource(apiService,context)
         val roomDb = MyRoomDatabase.invoke(context)
         val localDataSource = LocalDataSource(roomDb)
@@ -36,7 +35,7 @@ object ServiceLocator {
 
 
     fun provideFactory(context: Context): ViewModelFactory {
-        val apiService = ApiService.getClient(context)
+        val apiService = ApiClient.getClient(context)
         val remoteDataSource = RemoteDataSource(apiService,context)
         val roomDb = MyRoomDatabase.invoke(context)
         val localDataSource = LocalDataSource(roomDb)

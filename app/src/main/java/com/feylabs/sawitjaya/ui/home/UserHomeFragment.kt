@@ -29,6 +29,9 @@ import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.yabu.livechart.model.DataPoint
 import com.yabu.livechart.model.Dataset
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class UserHomeFragment : BaseFragment() {
@@ -37,7 +40,7 @@ class UserHomeFragment : BaseFragment() {
     var _binding: FragmentUserHomeBinding? = null
     val binding get() = _binding as FragmentUserHomeBinding
 
-    lateinit var authViewModel: AuthViewModel
+    val authViewModel: AuthViewModel by viewModel()
 
     var priceDataSetList = mutableListOf<DataPoint>()
 
@@ -47,12 +50,55 @@ class UserHomeFragment : BaseFragment() {
     }
 
     override fun initObserver() {
+
+        authViewModel.userLiveData.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Success -> {
+                    authViewModel.getProfileLocally()
+                }
+            }
+        })
+        authViewModel.newsLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is Resource.Success -> {
+                    it.data?.forEachIndexed { index, news ->
+                        authViewModel.saveNews(
+                            NewsEntity(
+                                id = news.id,
+                                title = news.title,
+                                author = news.author,
+                                content = news.content,
+                                photo = news.photo_path,
+                                created_at = news.createdAt,
+                                updated_at = news.updatedAt,
+                            )
+                        )
+                    }
+                    // activity level
+                    authViewModel.getNewsLocally()
+                }
+            }
+        })
     }
 
     override fun initAction() {
+
+        binding.btnRequestSell.setOnClickListener {
+            findNavController().navigate(R.id.rsPickLocationFragment)
+        }
+
+        binding.btnSettings.setOnClickListener {
+            findNavController().navigate(R.id.settingsFragment)
+        }
+
+
     }
 
     override fun initData() {
+        uiScope.launch(Dispatchers.IO) {
+            authViewModel.getProfileLocally()
+        }
+        authViewModel.getProfileByUser()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,18 +128,6 @@ class UserHomeFragment : BaseFragment() {
         setNewsAdapter()
         setNewsRecylerView()
 
-        binding.btnRequestSell.setOnClickListener {
-            findNavController().navigate(R.id.rsPickLocationFragment)
-        }
-
-
-        val factory = ServiceLocator.provideFactory(requireContext())
-        authViewModel = ViewModelProvider(requireActivity(), factory).get(AuthViewModel::class.java)
-        binding.btnSettings.setOnClickListener {
-            findNavController().navigate(R.id.settingsFragment)
-        }
-
-        authViewModel.getProfileLocally()
         authViewModel.localProfileLD.observe(requireActivity(), Observer {
             updateView(it)
         })
@@ -204,11 +238,11 @@ class UserHomeFragment : BaseFragment() {
     private fun updateView(prof: AuthEntity?) {
         binding.apply {
             binding.greetingName.text = prof?.name
-            try{
+            try {
                 binding.ivProfileTopLeft.loadImageFromURL(
-                    requireContext(),prof?.photo
+                    requireContext(), prof?.photo
                 )
-            }catch (e:Exception){
+            } catch (e: Exception) {
 
             }
 
@@ -217,31 +251,7 @@ class UserHomeFragment : BaseFragment() {
 
     private fun getNews() {
         authViewModel.getNews()
-        authViewModel.newsLiveData.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is Resource.Success -> {
-                    it.data?.forEachIndexed { index, news ->
-                        authViewModel.saveNews(
-                            NewsEntity(
-                                id = news.id,
-                                title = news.title,
-                                author = news.author,
-                                content = news.content,
-                                photo = news.photo_path,
-                                created_at = news.createdAt,
-                                updated_at = news.updatedAt,
-                            )
-                        )
-                    }
-                    // activity level
-                    authViewModel.getNewsLocally()
-                }
-                is Resource.Error -> {
-                }
-                is Resource.Loading -> {
-                }
-            }
-        })
+
     }
 
 }

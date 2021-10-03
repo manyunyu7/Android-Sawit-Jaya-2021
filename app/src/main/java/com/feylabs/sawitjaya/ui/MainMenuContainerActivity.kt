@@ -30,7 +30,7 @@ import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.ui.auth.ContainerAuthActivity
 
 
-class MainMenuContainer : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainMenuContainerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainMenuContainerBinding
@@ -80,7 +80,7 @@ class MainMenuContainer : AppCompatActivity(), NavigationView.OnNavigationItemSe
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.newsFragment,
+                R.id.newsFragment,R.id.mNotificationFragment,
                 R.id.userHomeFragment, R.id.historyFragment, R.id.settingsFragment
             ), drawerLayout
         )
@@ -94,10 +94,8 @@ class MainMenuContainer : AppCompatActivity(), NavigationView.OnNavigationItemSe
         val navUserEmail: TextView = headerView.findViewById(R.id.tv_email)
         val navPicture: ImageView = headerView.findViewById(R.id.iv_profile_picture)
 
-
-
-
         authViewModel.getProfileLocally()
+
         authViewModel.localProfileLD.observe(this, Observer {
             try {
                 navUserName.text = it.name
@@ -130,6 +128,7 @@ class MainMenuContainer : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
+        authViewModel.getProfileLocally()
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         when (item.itemId) {
             R.id.logout -> {

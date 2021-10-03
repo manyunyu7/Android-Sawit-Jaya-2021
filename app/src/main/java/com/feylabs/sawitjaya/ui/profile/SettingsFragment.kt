@@ -20,24 +20,22 @@ import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.utils.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class SettingsFragment : BaseFragment() {
 
-    companion object {
-        fun newInstance() = SettingsFragment()
-    }
 
     override fun onResume() {
         super.onResume()
-
+        viewModel.getProfileLocally()
     }
 
     var _binding: SettingsFragmentBinding? = null
     val binding get() = _binding as SettingsFragmentBinding
 
-    private lateinit var viewModel: SettingsViewModel
-    private lateinit var authViewModel: AuthViewModel
+    val viewModel: SettingsViewModel by viewModel()
+    val authViewModel: AuthViewModel by viewModel()
 
     lateinit var localProfileObserver: Observer<AuthEntity>
     lateinit var remoteUpdateProfileObserver: Observer<Resource<UserUpdateProfileResponse?>>
@@ -72,10 +70,6 @@ class SettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val factory = ServiceLocator.provideFactory(requireContext())
-        viewModel = ViewModelProvider(this, factory).get(SettingsViewModel::class.java)
-        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
 
         binding.btnBack.setOnClickListener {
             findNavController().navigate(R.id.userHomeFragment)
@@ -117,7 +111,7 @@ class SettingsFragment : BaseFragment() {
                 etContact.setText(it.contact)
                 etEmail.setText(it.email)
                 etNama.setText(it.name)
-                ivProfilePicture.loadImageFromURL(requireContext(),it.photo.toString())
+                ivProfilePicture.loadImageFromURL(requireContext(), it.photo.toString())
             }
         }
 

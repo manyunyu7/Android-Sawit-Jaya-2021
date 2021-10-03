@@ -8,9 +8,14 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 abstract class BaseFragment : Fragment() {
 
+    val job = Job()
+    val uiScope = CoroutineScope(Dispatchers.Main + job)
 
     abstract fun initUI()
     abstract fun initObserver()
