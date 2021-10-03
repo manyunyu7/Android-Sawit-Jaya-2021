@@ -295,7 +295,7 @@ class RemoteDataSource(
         val file = rsReq.uploadFile
 
         myNetwork.apply {
-            setPriority(Priority.IMMEDIATE)
+            setPriority(Priority.HIGH)
             addHeaders("Authorization", token)
             addMultipartParameter("lat", rsReq.lat)
             addMultipartParameter("long", rsReq.long)
