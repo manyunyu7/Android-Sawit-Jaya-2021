@@ -11,7 +11,12 @@ import com.feylabs.sawitjaya.data.local.room.entity.PriceResponseEntity
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
 import com.feylabs.sawitjaya.data.remote.response.PriceResponse
+import com.feylabs.sawitjaya.data.remote.response.UserInfoResponse
+import com.feylabs.sawitjaya.utils.service.LoginPostRezki
 import com.feylabs.sawitjaya.utils.service.Resource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -30,6 +35,11 @@ class AuthViewModel(
     val newsLocalLiveData = MutableLiveData<List<NewsEntity?>>()
     val priceLocalLiveData = MutableLiveData<List<PriceResponseEntity?>>()
 
+    val rezkiData = MutableLiveData<Resource<String>>()
+
+    private var _userLiveData = MutableLiveData<Resource<UserInfoResponse?>>()
+    val userLiveData get() = _userLiveData
+
 
     fun login(username: String, password: String) =
         authRepository.login(username, password)
@@ -40,6 +50,34 @@ class AuthViewModel(
     fun saveNews(newsEntity: NewsEntity) {
         viewModelScope.launch {
             sawitRepository.insertNews(newsEntity)
+        }
+    }
+
+    fun getProfileByUser() {
+        viewModelScope.launch {
+            try {
+                val response = authRepository.getProfileByUser()
+                if (response.isSuccessful) {
+                    _userLiveData.postValue(Resource.Success(response.body()))
+
+                    val resBody = response.body()
+                    saveAuthInfo(
+                        AuthEntity(
+                            user_id = resBody?.id,
+                            name = resBody?.name,
+                            email = resBody?.email,
+                            contact = resBody?.contact,
+                            photo = resBody?.photoPath,
+                            role = resBody?.role,
+                            status = resBody?.status.toString()
+                        )
+                    )
+                } else {
+                    _userLiveData.postValue(Resource.Error("Terjadi Kesalahan"))
+                }
+            } catch (e: Exception) {
+                newsLiveData.postValue(Resource.Error("Terjadi Error"))
+            }
         }
     }
 
@@ -57,11 +95,6 @@ class AuthViewModel(
             )
         }
 
-    fun updatePhoto(photo: String) =
-        viewModelScope.launch {
-            authRepository.updatePhoto(photo)
-        }
-
     fun getNews() = viewModelScope.launch {
         newsLiveData.postValue(Resource.Loading())
         try {
@@ -77,8 +110,23 @@ class AuthViewModel(
         }
     }
 
-    fun getNewsLocally() {
+    fun loginRezki(
+        body: LoginPostRezki
+    ) {
         viewModelScope.launch {
+            val rs = authRepository.loginRezki(body)
+            Timber.d("rezkiData ${rs?.message()}")
+            Timber.d("rezkiData ${rs?.body()}")
+            if (rs.isSuccessful) {
+                rezkiData.postValue(Resource.Success(rs.toString()))
+            } else {
+                rezkiData.postValue(Resource.Error(rs.toString()))
+            }
+        }
+    }
+
+    fun getNewsLocally() {
+        viewModelScope.launch(Dispatchers.IO) {
             val newsLocal = sawitRepository.getNewsLocally()
             newsLocalLiveData.postValue(newsLocal)
         }
@@ -86,7 +134,7 @@ class AuthViewModel(
 
 
     fun getPriceLocally() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val data = sawitRepository.getPricesLocally()
             priceLocalLiveData.postValue(data)
         }
@@ -131,7 +179,9 @@ class AuthViewModel(
     }
 
     fun getProfileLocally() {
-        viewModelScope.launch {
+        val job = Job()
+        val thisScope = CoroutineScope(Dispatchers.Main + job)
+        thisScope.launch(Dispatchers.IO) {
             val ld = authRepository.getUserInfoLocally()
             if (ld.isNotEmpty())
                 localProfileLD.postValue(ld[0])

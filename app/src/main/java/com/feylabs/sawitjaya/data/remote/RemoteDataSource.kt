@@ -14,8 +14,8 @@ import com.feylabs.sawitjaya.data.remote.response.LoginResponse
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
 import com.feylabs.sawitjaya.data.remote.response.UserUpdateProfileResponse
 import com.feylabs.sawitjaya.injection.ServiceLocator.BASE_URL
+import com.feylabs.sawitjaya.utils.service.LoginPostRezki
 import com.feylabs.sawitjaya.utils.service.ApiService
-import com.feylabs.sawitjaya.utils.service.MainEndpoint
 import com.feylabs.sawitjaya.utils.service.Resource
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -27,7 +27,7 @@ import java.lang.Exception
 import retrofit2.Callback as retrocallbak
 
 class RemoteDataSource(
-    private val api: MainEndpoint,
+    private val api: ApiService,
     private val context: Context
 ) {
 
@@ -194,6 +194,18 @@ class RemoteDataSource(
             status = status,
         )
 
+
+    /**
+     * get request sell by user id
+     * @param userID : String
+     *
+     */
+    suspend fun loginRezki(
+        body: LoginPostRezki = LoginPostRezki(
+            "6285608845319"
+        )
+    ) = api.loginRezki(body)
+
     /**
      * get news
      * @param body,callback
@@ -216,7 +228,7 @@ class RemoteDataSource(
      *
      */
     suspend fun getMNotificationByUser(userID: String) =
-        api.getMNotificationByUser(userID,token)
+        api.getMNotificationByUser(userID, token)
 
     /**
      * Register
@@ -333,6 +345,9 @@ class RemoteDataSource(
 
     suspend fun getDetailRequestSell(id: String) =
         api.getRequestSellDetail(id, token)
+
+    suspend fun getProfileByUser() =
+        api.getProfileByUser(token)
 
     interface CallbackUpdateProfile {
         fun value(response: Resource<UserUpdateProfileResponse?>)

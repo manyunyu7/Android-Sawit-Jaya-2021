@@ -12,6 +12,7 @@ import com.feylabs.sawitjaya.databinding.FragmentAuthFragmentBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.utils.base.BaseFragment
+import com.feylabs.sawitjaya.utils.service.LoginPostRezki
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -52,13 +53,6 @@ class AuthFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        authViewModel = ViewModelProvider(
-//            requireActivity(),
-//            ServiceLocator.provideFactory(requireContext())
-//        ).get(AuthViewModel::class.java)
-
-
 
         binding.btnLogin.setOnClickListener {
             findNavController().navigate(R.id.action_authFragment_to_loginFragment)

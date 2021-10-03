@@ -7,6 +7,7 @@ import com.feylabs.sawitjaya.data.remote.RemoteDataSource as remote
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.response.ChangePasswordResponse
 import com.feylabs.sawitjaya.data.remote.response.UserUpdateProfileResponse
+import com.feylabs.sawitjaya.utils.service.LoginPostRezki
 import java.io.File
 import com.feylabs.sawitjaya.utils.service.Resource as Res
 
@@ -28,7 +29,11 @@ class AuthRepository(
         return retVal
     }
 
-    fun updatePhoto(photo:String){
+    suspend fun loginRezki(body: LoginPostRezki) =
+        remoteDs.loginRezki(body)
+
+
+    fun updatePhoto(photo: String) {
         localDs.updatePhoto(photo)
     }
 
@@ -60,6 +65,9 @@ class AuthRepository(
 
     suspend fun getUserInfoLocally() =
         localDs.getUserInfo()
+
+    suspend fun getProfileByUser() =
+        remoteDs.getProfileByUser()
 
     fun updateUserData(
         name: String,
