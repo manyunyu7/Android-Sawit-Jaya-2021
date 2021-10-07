@@ -20,20 +20,18 @@ class HttpCustomInterceptor(
         val req = chain.request()
         val response = chain.proceed(req)
 
+        val token = MyPreference(context).getToken()
+
         when (response.code) {
             401 -> {
                 mySharedPreferences.clearPreferences()
                 if (context is Activity) {
                     context.finish()
-                    Toast.makeText(
-                        context,
-                        "Sesi Anda Telah Habis, Silakan Login Kembali",
-                        Toast.LENGTH_LONG
-                    ).show()
                 }
                 val intent = Intent(context, ContainerAuthActivity::class.java)
+                intent.putExtra("message","Sesi Anda Telah Habis, Silakan Login Kembali")
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
-                context.startActivity(Intent(context, ContainerAuthActivity::class.java))
+                context.startActivity(intent)
             }
         }
         return response

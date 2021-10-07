@@ -16,6 +16,7 @@ buildscript {
 
     ext.lottie_version = "4.1.0"
     ext.razky_version = "1.0.0"
+    ext.chatkit_version = "0.4.1"
 
     repositories {
         google()

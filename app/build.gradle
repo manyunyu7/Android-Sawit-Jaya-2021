@@ -159,7 +159,7 @@ dependencies {
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     implementation "com.airbnb.android:lottie:$lottie_version"
-
+//    implementation "com.github.stfalcon-studio:Chatkit:$chatkit_version"
 //    implementation "com.github.firriezky:RazkyUtility:$razky_version"
 
 

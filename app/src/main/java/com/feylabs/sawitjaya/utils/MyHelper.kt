@@ -6,7 +6,9 @@ import android.text.Spanned
 import android.util.Base64
 import android.util.Log
 import java.io.ByteArrayOutputStream
+import java.math.RoundingMode
 import java.net.URL
+import java.text.DecimalFormat
 
 object MyHelper {
 
@@ -38,6 +40,12 @@ object MyHelper {
             returnValue = Html.fromHtml(text)
         }
         return returnValue.toString()
+    }
+
+    fun Double.roundOffDecimal(): Double? {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(this).toDouble()
     }
 
 

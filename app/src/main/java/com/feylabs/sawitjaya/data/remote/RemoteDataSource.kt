@@ -9,6 +9,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
+import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
 import com.feylabs.sawitjaya.data.remote.response.ChangePasswordResponse
 import com.feylabs.sawitjaya.data.remote.response.LoginResponse
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
@@ -30,12 +31,6 @@ class RemoteDataSource(
     private val api: ApiService,
     private val context: Context
 ) {
-
-    private var token: String? = ""
-
-    init {
-        token = MyPreference(context).getPrefString("TOKEN")
-    }
 
     /*
     Login
@@ -82,7 +77,7 @@ class RemoteDataSource(
     ) {
         callback.value(Resource.Loading())
         api.update_data(
-            token.toString(),
+            getTOKEN().toString(),
             email, role, name, contact,
         ).enqueue(object : retrocallbak<UserUpdateProfileResponse> {
             override fun onResponse(
@@ -117,7 +112,7 @@ class RemoteDataSource(
         callback: CallbackRegisterProfile
     ) {
         callback.value(Resource.Loading())
-        api.register(token, body)?.enqueue(object : retrocallbak<ResponseBody> {
+        api.register(getTOKEN(), body)?.enqueue(object : retrocallbak<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 Timber.d("response register (success) -> ${response.body()}")
                 try {
@@ -156,7 +151,7 @@ class RemoteDataSource(
     ) {
         callback.value(Resource.Loading())
 
-        api.changePassword(token, old_password, new_password)
+        api.changePassword(getTOKEN(), old_password, new_password)
             ?.enqueue(object : retrocallbak<ChangePasswordResponse> {
                 override fun onResponse(
                     call: Call<ChangePasswordResponse>,
@@ -190,21 +185,9 @@ class RemoteDataSource(
             paginate = paginate,
             page = page,
             per_page = per_page,
-            authHeader = token,
+            authHeader = getTOKEN(),
             status = status,
         )
-
-
-    /**
-     * get request sell by user id
-     * @param userID : String
-     *
-     */
-    suspend fun loginRezki(
-        body: LoginPostRezki = LoginPostRezki(
-            "6285608845319"
-        )
-    ) = api.loginRezki(body)
 
     /**
      * get news
@@ -212,7 +195,7 @@ class RemoteDataSource(
      *
      */
     suspend fun getNews() =
-        api.getNews(token)
+        api.getNews(getTOKEN())
 
     /**
      * get price
@@ -220,7 +203,7 @@ class RemoteDataSource(
      *
      */
     suspend fun getPrices() =
-        api.getPrice(token)
+        api.getPrice(getTOKEN())
 
     /**
      * get mnotification
@@ -228,7 +211,7 @@ class RemoteDataSource(
      *
      */
     suspend fun getMNotificationByUser(userID: String) =
-        api.getMNotificationByUser(userID, token)
+        api.getMNotificationByUser(userID, getTOKEN())
 
     /**
      * Register
@@ -243,7 +226,7 @@ class RemoteDataSource(
         )
             .setPriority(Priority.HIGH)
             .addMultipartFile("photo", file)
-            .addHeaders("Authorization", token)
+            .addHeaders("Authorization", getTOKEN())
             .build()
             .setUploadProgressListener { bytesUploaded, totalBytes ->
                 val value = "${bytesUploaded / 1024} KB of ${totalBytes / 1024} KB"
@@ -296,7 +279,7 @@ class RemoteDataSource(
 
         myNetwork.apply {
             setPriority(Priority.HIGH)
-            addHeaders("Authorization", token)
+            addHeaders("Authorization", getTOKEN())
             addMultipartParameter("lat", rsReq.lat)
             addMultipartParameter("long", rsReq.long)
             addMultipartParameter("address", rsReq.address)
@@ -344,10 +327,16 @@ class RemoteDataSource(
     }
 
     suspend fun getDetailRequestSell(id: String) =
-        api.getRequestSellDetail(id, token)
+        api.getRequestSellDetail(id, getTOKEN())
+
+    suspend fun getRsChatByTopic(topicId: String) =
+        api.getRsChatByTopic(topicID = topicId, authHeader = getTOKEN())
 
     suspend fun getProfileByUser() =
-        api.getProfileByUser(token)
+        api.getProfileByUser(getTOKEN())
+
+    suspend fun insertChat(chatStoreRequestBody: RsChatStoreRequestBody) =
+        api.storeChat(getTOKEN(), chatStoreRequestBody)
 
     interface CallbackUpdateProfile {
         fun value(response: Resource<UserUpdateProfileResponse?>)
@@ -381,5 +370,10 @@ class RemoteDataSource(
         fun value(response: Resource<String?>)
     }
 
+    private fun getTOKEN(): String {
+        val tokenn = MyPreference(context).getPrefString("TOKEN")
+        Timber.d("tokenn hitted : ${tokenn}")
+        return tokenn.toString()
+    }
 
 }

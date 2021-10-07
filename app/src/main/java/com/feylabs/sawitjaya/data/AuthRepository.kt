@@ -29,8 +29,6 @@ class AuthRepository(
         return retVal
     }
 
-    suspend fun loginRezki(body: LoginPostRezki) =
-        remoteDs.loginRezki(body)
 
 
     fun updatePhoto(photo: String) {

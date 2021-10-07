@@ -1,6 +1,7 @@
 package com.feylabs.sawitjaya.utils.service
 
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
+import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
 import com.feylabs.sawitjaya.data.remote.response.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -133,16 +134,27 @@ interface ApiService {
     ): Response<MNotificationResponse?>
 
     /**
+     * rs
+     * @param get request sell by id ( detailed )
+     * @return
+     */
+    @GET("rs-chat/topic/{id}/get")
+    suspend fun getRsChatByTopic(
+        @Path("id") topicID: String?,
+        @Query("hideDeleted") hideDeleted: Boolean = true,
+        @Header("Authorization") authHeader: String?,
+    ): Response<RsChatResponse?>
+
+    /**
      * register
      * @param register
      * @return the token
      */
-    @Headers("Content-Type: application/json")
-    @POST("auth/login")
-    suspend fun loginRezki(
-        @Body body: LoginPostRezki,
-    ): Response<LoginResponseRezki?>
-
+    @POST("rs-chat/store")
+    fun storeChat(
+        @Header("Authorization") token: String?,
+        @Body body: RsChatStoreRequestBody?,
+    ): Call<ResponseBody>
 
 
 }

@@ -53,16 +53,14 @@ class ContainerAuthActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController)
 
 //        resetRoomDatabase()
+        val message = intent.getStringExtra("message")
+        if(intent.getStringExtra("message")!=null){
+            Toast.makeText(this,message,Toast.LENGTH_LONG).show()
+        }
         checkPermissions()
 
         val factory = ServiceLocator.provideFactory(this)
         authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
-
-        authViewModel.getProfileLocally()
-        authViewModel.localProfileLD.observe(this, Observer {
-
-        })
-
         checkIfLoggedIn()
     }
 
@@ -75,6 +73,9 @@ class ContainerAuthActivity : AppCompatActivity() {
     private fun checkIfLoggedIn() {
         val role = MyPreference(this).getPrefString("ROLE")
         if (role == "3" || role == "1") {
+            startActivity(Intent(this, MainMenuContainerActivity::class.java))
+        }
+        if (role == "2") {
             startActivity(Intent(this, MainMenuContainerActivity::class.java))
         }
     }

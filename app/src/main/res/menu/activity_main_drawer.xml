@@ -13,9 +13,9 @@
             android:icon="@drawable/ic_baseline_history_24"
             android:title="Riwayat Penjualan" />
         <item
-            android:id="@+id/settingsFragment"
-            android:icon="@drawable/ic_baseline_settings_24"
-            android:title="Pengaturan" />
+            android:id="@+id/newsFragment"
+            android:icon="@drawable/ic_icons8_news"
+            android:title="Informasi Sawit" />
         <item
             android:id="@+id/mNotificationFragment"
             android:icon="@drawable/ic_baseline_notifications_none_24"
@@ -24,9 +24,9 @@
 
     <group android:id="@+id/menu_others1">
         <item
-            android:id="@+id/newsFragment"
-            android:icon="@drawable/ic_icons8_news"
-            android:title="Informasi Sawit" />
+            android:id="@+id/settingsFragment"
+            android:icon="@drawable/ic_baseline_settings_24"
+            android:title="Pengaturan" />
     </group>
 
     <group

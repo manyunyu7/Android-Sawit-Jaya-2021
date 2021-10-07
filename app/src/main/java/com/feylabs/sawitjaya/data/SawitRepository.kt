@@ -5,6 +5,7 @@ import com.feylabs.sawitjaya.data.local.LocalDataSource
 import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
 import com.feylabs.sawitjaya.data.local.room.entity.PriceResponseEntity
 import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
+import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
 import com.feylabs.sawitjaya.utils.service.Resource
 import com.feylabs.sawitjaya.data.remote.RemoteDataSource as remote
 
@@ -21,7 +22,7 @@ class SawitRepository(
     suspend fun getPrices() = remoteDs.getPrices()
     suspend fun getDetailRs(id: String) = remoteDs.getDetailRequestSell(id)
     suspend fun getMNotificationByUser(userID: String) = remoteDs.getMNotificationByUser(userID)
-
+    suspend fun getChatByTopic(topicId: String) = remoteDs.getRsChatByTopic(topicId = topicId)
 
 
     suspend fun getRequestSellByUser(
@@ -56,5 +57,9 @@ class SawitRepository(
 
         return _response
     }
+
+    suspend fun insertChat(chatStoreRequestBody: RsChatStoreRequestBody) = remoteDs.insertChat(
+        chatStoreRequestBody
+    )
 
 }

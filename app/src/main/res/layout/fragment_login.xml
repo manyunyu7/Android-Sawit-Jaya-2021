@@ -97,6 +97,11 @@
                 android:text="password"
                 android:textColor="@color/blue_auth" />
 
+            <TextView
+                android:id="@+id/btn_reset_form"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reset Formulir"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

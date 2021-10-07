@@ -16,6 +16,8 @@ data class HistoryDetailResponse(
     val price: Price,
     @SerializedName("staff_data")
     val staffData: User,
+    @SerializedName("truck_data")
+    val truckData: Truck,
     @SerializedName("staffs")
     val staffs: List<User>,
     @SerializedName("trucks")

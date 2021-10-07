@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_userHomeFragment_to_MNotificationFragment"
             app:destination="@id/mNotificationFragment" />
+        <action
+            android:id="@+id/action_userHomeFragment_to_rsChatFragment"
+            app:destination="@id/rsChatFragment" />
     </fragment>
 
     <fragment
@@ -39,7 +42,7 @@
     <fragment
         android:id="@+id/changeProfilePictureFragment"
         android:name="com.feylabs.sawitjaya.ui.profile.ChangeProfilePictureFragment"
-        android:label="ChangeProfilePictureFragment"
+        android:label="Ganti Foto Profil"
         tools:layout="@layout/fragment_change_profile_picture"
         />
     <fragment
@@ -80,6 +83,9 @@
         <argument
             android:name="rsID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_detailHistoryFragment_to_rsChatFragment"
+            app:destination="@id/rsChatFragment" />
     </fragment>
 
     <fragment
@@ -91,8 +97,18 @@
     <fragment
         android:id="@+id/mNotificationFragment"
         android:name="com.feylabs.sawitjaya.ui.mnotification.MNotificationFragment"
-        android:label="fragment_m_notification"
+        android:label="Notifikasi"
         tools:layout="@layout/fragment_m_notification" />
+
+    <fragment
+        android:id="@+id/rsChatFragment"
+        android:name="com.feylabs.sawitjaya.ui.chat.RsChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_rs_chat" >
+        <argument
+            android:name="topicID"
+            app:argType="string" />
+    </fragment>
 
 
     <!--    <fragment-->

@@ -38,6 +38,10 @@ class LoginFragment : BaseFragment() {
     }
 
     override fun initAction() {
+        binding.btnResetForm.setOnClickListener {
+            binding.etUsername.text.clear()
+            binding.etPassword.text.clear()
+        }
     }
 
     override fun initData() {
@@ -76,6 +80,7 @@ class LoginFragment : BaseFragment() {
         }
 
         binding.btnLogin.setOnClickListener {
+            MyPreference(requireContext()).clearPreferences()
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
             viewGone(binding.btnLogin)
@@ -93,6 +98,7 @@ class LoginFragment : BaseFragment() {
                     Timber.d("login loading")
                 }
                 is Resource.Success -> {
+                    MyPreference(requireContext()).clearPreferences()
                     Timber.d("login success")
 
                     //Save user token
@@ -100,11 +106,6 @@ class LoginFragment : BaseFragment() {
                     Timber.d("api_token from db= ${it.data.toString()}")
                     Timber.d("api_token from pref = ${it.data.toString()}")
 
-
-//                    Fetching User Profile
-//                    fetchUserProfile()
-
-//                    binding.loginProgressBar.visibility = View.GONE
                     showToast("Login Berhasil")
                     proceedLogin(it.data?.user, it.data?.access_token.toString())
                 }
@@ -151,8 +152,8 @@ class LoginFragment : BaseFragment() {
         MyPreference(requireContext()).save("ROLE", user?.role.toString())
         MyPreference(requireContext()).saveUserID(user?.id.toString())
         MyPreference(requireContext()).save("TOKEN", "Bearer $token")
+        Timber.d("Tokenn Saved : Bearer $token")
         startActivity(Intent(requireContext(), MainMenuContainerActivity::class.java))
     }
-
 
 }

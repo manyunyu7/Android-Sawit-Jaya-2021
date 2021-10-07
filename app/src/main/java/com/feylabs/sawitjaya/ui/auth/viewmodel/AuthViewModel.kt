@@ -113,16 +113,7 @@ class AuthViewModel(
     fun loginRezki(
         body: LoginPostRezki
     ) {
-        viewModelScope.launch {
-            val rs = authRepository.loginRezki(body)
-            Timber.d("rezkiData ${rs?.message()}")
-            Timber.d("rezkiData ${rs?.body()}")
-            if (rs.isSuccessful) {
-                rezkiData.postValue(Resource.Success(rs.toString()))
-            } else {
-                rezkiData.postValue(Resource.Error(rs.toString()))
-            }
-        }
+
     }
 
     fun getNewsLocally() {

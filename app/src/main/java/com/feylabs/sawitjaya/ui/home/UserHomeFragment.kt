@@ -24,6 +24,7 @@ import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_CONTE
 import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_CREATED_AT
 import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_PHOTO
 import com.feylabs.sawitjaya.ui.news.NewsDetailFragment.Companion.DET_NEWS_TITLE
+import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
 import com.feylabs.sawitjaya.utils.UIHelper
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.utils.base.BaseFragment
@@ -83,6 +84,9 @@ class UserHomeFragment : BaseFragment() {
 
     override fun initAction() {
 
+//        binding.btnChat.setOnClickListener {
+//            findNavController().navigate(R.id.rsChatFragment)
+//        }
         binding.btnRequestSell.setOnClickListener {
             findNavController().navigate(R.id.rsPickLocationFragment)
         }
@@ -140,7 +144,7 @@ class UserHomeFragment : BaseFragment() {
         authViewModel.priceLocalLiveData.observe(requireActivity(), Observer {
             if (it.size > 0) {
                 val newestPrice = it[0]?.price.toString()
-                val newestMargin = (it[0]?.margin)?.times(100)
+                val newestMargin = (it[0]?.margin)?.times(100)?.roundOffDecimal()
                 binding.tvPriceToday.text = "Rp. $newestPrice"
                 binding.tvMargin.text =
                     "Margin : ${newestMargin}% dari total harga jual tandan buah segar"
