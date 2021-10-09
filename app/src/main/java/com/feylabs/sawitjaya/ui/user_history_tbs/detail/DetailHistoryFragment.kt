@@ -239,11 +239,23 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         findNavController().navigate(directions)
     }
 
+    private fun goToFragmentUpdate() {
+        val directions = DetailHistoryFragmentDirections
+            .actionDetailHistoryFragmentToUpdateRsFragment(
+                args.rsID
+            )
+        findNavController().navigate(directions)
+    }
+
     override fun initAction() {
 
         binding.includeAdditionalMenu.apply {
             btnLiveTrack.setOnClickListener {
                 showToast("Fitur Ini Belum Tersedia")
+            }
+
+            btnUpdateTransaction.setOnClickListener {
+              goToFragmentUpdate()
             }
 
             btnChat.setOnClickListener {
