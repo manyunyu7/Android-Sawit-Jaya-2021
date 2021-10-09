@@ -24,6 +24,14 @@ class MyPreference(context: Context) {
         return sharedPref.getString("TOKEN", "")
     }
 
+    fun getRole(): String? {
+        return sharedPref.getString("ROLE", "")
+    }
+
+    fun getTokenRaw(): String? {
+        return sharedPref.getString("TOKEN_RAW", "")
+    }
+
     fun getUserID(): String? {
         return sharedPref.getString("USER_ID", "")
     }
