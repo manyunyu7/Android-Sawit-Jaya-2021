@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
@@ -20,11 +21,13 @@ import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.ui.rs.request.adapter.RsPhotoAdapter
 import com.feylabs.sawitjaya.ui.rs.request.model.RsModel
 import com.feylabs.sawitjaya.ui.rs.request.model.RsPhotoModel
+import com.feylabs.sawitjaya.utils.DialogUtils
 import com.feylabs.sawitjaya.utils.TelegramGalleryActivity
 import com.feylabs.sawitjaya.utils.base.BaseFragment
 import com.feylabs.sawitjaya.utils.service.Resource
 import com.tangxiaolv.telegramgallery.GalleryActivity
 import com.tangxiaolv.telegramgallery.GalleryConfig
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.io.File
 import java.lang.Exception
@@ -37,11 +40,11 @@ class RsDetailFragment : BaseFragment() {
     var _binding: RsDetailFragmentBinding? = null
     val binding get() = _binding as RsDetailFragmentBinding
 
-    lateinit var authVIewModel: AuthViewModel
+    val authViewModel: AuthViewModel by viewModel()
+    val viewModel: RsDetailViewModel by viewModel()
 
     var newestMargin: Double? = 0.0 ?: 0.0
     var newestPrice: Double? = 0.0 ?: 0.0
-    var etEst = 0
 
     var tempFileListGlobal = mutableListOf<File?>()
 
@@ -52,12 +55,6 @@ class RsDetailFragment : BaseFragment() {
     //Observer for upload rs progress
     lateinit var uploadRSObserver: Observer<Resource<String?>>
 
-    companion object {
-        fun newInstance() = RsDetailFragment()
-    }
-
-    private lateinit var viewModel: RsDetailViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,120 +64,25 @@ class RsDetailFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        checkCameraPermission()
-
-        setupRecyclerView()
-
-        setupObserver()
-
-
-        val factory = ServiceLocator.provideFactory(requireContext())
-        authVIewModel = ViewModelProvider(requireActivity(), factory).get(AuthViewModel::class.java)
-        viewModel = ViewModelProvider(requireActivity(), factory).get(RsDetailViewModel::class.java)
-
-        //get model data from arguments ( parcelable )
-        val model = arguments?.get("rs") as RsModel
-        rsModel = model
-
-        binding.labelAddress.text = model.address
-
-
-        authVIewModel.getPrices(true)
-        authVIewModel.getProfileLocally()
-        authVIewModel.getPriceLocally()
-
-        authVIewModel.priceLocalLiveData.observe(requireActivity(), Observer {
-
-            if (it.isNotEmpty()) {
-                if (it[0] != null) {
-                    newestPrice = it[0]?.price
-                    newestMargin = (it[0]?.margin)?.times(100)
-                }
-            }
-
-        })
-
-
-        // On Request Sell submit button click
-        binding.btnSubmit.setOnClickListener {
-            val sEstWeight = binding.etEst.text.toString()
-            val sAddress = binding.labelAddress.text.toString()
-            val sLat = rsModel.lat.toString()
-            val sLong = rsModel.long.toString()
-            val sContact = binding.etContact.text.toString()
-            viewModel.uploadData(
-                RequestSellRequest(
-                    additionalContact = sContact,
-                    address = sAddress,
-                    contact = sContact,
-                    lat = sLat,
-                    long = sLong,
-                    status = "3",
-                    uploadFile = tempFileListGlobal,
-                    estWeight = sEstWeight
-                )
-            ).observe(viewLifecycleOwner, uploadRSObserver)
-        }
-
-        binding.etEst.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                countSimul()
-            }
-
-        })
-
-
-        authVIewModel.localProfileLD.observe(requireActivity(), Observer {
-            if (it != null) {
-                binding.includeInfoUser.apply {
-                    labelName.text = it.name
-                    labelContact.text = it.contact
-                    labelEmail.text = it.email
-
-                    try {
-                        Glide.with(requireContext()).load(it.photo)
-                            .placeholder(R.drawable.ic_placeholder)
-                            .centerCrop()
-                            .into(imageView)
-                    } catch (e: Exception) {
-
-                    }
-                }
-            }
-        })
-    }
-
-    private fun setupObserver() {
-        uploadRSObserver = Observer {
-            when (it) {
-                is Resource.Success -> {
-                    binding.tvUploadProgress.visibility = View.GONE
-                    showToast("BERHASIL MELAKUKAN REQUEST JUAL")
-//                    findNavController().navigate(R.id.userHomeFragment)
-                }
-                is Resource.Error -> {
-                    binding.tvUploadProgress.visibility = View.GONE
-                    showToast(it.data.toString())
-                }
-                is Resource.Loading -> {
-                    binding.tvUploadProgress.visibility = View.VISIBLE
-                    binding.tvUploadProgress.text = it.data
-                }
-            }
-        }
+    private fun uploadRSDataToServer() {
+        val sEstWeight = binding.etEst.text.toString()
+        val sAddress = binding.labelAddress.text.toString()
+        val sLat = rsModel.lat.toString()
+        val sLong = rsModel.long.toString()
+        val sContact = binding.etContact.text.toString()
+        viewModel.uploadData(
+            RequestSellRequest(
+                additionalContact = sContact,
+                address = sAddress,
+                contact = sContact,
+                lat = sLat,
+                long = sLong,
+                status = "3",
+                uploadFile = tempFileListGlobal,
+                estWeight = sEstWeight
+            )
+        ).observe(viewLifecycleOwner, uploadRSObserver)
     }
 
     private fun countSimul() {
@@ -257,29 +159,124 @@ class RsDetailFragment : BaseFragment() {
     }
 
     override fun initUI() {
+        //get model data from arguments ( parcelable )
+        val model = arguments?.get("rs") as RsModel
+        rsModel = model
+        binding.labelAddress.text = model.address
+
+        checkCameraPermission()
+        setupRecyclerView()
     }
 
     override fun initObserver() {
+        authViewModel.priceLocalLiveData.observe(requireActivity(), Observer {
+
+            if (it.isNotEmpty()) {
+                if (it[0] != null) {
+                    newestPrice = it[0]?.price
+                    newestMargin = (it[0]?.margin)?.times(100)
+                }
+            }
+        })
+
+        authViewModel.localProfileLD.observe(requireActivity(), Observer {
+            if (it != null) {
+                binding.includeInfoUser.apply {
+                    labelName.text = it.name
+                    labelContact.text = it.contact
+
+                    try {
+                        Glide.with(requireContext()).load(it.photo)
+                            .placeholder(R.drawable.ic_placeholder)
+                            .centerCrop()
+                            .into(imageView)
+                    } catch (e: Exception) {
+
+                    }
+                }
+            }
+        })
+
+        uploadRSObserver = Observer {
+            when (it) {
+                is Resource.Success -> {
+                    viewGone(binding.includeLoading.root)
+                    binding.tvUploadProgress.visibility = View.GONE
+                    DialogUtils.showSuccessDialog(
+                        context = requireContext(),
+                        title = getString(R.string.modal_title_success),
+                        message = getString(R.string.message_modal_success_req_rs),
+                        positiveAction =
+                        Pair(getString(R.string.label_Ok),
+                            {
+                                findNavController().navigate(R.id.userHomeFragment)
+                            }),
+                        autoDismiss = true,
+                        buttonAllCaps = false
+                    )
+                }
+                is Resource.Error -> {
+                    viewGone(binding.includeLoading.root)
+                    binding.tvUploadProgress.visibility = View.GONE
+                    showToast(it.data.toString())
+                }
+                is Resource.Loading -> {
+                    viewVisible(binding.includeLoading.root)
+                    binding.tvUploadProgress.visibility = View.VISIBLE
+                    binding.tvUploadProgress.text = it.data
+                }
+            }
+        }
+
     }
 
     override fun initAction() {
+        // On Request Sell submit button click
+        binding.btnSubmit.setOnClickListener {
+            DialogUtils.showCustomDialog(
+                context = requireContext(),
+                title = getString(R.string.title_modal_are_you_sure),
+                message = getString(R.string.message_modal_rs_sell_confirmation),
+                positiveAction = Pair("Ya", {
+                    uploadRSDataToServer()
+                }),
+                negativeAction = Pair("Tidak", {
+                }),
+                autoDismiss = true,
+                buttonAllCaps = false
+            )
+        }
+
+
+        binding.etEst.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                countSimul()
+            }
+
+        })
+
     }
 
     override fun initData() {
+        authViewModel.getPrices(true)
+        authViewModel.getProfileLocally()
+        authViewModel.getPriceLocally()
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //list of photos of seleced
-
         if (requestCode == 120) {
-
             val photos = data?.getSerializableExtra(GalleryActivity.PHOTOS) as List<String>
             if (photos != null) {
-
                 //Clear adapter data
-
                 mAdapter.clearData()
                 tempFileListGlobal.clear()
                 val tempList = mutableListOf<RsPhotoModel>()
@@ -296,10 +293,6 @@ class RsDetailFragment : BaseFragment() {
                 mAdapter.notifyDataSetChanged()
                 showToast(mAdapter.data.size.toString())
             }
-
-
-//            uploadedFile = File(Uri.parse(uriFIle).path.toString())
-
         }
 
     }

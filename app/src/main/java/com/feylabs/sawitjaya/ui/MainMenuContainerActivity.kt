@@ -30,7 +30,8 @@ import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.ui.auth.ContainerAuthActivity
 
 
-class MainMenuContainerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainMenuContainerActivity : AppCompatActivity(),
+    NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainMenuContainerBinding
@@ -80,7 +81,7 @@ class MainMenuContainerActivity : AppCompatActivity(), NavigationView.OnNavigati
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.newsFragment,R.id.mNotificationFragment,
+                R.id.newsFragment, R.id.mNotificationFragment,
                 R.id.userHomeFragment, R.id.historyFragment, R.id.settingsFragment
             ), drawerLayout
         )
@@ -93,6 +94,14 @@ class MainMenuContainerActivity : AppCompatActivity(), NavigationView.OnNavigati
         val navUserName: TextView = headerView.findViewById(R.id.tv_name)
         val navUserEmail: TextView = headerView.findViewById(R.id.tv_email)
         val navPicture: ImageView = headerView.findViewById(R.id.iv_profile_picture)
+
+
+        val role = MyPreference(this).getPrefString("ROLE")
+        if (role == "2") {
+            val menu = navigationView.menu
+            menu.findItem(R.id.historyFragment).title = "Pekerjaan Saya"
+            navigationView.setNavigationItemSelectedListener(this)
+        }
 
         authViewModel.getProfileLocally()
 
@@ -135,19 +144,19 @@ class MainMenuContainerActivity : AppCompatActivity(), NavigationView.OnNavigati
                 MyPreference(this).clearPreferences()
                 startActivity(Intent(this, ContainerAuthActivity::class.java))
             }
-            R.id.newsFragment->{
+            R.id.newsFragment -> {
                 findNavController(R.id.nav_host_fragment_content_user_main_menu).navigate(R.id.newsFragment)
             }
-            R.id.settingsFragment->{
+            R.id.settingsFragment -> {
                 findNavController(R.id.nav_host_fragment_content_user_main_menu).navigate(R.id.settingsFragment)
             }
-            R.id.historyFragment->{
+            R.id.historyFragment -> {
                 findNavController(R.id.nav_host_fragment_content_user_main_menu).navigate(R.id.historyFragment)
             }
-            R.id.userHomeFragment->{
+            R.id.userHomeFragment -> {
                 findNavController(R.id.nav_host_fragment_content_user_main_menu).navigate(R.id.userHomeFragment)
             }
-            R.id.mNotificationFragment->{
+            R.id.mNotificationFragment -> {
                 findNavController(R.id.nav_host_fragment_content_user_main_menu).navigate(R.id.mNotificationFragment)
             }
         }

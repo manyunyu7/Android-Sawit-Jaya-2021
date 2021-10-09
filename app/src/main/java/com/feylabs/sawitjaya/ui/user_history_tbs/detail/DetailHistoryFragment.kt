@@ -236,18 +236,28 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
             DetailHistoryFragmentDirections.actionDetailHistoryFragmentToRsChatFragment(
                 args.rsID
             )
-        findNavController()?.navigate(directions)
+        findNavController().navigate(directions)
     }
 
     override fun initAction() {
 
+        binding.includeAdditionalMenu.apply {
+            btnLiveTrack.setOnClickListener {
+                showToast("Fitur Ini Belum Tersedia")
+            }
+
+            btnChat.setOnClickListener {
+                goToFragmentChat()
+            }
+        }
+
+        binding.fab.setOnClickListener {
+            goToFragmentChat()
+        }
+
         binding.srl.setOnRefreshListener {
             binding.srl.isRefreshing = false
             viewModel.getDetail(args.rsID)
-        }
-
-        binding.btnChatStaff.setOnClickListener {
-            goToFragmentChat()
         }
 
         photoAdapter.setAdapterInterfacez(object : DetailHistoryPhotoAdapter.RsPhotoItemInterface {

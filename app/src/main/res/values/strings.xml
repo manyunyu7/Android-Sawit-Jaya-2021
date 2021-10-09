@@ -23,6 +23,13 @@
 
     <string name="lorem_ipsum_short">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam blandit risus vel ante ornare</string>
+    <string name="title_modal_are_you_sure">Anda Yakin ?</string>
+    <string name="message_modal_rs_sell_confirmation">Anda Yakin akan mengajukan proses penjualan sawit ?. Proses ini tidak dapat dibatalkan.
+        penjualan anda akan diteruskan ke staff dan driver kami</string>
+    <string name="modal_title_success">SUKSES</string>
+    <string name="message_modal_success_req_rs">Penjualan Berhasil Dikirim, Silakan tracking status penjualan melalui menu riwayat penjualan.</string>
+    <string name="label_ya">Ya</string>
+    <string name="label_Ok">Ok</string>
 
 
 </resources>

@@ -29,8 +29,6 @@ class AuthRepository(
         return retVal
     }
 
-
-
     fun updatePhoto(photo: String) {
         localDs.updatePhoto(photo)
     }

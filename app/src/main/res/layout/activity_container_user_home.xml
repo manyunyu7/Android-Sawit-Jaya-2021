@@ -13,5 +13,4 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/user_home_navigation" />
 
-
 </RelativeLayout>

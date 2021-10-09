@@ -21,4 +21,10 @@
         <attr name="sawitCustomTitle" format="string" />
         <attr name="sawitCustomStatus" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="CustomButtonLeftImage">
+        <attr name="customButtonLeftBackground" format="color" />
+        <attr name="customButtonLeftImage" format="integer" />
+        <attr name="customButtonLeftText" format="string" />
+    </declare-styleable>
 </resources>

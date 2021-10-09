@@ -9,8 +9,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.ItemPhotoRsBinding
 import com.feylabs.sawitjaya.ui.rs.request.model.RsPhotoModel
+import com.feylabs.sawitjaya.utils.UIHelper
+import com.feylabs.sawitjaya.utils.UIHelper.ThumbnailsType
+import com.feylabs.sawitjaya.utils.UIHelper.loadImage
+import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 
-class RsPhotoAdapter : RecyclerView.Adapter<RsPhotoAdapter.RsPhotoViewHolder>() {
+class RsPhotoAdapter(val type: ThumbnailsType = ThumbnailsType.LOADING_1) :
+    RecyclerView.Adapter<RsPhotoAdapter.RsPhotoViewHolder>() {
 
     val data = mutableListOf<RsPhotoModel?>()
     lateinit var adapterInterface: RsPhotoItemInterface
@@ -34,27 +39,21 @@ class RsPhotoAdapter : RecyclerView.Adapter<RsPhotoAdapter.RsPhotoViewHolder>() 
         var binding: ItemPhotoRsBinding = ItemPhotoRsBinding.bind(itemView)
 
         fun onBInd(model: RsPhotoModel?) {
-//            binding.tvMain.text = model?.title
             binding.tvMain.visibility = View.GONE
             binding.root.setOnClickListener {
                 adapterInterface.onclick(model)
             }
 
-
             if (model?.photoUri != null) {
-                Glide.with(binding.root)
-                    .load(model?.photoUri)
-                    .placeholder(R.drawable.ic_add_photo_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(binding.ivMainImage)
+                binding.ivMainImage.loadImageFromURL(
+                    binding.root.context, model.photoUri.toString(),
+                    ThumbnailsType.ADD_PHOTO_1
+                )
             } else {
-                Glide.with(binding.root)
-                    .load(R.drawable.ic_placeholder)
-                    .placeholder(R.drawable.ic_add_photo_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(binding.ivMainImage)
+                binding.ivMainImage.loadImage(
+                    binding.root.context, R.drawable.ic_add_photo_placeholder,
+                    ThumbnailsType.ADD_PHOTO_1
+                )
             }
 
 

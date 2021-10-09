@@ -6,15 +6,9 @@
     android:layout_height="match_parent"
     android:background="#F5FDFB">
 
-
-    <include
-        android:id="@+id/include_header"
-        layout="@layout/header_with_back_next_title" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/include_header"
         android:fillViewport="true">
 
         <LinearLayout
@@ -109,6 +103,27 @@
                 tools:itemCount="1"
                 tools:listitem="@layout/item_photo_rs" />
 
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include
+                    layout="@layout/layout_custom_button_with_left_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/layout_custom_button_with_left_image"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -257,9 +272,9 @@
                                 android:id="@+id/et_est"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
                                 android:fontFamily="@font/poppins_regular"
                                 android:hint="Perkiraan Berat Sawit (dalam Kg)"
+                                android:inputType="numberDecimal"
                                 android:textColor="@color/blue_auth" />
 
                             <TextView
@@ -281,13 +296,13 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/tv_upload_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:layout_margin="20dp"
                 android:fontFamily="@font/montserrat_regular"
-                android:layout_margin="20dp"/>
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_submit"
@@ -299,6 +314,11 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <include
+        android:id="@+id/include_loading"
+        layout="@layout/layout_loading_screen_full"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.feylabs.sawitjaya.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Html
 import android.widget.ImageView
@@ -19,10 +20,28 @@ object UIHelper {
         Toast.makeText(context, this, Toast.LENGTH_SHORT).show()
     }
 
-    fun ImageView.loadImageFromURL(context: Context, url: String? = "") {
+    fun ImageView.loadImageFromURL(
+        context: Context,
+        url: String? = "",
+        thumbnailsType: ThumbnailsType = ThumbnailsType.LOADING_1
+    ) {
         Glide.with(context)
             .load(url)
-            .placeholder(R.drawable.ic_placeholder)
+            .placeholder(thumbnailsType.value)
+            .thumbnail(Glide.with(context).load(R.raw.ic_loading_google).fitCenter())
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .into(this)
+    }
+
+    fun ImageView.loadImage(
+        context: Context,
+        drawable: Int,
+        thumbnailsType: ThumbnailsType = ThumbnailsType.LOADING_1
+    ) {
+        Glide.with(context)
+            .load(drawable)
+            .placeholder(thumbnailsType.value)
             .thumbnail(Glide.with(context).load(R.raw.ic_loading_google).fitCenter())
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
@@ -49,6 +68,11 @@ object UIHelper {
         } else {
             return (Html.fromHtml(this)).toString()
         }
+    }
+
+    enum class ThumbnailsType(val value: Int) {
+        ADD_PHOTO_1(R.drawable.ic_add_photo_placeholder),
+        LOADING_1(R.drawable.ic_placeholder),
     }
 
 
