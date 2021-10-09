@@ -117,7 +117,10 @@ class HistoryFragment : BaseFragment() {
     }
 
     override fun initData() {
-        val userId = MyPreference(requireContext()).getUserID()
+        var userId = MyPreference(requireContext()).getUserID()
+        if (MyPreference(requireContext()).getRole() == "3") {
+            userId = "all"
+        }
         viewModel.getRSByUser(userId.toString())
         viewModel.historyDataLD.observe(viewLifecycleOwner, historyObserver)
     }

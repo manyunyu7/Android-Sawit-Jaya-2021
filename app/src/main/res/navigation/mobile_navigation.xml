@@ -85,7 +85,20 @@
             app:argType="string" />
         <action
             android:id="@+id/action_detailHistoryFragment_to_rsChatFragment"
-            app:destination="@id/rsChatFragment" />
+            app:destination="@id/rsChatFragment"
+            app:enterAnim="@anim/anim_shrink_fade_in"
+            app:exitAnim="@anim/anim_shrink_fade_out"
+            app:popEnterAnim="@anim/anim_shrink_fade_in"
+            app:popExitAnim="@anim/anim_shrink_fade_out"
+            />
+        <action
+            android:id="@+id/action_detailHistoryFragment_to_updateRsFragment"
+            app:destination="@id/updateRsFragment"
+            app:enterAnim="@anim/anim_shrink_fade_in"
+            app:exitAnim="@anim/anim_shrink_fade_out"
+            app:popEnterAnim="@anim/anim_shrink_fade_in"
+            app:popExitAnim="@anim/anim_shrink_fade_out"
+            />
     </fragment>
 
     <fragment
@@ -108,6 +121,18 @@
         <argument
             android:name="topicID"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/updateRsFragment"
+        android:name="com.feylabs.sawitjaya.ui.user_history_tbs.update.UpdateRsFragment"
+        android:label="Update Transaksi"
+        tools:layout="@layout/fragment_update_rs" >
+
+        <argument
+            android:name="rsID"
+            app:argType="string" />
+
     </fragment>
 
 

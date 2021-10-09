@@ -152,6 +152,7 @@ class LoginFragment : BaseFragment() {
         MyPreference(requireContext()).save("ROLE", user?.role.toString())
         MyPreference(requireContext()).saveUserID(user?.id.toString())
         MyPreference(requireContext()).save("TOKEN", "Bearer $token")
+        MyPreference(requireContext()).save("TOKEN_RAW", "$token")
         Timber.d("Tokenn Saved : Bearer $token")
         startActivity(Intent(requireContext(), MainMenuContainerActivity::class.java))
     }
