@@ -94,7 +94,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="15dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -142,12 +143,93 @@
 
             </RelativeLayout>
 
+
+            <LinearLayout
+                android:id="@+id/containerUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/btn_sell_sawit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_border"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_img_chat"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_weight=".20"
+                        android:src="@drawable/ic_truck"
+                        android:text="left"
+                        app:tint="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_text_chat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight=".70"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Jual Sawit"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btn_send_sawit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:id="@+id/iv_img_track"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_weight=".20"
+                        android:src="@drawable/ic_location_on_detail"
+                        android:text="left" />
+
+                    <TextView
+                        android:id="@+id/tv_text_track"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight=".70"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Antar Sawit"
+                        android:textColor="@color/color_blue_golapak" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/btn_request_sell"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="15dp"
+                android:visibility="gone"
                 app:cardCornerRadius="20dp">
 
                 <ImageView
@@ -163,9 +245,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_news" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:background="#FDC7BE"
+                app:cardCornerRadius="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/title_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/philosopher_b"
+                        android:text="Grafik Harga Sawit"
+                        android:textColor="@color/color_blue_golapak"
+                        android:textSize="18sp" />
+
+                    <com.yabu.livechart.view.LiveChart
+                        android:id="@+id/live_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="190dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
 
             <androidx.cardview.widget.CardView
@@ -212,37 +327,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:background="#FDC7BE"
-                app:cardCornerRadius="20dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:id="@+id/title_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/philosopher_b"
-                        android:text="Grafik Harga Sawit"
-                        android:textColor="@color/color_blue_golapak"
-                        android:textSize="18sp" />
-
-                    <com.yabu.livechart.view.LiveChart
-                        android:id="@+id/live_chart"
-                        android:layout_width="match_parent"
-                        android:layout_height="90dp" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/title_card_price"

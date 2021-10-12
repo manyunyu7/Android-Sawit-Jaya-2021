@@ -37,20 +37,57 @@ import timber.log.Timber
 
 class UserHomeFragment : BaseFragment() {
 
-
     var _binding: FragmentUserHomeBinding? = null
     val binding get() = _binding as FragmentUserHomeBinding
 
     val authViewModel: AuthViewModel by viewModel()
 
-    var priceDataSetList = mutableListOf<DataPoint>()
-
     val adapterNews by lazy { NewsAdapter() }
 
     override fun initUI() {
+        setNewsAdapter()
+        setNewsRecylerView()
     }
 
     override fun initObserver() {
+        binding.tvPriceToday.text = "Loading...."
+        binding.tvMargin.text = "Loading..."
+
+        authViewModel.newsLocalLiveData.observe(requireActivity(), Observer {
+            if (it.isNotEmpty()) {
+                refreshNewsAdapter(it)
+            }
+        })
+
+        authViewModel.priceLocalLiveData.observe(requireActivity(), Observer {
+            if (it.isNotEmpty()) {
+                val newestPrice = it[0]?.price.toString()
+                val newestMargin = (it[0]?.margin)?.times(100)?.roundOffDecimal()
+                binding.tvPriceToday.text = "Rp. $newestPrice"
+                binding.tvMargin.text =
+                    "Margin : ${newestMargin}% dari total harga jual tandan buah segar"
+
+                val tempList = mutableListOf<DataPoint>()
+                tempList.clear()
+                var maxIndex = it.size
+
+                it.forEachIndexed { index, priceResponseEntity ->
+                    val price = (priceResponseEntity?.price)?.toFloat()
+                    Timber.d("price chared $price")
+                    tempList.add(DataPoint(maxIndex.toFloat(), price!!))
+                    maxIndex--
+                }
+
+                Timber.d("added set : ${tempList.asReversed()}")
+                val dataset = Dataset(
+                    tempList.asReversed()
+                )
+                drawChart(dataset)
+            } else {
+                binding.tvPriceToday.text = "Loading...."
+            }
+        })
+
 
         authViewModel.userLiveData.observe(viewLifecycleOwner, {
             when (it) {
@@ -59,9 +96,11 @@ class UserHomeFragment : BaseFragment() {
                 }
             }
         })
+
         authViewModel.newsLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
+                    authViewModel.clearNews()
                     it.data?.forEachIndexed { index, news ->
                         authViewModel.saveNews(
                             NewsEntity(
@@ -84,9 +123,14 @@ class UserHomeFragment : BaseFragment() {
 
     override fun initAction() {
 
-//        binding.btnChat.setOnClickListener {
-//            findNavController().navigate(R.id.rsChatFragment)
-//        }
+        binding.btnSellSawit.setOnClickListener {
+            findNavController().navigate(R.id.rsPickLocationFragment)
+        }
+
+        binding.btnSendSawit.setOnClickListener {
+
+        }
+
         binding.btnRequestSell.setOnClickListener {
             findNavController().navigate(R.id.rsPickLocationFragment)
         }
@@ -99,8 +143,10 @@ class UserHomeFragment : BaseFragment() {
     }
 
     override fun initData() {
+
         uiScope.launch(Dispatchers.IO) {
             authViewModel.getProfileLocally()
+            authViewModel.getNewsLocally()
         }
         authViewModel.getProfileByUser()
     }
@@ -128,81 +174,36 @@ class UserHomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        setNewsAdapter()
-        setNewsRecylerView()
-
         authViewModel.localProfileLD.observe(requireActivity(), Observer {
             updateView(it)
-        })
-
-        getNews()
-        authViewModel.newsLocalLiveData.observe(requireActivity(), Observer {
-            refreshNewsAdapter(it)
-        })
-
-        authViewModel.priceLocalLiveData.observe(requireActivity(), Observer {
-            if (it.size > 0) {
-                val newestPrice = it[0]?.price.toString()
-                val newestMargin = (it[0]?.margin)?.times(100)?.roundOffDecimal()
-                binding.tvPriceToday.text = "Rp. $newestPrice"
-                binding.tvMargin.text =
-                    "Margin : ${newestMargin}% dari total harga jual tandan buah segar"
-
-                val tempList = mutableListOf<DataPoint>()
-                tempList.clear()
-                var maxIndex = it.size
-                it.forEachIndexed { index, priceResponseEntity ->
-                    val price = (priceResponseEntity?.price)?.div(1000)?.toFloat()
-                    Timber.d("price chared $price")
-                    tempList.add(DataPoint(maxIndex.toFloat(), price!!))
-                    maxIndex--
-                }
-
-
-                Timber.d("added set : ${tempList.asReversed()}")
-                val dataset = Dataset(
-                    tempList.asReversed()
-                )
-
-
-                binding.liveChart.setDataset(dataset)
-                binding.liveChart.setDataset(dataset)
-                    // Draws the Y Axis bounds with Text data points.
-                    .drawYBounds()
-                    // Draws a customizable base line from the first point of the dataset or manually set a data point
-                    .drawBaseline()
-                    // Set manually the data point from where the baseline draws,
-                    .setBaselineManually(1.5f)
-                    // Draws a fill on the chart line. You can set whether to draw with a transparent gradient
-                    // or a solid fill. Defaults to gradient.
-                    .drawFill(withGradient = true)
-                    // draws the color of the path and fill conditional to being above/below the baseline datapoint
-                    .drawBaselineConditionalColor()
-                    // Draw Guidelines in the background
-                    .drawVerticalGuidelines(steps = 4)
-                    .drawHorizontalGuidelines(steps = 4)
-                    // Draw smooth path
-                    .drawSmoothPath()
-                    // Draw last point tag label
-                    .drawLastPointLabel()
-                    .drawDataset()
-            } else {
-                binding.tvPriceToday.text = "Loading...."
-            }
         })
 
         authViewModel.getPrices(true)
 
     }
 
-    fun drawChart(dataSet: Dataset) {
+    private fun drawChart(dataset: Dataset) {
         // set dataset, display options, and ... draw!
-        binding.liveChart.setDataset(dataSet)
+        binding.liveChart.setDataset(dataset)
+        binding.liveChart.setDataset(dataset)
+            // Draws the Y Axis bounds with Text data points.
             .drawYBounds()
+            // Draws a customizable base line from the first point of the dataset or manually set a data point
             .drawBaseline()
-            .drawFill()
+            // Set manually the data point from where the baseline draws,
+            .setBaselineManually(1.5f)
+            // Draws a fill on the chart line. You can set whether to draw with a transparent gradient
+            // or a solid fill. Defaults to gradient.
+            .drawFill(withGradient = true)
+            // draws the color of the path and fill conditional to being above/below the baseline datapoint
+            .drawBaselineConditionalColor()
+            // Draw Guidelines in the background
+            .drawVerticalGuidelines(steps = 4)
+            .drawHorizontalGuidelines(steps = 4)
+            // Draw smooth path
             .drawSmoothPath()
+            // Draw last point tag label
+            .drawLastPointLabel()
             .drawDataset()
     }
 
@@ -255,7 +256,6 @@ class UserHomeFragment : BaseFragment() {
 
     private fun getNews() {
         authViewModel.getNews()
-
     }
 
 }

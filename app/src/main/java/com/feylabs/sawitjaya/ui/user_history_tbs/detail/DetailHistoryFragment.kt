@@ -254,7 +254,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                 showToast("Fitur Ini Belum Tersedia")
             }
 
-            btnUpdateTransaction.setOnClickListener {
+            btnDetail.setOnClickListener {
               goToFragmentUpdate()
             }
 

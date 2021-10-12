@@ -62,6 +62,9 @@
         <item name="android:textColor">@color/black4</item>
     </style>
 
+    <style name="Montserrat.OnPrimary">
+        <item name="android:textColor">@color/color_blue_golapak</item>
+    </style>
 
     <style name="Montserrat.Black">
         <item name="android:textColor">@color/black</item>
@@ -234,4 +237,9 @@
     <style name="Montserrat.Red.12sp">
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="Montserrat.OnPrimary.14sp">
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

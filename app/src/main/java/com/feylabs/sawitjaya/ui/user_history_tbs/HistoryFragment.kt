@@ -59,6 +59,8 @@ class HistoryFragment : BaseFragment() {
             R.style.Theme_MaterialComponents_BottomSheetDialog
         )
     }
+    var userId = ""
+
 
     private val bsBinding by lazy {
         BsActionHistoryBinding.bind(
@@ -117,11 +119,11 @@ class HistoryFragment : BaseFragment() {
     }
 
     override fun initData() {
-        var userId = MyPreference(requireContext()).getUserID()
-        if (MyPreference(requireContext()).getRole() == "3") {
+        userId = MyPreference(requireContext()).getUserID().toString()
+        if (MyPreference(requireContext()).getRole() == "1") {
             userId = "all"
         }
-        viewModel.getRSByUser(userId.toString())
+        viewModel.getRSByUser(userId)
         viewModel.historyDataLD.observe(viewLifecycleOwner, historyObserver)
     }
 
@@ -177,7 +179,6 @@ class HistoryFragment : BaseFragment() {
 
 
     private fun setupChip() {
-        val userID = MyPreference(requireContext()).getUserID().toString()
         val group = binding.group
         for (i in 0 until group.size) {
             val indexed = group[i]
@@ -189,19 +190,19 @@ class HistoryFragment : BaseFragment() {
                 adapterHistory.clear()
                 when (i) {
                     0 -> {
-                        viewModel.getRSByUser(userID = userID, status = null)
+                        viewModel.getRSByUser(userID = userId, status = null)
                     }
                     1 -> {
-                        viewModel.getRSByUser(userID = userID, status = "3")
+                        viewModel.getRSByUser(userID = userId, status = "3")
                     }
                     2 -> {
-                        viewModel.getRSByUser(userID = userID, status = "4")
+                        viewModel.getRSByUser(userID = userId, status = "4")
                     }
                     3 -> {
-                        viewModel.getRSByUser(userID = userID, status = "2")
+                        viewModel.getRSByUser(userID = userId, status = "2")
                     }
                     4 -> {
-                        viewModel.getRSByUser(userID = userID, status = "1")
+                        viewModel.getRSByUser(userID = userId, status = "1")
                     }
 
                 }

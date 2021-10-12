@@ -30,6 +30,12 @@
     <string name="message_modal_success_req_rs">Penjualan Berhasil Dikirim, Silakan tracking status penjualan melalui menu riwayat penjualan.</string>
     <string name="label_ya">Ya</string>
     <string name="label_Ok">Ok</string>
+    <string name="message_modal_changes_password">Anda Yakin Ingin Mengganti Password</string>
+    <string name="message_modal_success_update_profile">Profile Berhasil Diupdate</string>
+    <string name="message_modal_failed_update_password">Password Gagal Diupdate</string>
+    <string name="message_modal_error_update_profile">Gagal Mengupdate Profile, Silakan Coba Kembali Nanti</string>
+    <string name="title_modal_error_occured">Terjadi Kesalahan</string>
+    <string name="message_modal_save_profile_changes">Anda Yakin Ingin Menyimpan Perubahan Data Profile ?</string>
 
 
 </resources>
