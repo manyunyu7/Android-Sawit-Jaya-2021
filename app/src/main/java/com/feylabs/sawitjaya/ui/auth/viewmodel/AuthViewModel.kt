@@ -53,6 +53,12 @@ class AuthViewModel(
         }
     }
 
+    fun clearNews(){
+        viewModelScope.launch {
+            sawitRepository.clearNewsLocally()
+        }
+    }
+
     fun getProfileByUser() {
         viewModelScope.launch {
             try {
@@ -110,11 +116,7 @@ class AuthViewModel(
         }
     }
 
-    fun loginRezki(
-        body: LoginPostRezki
-    ) {
 
-    }
 
     fun getNewsLocally() {
         viewModelScope.launch(Dispatchers.IO) {

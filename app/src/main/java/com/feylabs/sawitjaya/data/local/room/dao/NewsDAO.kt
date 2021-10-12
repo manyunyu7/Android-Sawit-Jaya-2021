@@ -22,7 +22,6 @@ interface NewsDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(news: NewsEntity?): Long
 
-
     @Query("DELETE FROM news where  created_at <> 's' ")
     fun clear()
 

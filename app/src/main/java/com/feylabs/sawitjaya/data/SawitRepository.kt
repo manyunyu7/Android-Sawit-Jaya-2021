@@ -42,8 +42,10 @@ class SawitRepository(
 
     suspend fun getPricesLocally() = localDs.getPrice()
     suspend fun getNewsLocally() = localDs.getNews()
+    suspend fun clearNewsLocally() = localDs.clearNews()
 
     suspend fun insertNews(newsEntity: NewsEntity) = localDs.saveNews(newsEntity)
+
     suspend fun insertPrice(priceResponseEntity: PriceResponseEntity) =
         localDs.savePrices(priceResponseEntity)
 

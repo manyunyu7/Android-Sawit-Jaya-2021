@@ -11,6 +11,9 @@ import com.feylabs.sawitjaya.utils.service.ApiClient
 
 object ServiceLocator {
 
+//    const val REAL_URL = "https://sawit-jaya.feylabs.my.id/"
+//    const val BASE_URL = "${REAL_URL}api/"
+
     const val REAL_URL = "http://192.168.1.161:3202/"
     const val BASE_URL = "${REAL_URL}api/"
 

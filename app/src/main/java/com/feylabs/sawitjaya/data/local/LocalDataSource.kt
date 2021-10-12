@@ -27,6 +27,8 @@ class LocalDataSource(
     }
 
     fun getNews() = db.newsDao().findAll()
+    fun clearNews() = db.newsDao().clear()
+
     suspend fun getPrice() = db.pricesDao().findAll()
 
     fun updatePhoto(photo: String) {
