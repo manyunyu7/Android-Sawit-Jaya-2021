@@ -2,7 +2,6 @@ package com.feylabs.sawitjaya.ui.rs.request
 
 import android.content.Intent
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,8 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
-import com.feylabs.sawitjaya.databinding.RsDetailFragmentBinding
-import com.feylabs.sawitjaya.injection.ServiceLocator
+import com.feylabs.sawitjaya.databinding.FragmentRsDetailBinding
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.ui.rs.request.adapter.RsPhotoAdapter
 import com.feylabs.sawitjaya.ui.rs.request.model.RsModel
@@ -37,8 +35,8 @@ import java.util.*
 class RsDetailFragment : BaseFragment() {
 
 
-    var _binding: RsDetailFragmentBinding? = null
-    val binding get() = _binding as RsDetailFragmentBinding
+    var _binding: FragmentRsDetailBinding? = null
+    val binding get() = _binding as FragmentRsDetailBinding
 
     val authViewModel: AuthViewModel by viewModel()
     val viewModel: RsDetailViewModel by viewModel()
@@ -59,8 +57,8 @@ class RsDetailFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.rs_detail_fragment, container, false)
-        _binding = RsDetailFragmentBinding.bind(view)
+        val view = inflater.inflate(R.layout.fragment_rs_detail, container, false)
+        _binding = FragmentRsDetailBinding.bind(view)
         return binding.root
     }
 

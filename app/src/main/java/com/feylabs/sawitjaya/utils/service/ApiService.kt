@@ -13,8 +13,10 @@ interface ApiService {
     /*
     Note Belajar :
     - Suspend fun harus return datanya langsung
-    -
+    - Call return enqueue, untuk callback
+    - Resource untuk digunakan bareng RxJava, Coroutines (suspend)
      */
+
     @GET("/test")
     suspend fun testAPI(): Response<String>
 
@@ -155,6 +157,37 @@ interface ApiService {
         @Header("Authorization") token: String?,
         @Body body: RsChatStoreRequestBody?,
     ): Call<ResponseBody>
+
+    /**
+     * use to store new weight
+     */
+    @POST("rs-chat/store")
+    fun storeRsScale(
+        @Header("Authorization") token: String?,
+        @Body body: RsChatStoreRequestBody?,
+    ): Call<ResponseBody>
+
+    /**
+     * use to store new weight
+     */
+    @POST("request-sell/scale/all")
+    @FormUrlEncoded
+    fun getRsScaleAll(
+        @Header("Authorization") token: String?,
+        @Field("old_password") old_password: String,
+        ): Call<ResponseBody>
+
+
+    /**
+     *
+     * get request sell scaling by id
+     */
+    @POST("request-sell/{id}/scale/get")
+    @FormUrlEncoded
+    suspend fun getRsScaleByRsID(
+        @Path("id") rsID: String?,
+        @Header("Authorization") token: String?,
+        ): Response<GetRsScaleByIDResponse>
 
 
 }

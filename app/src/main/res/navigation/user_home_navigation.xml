@@ -57,7 +57,7 @@
         android:id="@+id/rsDetailFragment"
         android:name="com.feylabs.sawitjaya.ui.rs.request.RsDetailFragment"
         android:label="Detail Permintaan Jual"
-        tools:layout="@layout/rs_detail_fragment" />
+        tools:layout="@layout/fragment_rs_detail" />
 
 
 

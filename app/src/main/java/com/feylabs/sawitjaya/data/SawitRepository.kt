@@ -46,6 +46,8 @@ class SawitRepository(
 
     suspend fun insertNews(newsEntity: NewsEntity) = localDs.saveNews(newsEntity)
 
+    suspend fun getScaleDataByRsId(rsId: String) = remoteDs.getScaleDataByRsID(rsId)
+
     suspend fun insertPrice(priceResponseEntity: PriceResponseEntity) =
         localDs.savePrices(priceResponseEntity)
 

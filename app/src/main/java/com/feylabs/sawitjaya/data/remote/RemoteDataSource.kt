@@ -214,6 +214,14 @@ class RemoteDataSource(
         api.getMNotificationByUser(userID, getTOKEN())
 
     /**
+     * get mnotification
+     * @param body,callback
+     *
+     */
+    suspend fun getScaleDataByRsID(rsID: String) =
+        api.getRsScaleByRsID(rsID, getTOKEN())
+
+    /**
      * Register
      * @param body,callback
      */
