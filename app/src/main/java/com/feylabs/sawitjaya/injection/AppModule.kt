@@ -9,6 +9,7 @@ import com.feylabs.sawitjaya.ui.rs.request.RsDetailViewModel
 import com.feylabs.sawitjaya.ui.staff.home.StaffHomeViewModel
 import com.feylabs.sawitjaya.ui.user_history_tbs.HistoryViewModel
 import com.feylabs.sawitjaya.ui.user_history_tbs.detail.DetailHistoryViewModel
+import com.feylabs.sawitjaya.ui.user_history_tbs.scale.RsScaleViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -23,5 +24,6 @@ val viewModelModule = module {
     viewModel { NewsViewModel(get()) }
     viewModel { MNotificationViewModel(get()) }
     viewModel { RsChatViewModel(get()) }
+    viewModel { RsScaleViewModel(get()) }
 }
 

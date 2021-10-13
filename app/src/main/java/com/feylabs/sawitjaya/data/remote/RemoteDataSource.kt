@@ -222,6 +222,17 @@ class RemoteDataSource(
         api.getRsScaleByRsID(rsID, getTOKEN())
 
     /**
+     * get mnotification
+     * @param body,callback
+     *
+     */
+    suspend fun storeScaleDataByRsID(rsID: String, result: String, createdBy: String) =
+        api.storeRsScaleByRsID(
+            rsID = rsID, result = result, createdBy = createdBy,
+            token = getTOKEN()
+        )
+
+    /**
      * Register
      * @param body,callback
      */

@@ -9,6 +9,10 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.feylabs.sawitjaya.R
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.internal.ContextUtils.getActivity
+
 
 object UIHelper {
 
@@ -73,6 +77,16 @@ object UIHelper {
     enum class ThumbnailsType(val value: Int) {
         ADD_PHOTO_1(R.drawable.ic_add_photo_placeholder),
         LOADING_1(R.drawable.ic_placeholder),
+    }
+
+    fun Fragment.hideActionBar() {
+        activity?.actionBar?.hide()
+        (getActivity() as AppCompatActivity).supportActionBar?.hide()
+    }
+
+    fun Fragment.showActionBar() {
+        activity?.actionBar?.show()
+        (getActivity() as AppCompatActivity).supportActionBar?.hide()
     }
 
 

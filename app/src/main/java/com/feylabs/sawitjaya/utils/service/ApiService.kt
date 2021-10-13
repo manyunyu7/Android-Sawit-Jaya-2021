@@ -3,6 +3,8 @@ package com.feylabs.sawitjaya.utils.service
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
 import com.feylabs.sawitjaya.data.remote.response.*
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
@@ -175,19 +177,32 @@ interface ApiService {
     fun getRsScaleAll(
         @Header("Authorization") token: String?,
         @Field("old_password") old_password: String,
-        ): Call<ResponseBody>
+    ): Call<ResponseBody>
 
 
     /**
      *
      * get request sell scaling by id
      */
-    @POST("request-sell/{id}/scale/get")
-    @FormUrlEncoded
+    @GET("request-sell/{id}/scale/get")
     suspend fun getRsScaleByRsID(
         @Path("id") rsID: String?,
         @Header("Authorization") token: String?,
-        ): Response<GetRsScaleByIDResponse>
+    ): Response<GetRsScaleByIDResponse>
+
+
+    /**
+     *
+     * get request sell scaling by id
+     */
+    @POST("request-sell/{id}/scale/store?")
+    @FormUrlEncoded
+    suspend fun storeRsScaleByRsID(
+        @Path("id") rsID: String?,
+        @Field("result") result: String,
+        @Field("created_by") createdBy: String,
+        @Header("Authorization") token: String?,
+    ): Response<OnlyMessageResponse>
 
 
 }
