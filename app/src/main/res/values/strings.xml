@@ -40,6 +40,7 @@
     <string name="message_modal_success_input_rs_scale">Data Timbangan Berhasil Diinput</string>
     <string name="message_modal_error_input_rs_scale">Gagal Menginputkan Data Berat Baru</string>
     <string name="title_modal_attention">Perhatian</string>
-
+    <string name="message_modal_error_delete_rs_scale">Gagal Menghapus Data Berat</string>
+    <string name="message_modal_success_delete_rs_scale">Berhasil Menghapus Data Berat</string>
 
 </resources>

@@ -20,6 +20,9 @@ class RsScaleViewModel(val sawitRepository: SawitRepository) : ViewModel() {
     var _storeScaleLiveData = MutableLiveData<Resource<String>>()
     val storeScaleLiveData get() = _storeScaleLiveData as LiveData<Resource<String>>
 
+    var _deleteScaleLiveData = MutableLiveData<Resource<String>>()
+    val deleteScaleLiveData get() = _deleteScaleLiveData as LiveData<Resource<String>>
+
     fun fetchScaleData(rsID: String) {
         viewModelScope.launch {
             _scaleLiveData.value = Resource.Loading()
@@ -38,7 +41,7 @@ class RsScaleViewModel(val sawitRepository: SawitRepository) : ViewModel() {
         }
     }
 
-    fun storeScaleLiveData(
+    fun storeScale(
         rsID: String,
         result: String,
         createdBy: String
@@ -60,6 +63,29 @@ class RsScaleViewModel(val sawitRepository: SawitRepository) : ViewModel() {
 
             } catch (e: Exception) {
                 _storeScaleLiveData.value = Resource.Error(e.message.toString())
+            }
+
+        }
+    }
+
+    fun deleteScaleById(
+        rsID: String,
+    ) {
+        viewModelScope.launch {
+            _deleteScaleLiveData.value = Resource.Loading()
+            try {
+                val res = sawitRepository.deleteScaleDataById(
+                    rsId = rsID,
+                )
+                val message = res.body()?.messageString.toString()
+                if (res.isSuccessful) {
+                    _deleteScaleLiveData.value = Resource.Success(message)
+                } else {
+                    _deleteScaleLiveData.value = Resource.Error(res.message())
+                }
+
+            } catch (e: Exception) {
+                _deleteScaleLiveData.value = Resource.Error(e.message.toString())
             }
 
         }

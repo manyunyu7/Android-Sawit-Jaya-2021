@@ -48,6 +48,8 @@ class SawitRepository(
 
     suspend fun getScaleDataByRsId(rsId: String) = remoteDs.getScaleDataByRsID(rsId)
 
+    suspend fun deleteScaleDataById(rsId: String) = remoteDs.deleteScaleDataByID(rsId)
+
     suspend fun storeScaleDataByRsId(rsId: String, result: String, createdBy: String) =
         remoteDs.storeScaleDataByRsID(rsId, result, createdBy)
 
