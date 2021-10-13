@@ -233,6 +233,17 @@ class RemoteDataSource(
         )
 
     /**
+     * get mnotification
+     * @param body,callback
+     *
+     */
+    suspend fun deleteScaleDataByID(rsID: String) =
+        api.deleteRsScaleByID(
+            rsID = rsID,
+            token = getTOKEN()
+        )
+
+    /**
      * Register
      * @param body,callback
      */

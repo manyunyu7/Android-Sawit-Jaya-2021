@@ -36,13 +36,27 @@ class RsScaleFragment : BaseFragment() {
     override fun initUI() {
         hideActionBar()
 
-        binding.toolbarTitle.text="Data Timbangan Transaksi #${args.rsID}"
+        binding.toolbarTitle.text = "Data Timbangan Transaksi #${args.rsID}"
 
-        mAdapter.setAdapterInterfacez(object:RsScaleAdapter.RsScaleItemInterface{
+        mAdapter.setAdapterInterfacez(object : RsScaleAdapter.RsScaleItemInterface {
             override fun onclick(model: RsScaleModel?, binding: ItemRsScaleBinding) {
-                if (args.rsStatus!="5"){
+                if (args.rsStatus != "5") {
                     showRestrictedStatusDialog()
+                } else {
+                    DialogUtils.showCustomDialog(
+                        context = requireContext(),
+                        title = getString(R.string.title_modal_are_you_sure),
+                        message =
+                        "Anda Yakin Ingin Menghapus Data Berat Ini ?",
+                        positiveAction = Pair("OK", {
+                            deleteScaleItem(model?.id.toString())
+                        }),
+                        negativeAction = Pair("Batal", {}),
+                        autoDismiss = true,
+                        buttonAllCaps = false
+                    )
                 }
+
             }
 
             override fun onSurface(model: RsScaleModel?, binding: ItemRsScaleBinding) {
@@ -50,10 +64,14 @@ class RsScaleFragment : BaseFragment() {
             }
         })
 
-        if (MyPreference(requireContext()).getRole()=="3"){
-            binding.containerInsertNew.visibility=View.GONE
-        }else{
-            if(args.rsStatus!="5"){
+        // Check if current user role is regulat user/not a staff
+        if (MyPreference(requireContext()).getRole() == "3") {
+            binding.containerInsertNew.visibility = View.GONE
+        } else {
+            // if current user role is staff
+
+            // if current status is not at "Sedang Ditimbang/Onsite"
+            if (args.rsStatus != "5") {
                 showRestrictedStatusDialog()
                 binding.etNewResult.setOnClickListener {
                     showRestrictedStatusDialog()
@@ -61,6 +79,32 @@ class RsScaleFragment : BaseFragment() {
                 binding.btnSave.setOnClickListener {
                     showRestrictedStatusDialog()
                 }
+
+                // if current status is at "Sedang Ditimbang"
+            } else {
+                binding.btnSave.setOnClickListener {
+                    val text = binding.etNewResult.text.toString()
+                    if (text.isEmpty()) {
+                        binding.etNewResult.error = getString(R.string.error_message_empty_input)
+                    } else {
+                        DialogUtils.showCustomDialog(
+                            context = requireContext(),
+                            title = getString(R.string.title_modal_are_you_sure),
+                            message =
+                            "Anda Yakin Akan Menginput Data Hasil Timbangan dengan berat $text ke transaksi ini ?",
+                            positiveAction = Pair("OK", {
+                                viewModel.storeScale(
+                                    args.rsID,
+                                    text,
+                                    MyPreference(requireContext()).getUserID().toString()
+                                )
+                            }),
+                            autoDismiss = true,
+                            buttonAllCaps = false
+                        )
+                    }
+                }
+
             }
         }
 
@@ -92,12 +136,17 @@ class RsScaleFragment : BaseFragment() {
         )
     }
 
+    private fun deleteScaleItem(rsID: String) {
+        viewModel.deleteScaleById(rsID)
+    }
+
     override fun initObserver() {
         viewModel.storeScaleLiveData.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
                 }
                 is Resource.Success -> {
+                    binding.etNewResult.text.clear()
                     DialogUtils.showSuccessDialog(
                         context = requireContext(),
                         title = getString(R.string.modal_title_success),
@@ -115,6 +164,37 @@ class RsScaleFragment : BaseFragment() {
                         title = getString(R.string.title_modal_error_occured),
                         message = getString(R.string.message_modal_error_input_rs_scale) + "\n"
                                 + it.message.toString(),
+                        positiveAction = Pair("OK", {}),
+                        autoDismiss = true,
+                        buttonAllCaps = false
+                    )
+                    viewModel.fetchScaleData(args.rsID)
+                }
+            }
+        })
+
+        viewModel.deleteScaleLiveData.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                }
+                is Resource.Success -> {
+                    binding.etNewResult.text.clear()
+                    DialogUtils.showSuccessDialog(
+                        context = requireContext(),
+                        title = getString(R.string.modal_title_success),
+                        message = getString(R.string.message_modal_success_delete_rs_scale),
+                        positiveAction =
+                        Pair(getString(R.string.label_Ok), {}),
+                        autoDismiss = true,
+                        buttonAllCaps = false
+                    )
+                    viewModel.fetchScaleData(args.rsID)
+                }
+                is Resource.Error -> {
+                    DialogUtils.showCustomDialog(
+                        context = requireContext(),
+                        title = getString(R.string.title_modal_error_occured),
+                        message = getString(R.string.message_modal_error_delete_rs_scale) + " ${it.message}",
                         positiveAction = Pair("OK", {}),
                         autoDismiss = true,
                         buttonAllCaps = false
@@ -180,30 +260,6 @@ class RsScaleFragment : BaseFragment() {
 
         })
 
-        if(args.rsStatus!="5"){
-            binding.btnSave.setOnClickListener {
-                val text = binding.etNewResult.text.toString()
-                if (text.isEmpty()) {
-                    binding.etNewResult.error = getString(R.string.error_message_empty_input)
-                } else {
-                    DialogUtils.showCustomDialog(
-                        context = requireContext(),
-                        title = getString(R.string.title_modal_are_you_sure),
-                        message =
-                        "Anda Yakin Akan Menginput Data Hasil Timbangan dengan berat $text ke transaksi ini ?",
-                        positiveAction = Pair("OK", {
-                            viewModel.storeScaleLiveData(
-                                args.rsID,
-                                text,
-                                MyPreference(requireContext()).getUserID().toString()
-                            )
-                        }),
-                        autoDismiss = true,
-                        buttonAllCaps = false
-                    )
-                }
-            }
-        }
     }
 
     override fun initData() {
