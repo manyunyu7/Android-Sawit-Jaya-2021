@@ -48,6 +48,9 @@ class SawitRepository(
 
     suspend fun getScaleDataByRsId(rsId: String) = remoteDs.getScaleDataByRsID(rsId)
 
+    suspend fun storeScaleDataByRsId(rsId: String, result: String, createdBy: String) =
+        remoteDs.storeScaleDataByRsID(rsId, result, createdBy)
+
     suspend fun insertPrice(priceResponseEntity: PriceResponseEntity) =
         localDs.savePrices(priceResponseEntity)
 

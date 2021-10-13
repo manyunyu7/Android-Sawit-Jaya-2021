@@ -32,8 +32,10 @@ data class Data(
     val createdBy: Int,
     @SerializedName("id")
     val id: Int,
+    @SerializedName("staff_name")
+    val staff_name: String,
     @SerializedName("result")
-    val result: Int,
+    val result: Any,
     @SerializedName("rs_id")
     val rsId: Int,
     @SerializedName("updated_at")

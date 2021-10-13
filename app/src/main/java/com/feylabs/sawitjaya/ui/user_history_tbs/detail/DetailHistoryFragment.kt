@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,6 +16,7 @@ import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.remote.response.HistoryDetailResponse
 import com.feylabs.sawitjaya.databinding.FragmentDetailHistoryBinding
 import com.feylabs.sawitjaya.ui.user_history_tbs.HistoryFragmentDirections
+import com.feylabs.sawitjaya.utils.DialogUtils
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.utils.UIHelper.renderHtmlToString
 import com.feylabs.sawitjaya.utils.UIHelper.showLongToast
@@ -43,7 +45,12 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
     private val args: DetailHistoryFragmentArgs by navArgs()
 
+    val statusLiveData = MutableLiveData<String>()
+
     override fun initUI() {
+        binding.includeAdditionalMenu.apply {
+            btnScale.isEnabled = false
+        }
         binding.rvPhotos.apply {
             this.adapter = this@DetailHistoryFragment.photoAdapter
             layoutManager =
@@ -51,7 +58,70 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
+    override fun initAction() {
+
+        binding.includeAdditionalMenu.apply {
+            btnLiveTrack.setOnClickListener {
+                showToast("Fitur Ini Belum Tersedia")
+            }
+
+            btnDetail.setOnClickListener {
+                goToFragmentUpdate()
+            }
+
+            btnChat.setOnClickListener {
+                goToFragmentChat()
+            }
+        }
+
+        binding.fab.setOnClickListener {
+            goToFragmentChat()
+        }
+
+        binding.srl.setOnRefreshListener {
+            binding.srl.isRefreshing = false
+            viewModel.getDetail(args.rsID)
+        }
+
+        photoAdapter.setAdapterInterfacez(object : DetailHistoryPhotoAdapter.RsPhotoItemInterface {
+            override fun onclick(model: PhotoListModel?) {
+                hideActionBar()
+                viewVisible(binding.includePreview.root)
+                enabledBackButton(false)
+
+                binding.includePreview.fullscreenContent.loadImageFromURL(
+                    requireContext(), model?.url.toString()
+                )
+
+                binding.includePreview.btnBack.setOnClickListener {
+                    enabledBackButton(true)
+                    showActionBar()
+                    viewGone(binding.includePreview.root)
+                }
+            }
+        })
+
+
+    }
+
     override fun initObserver() {
+
+        statusLiveData.observe(viewLifecycleOwner, Observer {
+            if (it == null) {
+                binding.includeAdditionalMenu.btnScale.isEnabled = false
+            } else {
+                binding.includeAdditionalMenu.btnScale.isEnabled = true
+                binding.includeAdditionalMenu.btnScale.setOnClickListener { v ->
+                    if (it != "5") {
+                        goToFragmentRsScale(it)
+                    } else {
+                        goToFragmentRsScale(it)
+                    }
+                }
+
+            }
+        })
+
         detailObserver = Observer {
             when (it) {
                 is Resource.Success -> {
@@ -90,6 +160,8 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         val userData = mData?.userData
         val rsData = mData?.data
 
+
+
         binding.includeDetailRs.apply {
             tvEstPriceOld.build(
                 title = "Estimasi Harga Lama : ",
@@ -112,9 +184,17 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
 
 
+        // setup status
+        val mStatus = rsData?.status.toString()
+        val mStatusdDesc = rsData?.statusDesc.toString()
+        binding.status.build(mStatus, mStatusdDesc)
+        binding.status.fontSizeSp(20f)
+
         binding.includeDetailRs.ivMainImage.loadImageFromURL(
             requireContext(), rsData?.photoPath?.toString()
         )
+
+        statusLiveData.postValue(mStatus)
 
         // setUpMarker Into Map
         var location = LatLng(-34.0, 151.0)
@@ -191,10 +271,6 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
                     val type = RazAlertType.PRIMARY
 
-                    when (item.status) {
-
-                    }
-
                     binding.razVerticalStepper.adapter.clearData()
                     binding.razVerticalStepper.addData(
                         VerticalStepperModel(
@@ -247,50 +323,14 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         findNavController().navigate(directions)
     }
 
-    override fun initAction() {
 
-        binding.includeAdditionalMenu.apply {
-            btnLiveTrack.setOnClickListener {
-                showToast("Fitur Ini Belum Tersedia")
-            }
-
-            btnDetail.setOnClickListener {
-              goToFragmentUpdate()
-            }
-
-            btnChat.setOnClickListener {
-                goToFragmentChat()
-            }
-        }
-
-        binding.fab.setOnClickListener {
-            goToFragmentChat()
-        }
-
-        binding.srl.setOnRefreshListener {
-            binding.srl.isRefreshing = false
-            viewModel.getDetail(args.rsID)
-        }
-
-        photoAdapter.setAdapterInterfacez(object : DetailHistoryPhotoAdapter.RsPhotoItemInterface {
-            override fun onclick(model: PhotoListModel?) {
-                hideActionBar()
-                viewVisible(binding.includePreview.root)
-                enabledBackButton(false)
-
-                binding.includePreview.fullscreenContent.loadImageFromURL(
-                    requireContext(), model?.url.toString()
-                )
-
-                binding.includePreview.btnBack.setOnClickListener {
-                    enabledBackButton(true)
-                    showActionBar()
-                    viewGone(binding.includePreview.root)
-                }
-            }
-        })
-
-
+    private fun goToFragmentRsScale(rsStatus: String) {
+        val directions = DetailHistoryFragmentDirections
+            .actionDetailHistoryFragmentToRsScaleFragment(
+                args.rsID,
+                rsStatus
+            )
+        findNavController().navigate(directions)
     }
 
     override fun initData() {

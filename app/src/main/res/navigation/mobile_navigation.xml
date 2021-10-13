@@ -9,7 +9,7 @@
         android:id="@+id/userHomeFragment"
         android:name="com.feylabs.sawitjaya.ui.home.UserHomeFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_user_home" >
+        tools:layout="@layout/fragment_user_home">
         <action
             android:id="@+id/action_userHomeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -34,7 +34,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.feylabs.sawitjaya.ui.profile.SettingsFragment"
         android:label="Pengaturan"
-        tools:layout="@layout/settings_fragment" >
+        tools:layout="@layout/settings_fragment">
         <action
             android:id="@+id/action_settingsFragment_to_changeProfilePictureFragment"
             app:destination="@id/changeProfilePictureFragment" />
@@ -43,19 +43,17 @@
         android:id="@+id/changeProfilePictureFragment"
         android:name="com.feylabs.sawitjaya.ui.profile.ChangeProfilePictureFragment"
         android:label="Ganti Foto Profil"
-        tools:layout="@layout/fragment_change_profile_picture"
-        />
+        tools:layout="@layout/fragment_change_profile_picture" />
     <fragment
         android:id="@+id/newsDetailFragment"
         android:name="com.feylabs.sawitjaya.ui.news.NewsDetailFragment"
         android:label="Berita Sawit"
-        tools:layout="@layout/fragment_news_detail"
-        />
+        tools:layout="@layout/fragment_news_detail" />
     <fragment
         android:id="@+id/rsPickLocationFragment"
         android:name="com.feylabs.sawitjaya.ui.rs.request.RsPickLocationFragment"
         android:label="Pilih Lokasi"
-        tools:layout="@layout/fragment_rs_pick_location" >
+        tools:layout="@layout/fragment_rs_pick_location">
         <action
             android:id="@+id/action_rsPickLocationFragment_to_rsDetailFragment"
             app:destination="@id/rsDetailFragment" />
@@ -69,7 +67,7 @@
         android:id="@+id/historyFragment"
         android:name="com.feylabs.sawitjaya.ui.user_history_tbs.HistoryFragment"
         android:label="Riwayat Transaksi"
-        tools:layout="@layout/fragment_history" >
+        tools:layout="@layout/fragment_history">
         <action
             android:id="@+id/action_historyFragment_to_detailHistoryFragment"
             app:destination="@id/detailHistoryFragment" />
@@ -79,26 +77,31 @@
         android:id="@+id/detailHistoryFragment"
         android:name="com.feylabs.sawitjaya.ui.user_history_tbs.detail.DetailHistoryFragment"
         android:label="Detail Transaksi"
-        tools:layout="@layout/fragment_detail_history" >
+        tools:layout="@layout/fragment_detail_history">
         <argument
             android:name="rsID"
-            app:argType="string" />
+            app:argType="string"
+            app:enterAnim="@anim/anim_shrink_fade_in"
+            app:exitAnim="@anim/anim_shrink_fade_out"
+            app:popEnterAnim="@anim/anim_shrink_fade_in"
+            app:popExitAnim="@anim/anim_shrink_fade_out" />
         <action
             android:id="@+id/action_detailHistoryFragment_to_rsChatFragment"
             app:destination="@id/rsChatFragment"
             app:enterAnim="@anim/anim_shrink_fade_in"
             app:exitAnim="@anim/anim_shrink_fade_out"
             app:popEnterAnim="@anim/anim_shrink_fade_in"
-            app:popExitAnim="@anim/anim_shrink_fade_out"
-            />
+            app:popExitAnim="@anim/anim_shrink_fade_out" />
         <action
             android:id="@+id/action_detailHistoryFragment_to_updateRsFragment"
             app:destination="@id/updateRsFragment"
             app:enterAnim="@anim/anim_shrink_fade_in"
             app:exitAnim="@anim/anim_shrink_fade_out"
             app:popEnterAnim="@anim/anim_shrink_fade_in"
-            app:popExitAnim="@anim/anim_shrink_fade_out"
-            />
+            app:popExitAnim="@anim/anim_shrink_fade_out" />
+        <action
+            android:id="@+id/action_detailHistoryFragment_to_rsScaleFragment"
+            app:destination="@id/rsScaleFragment" />
     </fragment>
 
     <fragment
@@ -117,7 +120,7 @@
         android:id="@+id/rsChatFragment"
         android:name="com.feylabs.sawitjaya.ui.chat.RsChatFragment"
         android:label="Chat"
-        tools:layout="@layout/fragment_rs_chat" >
+        tools:layout="@layout/fragment_rs_chat">
         <argument
             android:name="topicID"
             app:argType="string" />
@@ -127,30 +130,42 @@
         android:id="@+id/updateRsFragment"
         android:name="com.feylabs.sawitjaya.ui.user_history_tbs.update.UpdateRsFragment"
         android:label="Update Transaksi"
-        tools:layout="@layout/fragment_update_rs" >
+        tools:layout="@layout/fragment_update_rs">
 
         <argument
             android:name="rsID"
             app:argType="string" />
 
     </fragment>
+    <fragment
+        android:id="@+id/rsScaleFragment"
+        android:name="com.feylabs.sawitjaya.ui.user_history_tbs.scale.RsScaleFragment"
+        android:label="fragment_rs_scale"
+        tools:layout="@layout/fragment_rs_scale">
+        <argument
+            android:name="rsID"
+            app:argType="string" />
+        <argument
+            android:name="rsStatus"
+            app:argType="string" />
+    </fragment>
 
 
     <!--    <fragment-->
-<!--        android:id="@+id/nav_home"-->
-<!--        android:name="com.feylabs.sawitjaya.ui.staff.home.StaffHomeFragment"-->
-<!--        android:label="@string/menu_home"-->
-<!--        tools:layout="@layout/fragment_staff_home" />-->
+    <!--        android:id="@+id/nav_home"-->
+    <!--        android:name="com.feylabs.sawitjaya.ui.staff.home.StaffHomeFragment"-->
+    <!--        android:label="@string/menu_home"-->
+    <!--        tools:layout="@layout/fragment_staff_home" />-->
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_gallery"-->
-<!--        android:name="com.feylabs.sawitjaya.ui.staff.gallery.GalleryFragment"-->
-<!--        android:label="@string/menu_gallery"-->
-<!--        tools:layout="@layout/fragment_gallery" />-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_gallery"-->
+    <!--        android:name="com.feylabs.sawitjaya.ui.staff.gallery.GalleryFragment"-->
+    <!--        android:label="@string/menu_gallery"-->
+    <!--        tools:layout="@layout/fragment_gallery" />-->
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_slideshow"-->
-<!--        android:name="com.feylabs.sawitjaya.ui.staff.slideshow.SlideshowFragment"-->
-<!--        android:label="@string/menu_slideshow"-->
-<!--        tools:layout="@layout/fragment_slideshow" />-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_slideshow"-->
+    <!--        android:name="com.feylabs.sawitjaya.ui.staff.slideshow.SlideshowFragment"-->
+    <!--        android:label="@string/menu_slideshow"-->
+    <!--        tools:layout="@layout/fragment_slideshow" />-->
 </navigation>

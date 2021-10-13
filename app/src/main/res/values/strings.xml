@@ -36,6 +36,10 @@
     <string name="message_modal_error_update_profile">Gagal Mengupdate Profile, Silakan Coba Kembali Nanti</string>
     <string name="title_modal_error_occured">Terjadi Kesalahan</string>
     <string name="message_modal_save_profile_changes">Anda Yakin Ingin Menyimpan Perubahan Data Profile ?</string>
+    <string name="error_message_empty_input">Harap Isi Inputan Ini</string>
+    <string name="message_modal_success_input_rs_scale">Data Timbangan Berhasil Diinput</string>
+    <string name="message_modal_error_input_rs_scale">Gagal Menginputkan Data Berat Baru</string>
+    <string name="title_modal_attention">Perhatian</string>
 
 
 </resources>

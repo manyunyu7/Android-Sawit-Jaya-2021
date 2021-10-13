@@ -38,6 +38,36 @@
                     android:layout_marginTop="-10dp"
                     android:layout_marginEnd="-10dp" />
 
+
+                <LinearLayout
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-10dp"
+                    android:layout_marginEnd="-10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:maxLines="1"
+                        android:text="Status Transaksi"
+                        android:textColor="@color/blue_auth"
+                        android:textSize="15sp" />
+
+                    <com.feylabs.razkyui.SawitCustomStatus
+                        android:id="@+id/status"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -74,8 +104,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="5dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:maxLines="1"
                         android:text="Detail Request"
@@ -85,9 +115,9 @@
                     <include
                         android:id="@+id/include_detail_rs"
                         layout="@layout/layout_detail_rs"
-                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp" />
 
 
                     <include
@@ -157,8 +187,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="20dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
