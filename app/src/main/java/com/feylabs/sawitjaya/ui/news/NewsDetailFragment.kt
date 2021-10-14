@@ -1,7 +1,6 @@
 package com.feylabs.sawitjaya.ui.news
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.FragmentNewsDetailBinding
 import com.feylabs.sawitjaya.utils.MyHelper
-import com.feylabs.sawitjaya.utils.base.BaseFragment
+import com.feylabs.sawitjaya.ui.base.BaseFragment
 
 class NewsDetailFragment : BaseFragment() {
 

@@ -121,5 +121,9 @@
         android:textColor="@color/color_blue_golapak"
         android:textSize="14sp" />
 
+    <include
+        android:id="@+id/include_splash"
+        android:visibility="gone"
+        layout="@layout/layout_splash"/>
 
 </RelativeLayout>

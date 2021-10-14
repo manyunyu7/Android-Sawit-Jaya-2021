@@ -12,8 +12,8 @@ import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
 import com.feylabs.sawitjaya.databinding.FragmentNewsBinding
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
-import com.feylabs.sawitjaya.utils.base.BaseFragment
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.ui.base.BaseFragment
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
 
 

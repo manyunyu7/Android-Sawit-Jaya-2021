@@ -1,9 +1,12 @@
 package com.feylabs.sawitjaya.ui.user_history_tbs.detail
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -15,13 +18,13 @@ import com.feylabs.razkyui.model.VerticalStepperModel
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.remote.response.HistoryDetailResponse
 import com.feylabs.sawitjaya.databinding.FragmentDetailHistoryBinding
-import com.feylabs.sawitjaya.ui.user_history_tbs.HistoryFragmentDirections
-import com.feylabs.sawitjaya.utils.DialogUtils
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.utils.UIHelper.renderHtmlToString
 import com.feylabs.sawitjaya.utils.UIHelper.showLongToast
-import com.feylabs.sawitjaya.utils.base.BaseFragment
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.ui.base.BaseFragment
+import com.feylabs.sawitjaya.data.remote.service.Resource
+import com.feylabs.sawitjaya.databinding.LayoutDialogSpinnerBinding
+import com.feylabs.sawitjaya.utils.DialogUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -29,6 +32,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.android.viewmodel.ext.android.viewModel
+import android.content.DialogInterface
+import android.widget.Adapter
+import androidx.appcompat.app.AlertDialog
+import com.feylabs.sawitjaya.data.local.preference.MyPreference
+import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
+import com.feylabs.sawitjaya.utils.MyHelper.toDoubleStringRoundOff
 
 
 class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
@@ -48,6 +57,13 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
     val statusLiveData = MutableLiveData<String>()
 
     override fun initUI() {
+
+        //hide change status if role is user
+        if (MyPreference(requireContext()).getRole()=="3"){
+            binding.containerChangeStatus.visibility=View.GONE
+        }
+
+        setupStatusSpinner()
         binding.includeAdditionalMenu.apply {
             btnScale.isEnabled = false
         }
@@ -58,8 +74,8 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
-    override fun initAction() {
 
+    override fun initAction() {
         binding.includeAdditionalMenu.apply {
             btnLiveTrack.setOnClickListener {
                 showToast("Fitur Ini Belum Tersedia")
@@ -100,11 +116,40 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                 }
             }
         })
-
-
     }
 
     override fun initObserver() {
+
+        viewModel.changeRsStatusLD.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is Resource.Success -> {
+                    viewGone(binding.includeLoading.root)
+                    viewModel.getDetail(args.rsID)
+                }
+                is Resource.Error -> {
+                    viewGone(binding.includeLoading.root)
+                }
+
+                is Resource.Loading -> {
+                    viewVisible(binding.includeLoading.root)
+                }
+            }
+        })
+        detailObserver = Observer {
+            when (it) {
+                is Resource.Success -> {
+                    viewGone(binding.includeLoading.root)
+                    setupDetailUI(it)
+                }
+                is Resource.Error -> {
+                    viewGone(binding.includeLoading.root)
+                }
+
+                is Resource.Loading -> {
+                    viewVisible(binding.includeLoading.root)
+                }
+            }
+        }
 
         statusLiveData.observe(viewLifecycleOwner, Observer {
             if (it == null) {
@@ -159,8 +204,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         val mData = it.data
         val userData = mData?.userData
         val rsData = mData?.data
-
-
+        val priceData = mData?.price
 
         binding.includeDetailRs.apply {
             tvEstPriceOld.build(
@@ -181,8 +225,35 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                 title = "Alamat Pengantaran",
                 value = rsData?.address.toString()
             )
-        }
+            tvOldMargin.value(
+                value = rsData?.estMargin?.toDouble()?.times(100)?.roundOffDecimal().toString()
+            )
 
+            tvCurrentMargin.value(
+                value = priceData?.margin?.times(100)?.roundOffDecimal().toString()
+            )
+
+            tvOldPrice.value(
+                value = "Rp. ${rsData?.estPrice.toString()}"
+            )
+            tvCurrentPrice.value(
+                value = "Rp. ${priceData?.price.toString()}"
+            )
+
+            tvTotalWeight.value(
+                value = "${
+                    mData?.totalWeight?.toString()?.toDoubleOrNull()?.roundOffDecimal()?.toString()
+                        .orEmpty()
+                } Kg"
+            )
+
+            tvTotalPayment.value(
+                value = "Rp. ${
+                    rsData?.realCalculationPrice?.toString()
+                }"
+            )
+
+        }
 
         // setup status
         val mStatus = rsData?.status.toString()
@@ -266,12 +337,10 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                 val historyData = mData.historyData
                 val firstHistoryData = historyData.get(0)
 
-
+                binding.razVerticalStepper.adapter.clearData()
                 historyData.forEachIndexed { index, item ->
-
                     val type = RazAlertType.PRIMARY
 
-                    binding.razVerticalStepper.adapter.clearData()
                     binding.razVerticalStepper.addData(
                         VerticalStepperModel(
                             id = item.id.toString(),
@@ -358,6 +427,90 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         viewModel.isMapReady.postValue(true)
+    }
+
+    private fun setupStatusSpinner() {
+        val spinnerList =
+            arrayListOf<String>(
+                "Pilih Status Baru",
+                "Menunggu Diproses",
+                "Diproses",
+                "Dalam Penjemputan",
+                "Proses Timbang",
+                "Sukses"
+            )
+        val spin = binding.spinnerStatus
+        val onSpinnerItemSelected = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedItemPosition = binding.spinnerStatus.selectedItemPosition
+                if (selectedItemPosition == 0) {
+
+                } else {
+                    val currentStatus = binding.spinnerStatus.selectedItem.toString()
+                    var statusCode = "0"
+                    when (selectedItemPosition) {
+                        1 -> {
+                            statusCode = "3"
+                        }
+                        2 -> {
+                            statusCode = "2"
+                        }
+                        3 -> {
+                            statusCode = "4"
+                        }
+                        4 -> {
+                            statusCode = "5"
+                        }
+                        5 -> {
+                            statusCode = "1"
+                        }
+                    }
+                    DialogUtils.showCustomDialog(
+                        context = requireContext(),
+                        title = getString(R.string.title_modal_are_you_sure),
+                        message =
+                        "Anda Yakin Ingin Mengubah Status Menjadi $currentStatus?",
+                        positiveAction = Pair("OK", {
+                            viewModel.changeStatus(args.rsID, statusCode)
+                        }),
+                        negativeAction = Pair("Batal", {
+                            binding.spinnerStatus.setSelection(0)
+                        }),
+                        autoDismiss = true,
+                        buttonAllCaps = false
+                    )
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+        }
+        spin.onItemSelectedListener = onSpinnerItemSelected
+
+        // Create the instance of ArrayAdapter
+        // having the list of courses
+        val arrayAdapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            spinnerList.toList()
+        )
+
+        // set simple layout resource file
+        // for each item of spinner
+        arrayAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        // Set the ArrayAdapter (ad) data on the
+        // Spinner which binds data to spinner
+        spin.adapter = arrayAdapter
     }
 
 

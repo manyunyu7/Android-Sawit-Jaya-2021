@@ -7,7 +7,7 @@ import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.local.LocalDataSource
 import com.feylabs.sawitjaya.data.local.room.MyRoomDatabase
 import com.feylabs.sawitjaya.data.remote.RemoteDataSource
-import com.feylabs.sawitjaya.utils.service.ApiClient
+import com.feylabs.sawitjaya.data.remote.service.ApiClient
 
 object ServiceLocator {
 

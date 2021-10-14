@@ -4,11 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.LayoutDialogBinding
 import com.feylabs.sawitjaya.databinding.LayoutDialogLoadingBinding
 import com.feylabs.sawitjaya.databinding.LayoutDialogSingleButtonImageBinding
+import com.feylabs.sawitjaya.databinding.LayoutDialogSpinnerBinding
 import com.feylabs.sawitjaya.utils.UIHelper.loadImage
 
 object DialogUtils {
@@ -60,6 +63,70 @@ object DialogUtils {
                 it.isAllCaps = buttonAllCaps
             }
         }
+        builder = AlertDialog.Builder(context)
+        builder.setView(view)
+        builder.setCancelable(autoDismiss)
+        dialog = builder.create()
+        dialog.show()
+    }
+
+    fun showSpinnerDialog(
+        context: Context,
+        title: String,
+        message: String,
+        positiveAction: Pair<String, (() -> Unit)?>,
+        negativeAction: Pair<String, (() -> Unit)?>? = null,
+        autoDismiss: Boolean = false,
+        buttonAllCaps: Boolean = true,
+        spinnerList: MutableList<Any?>,
+        onSpinnerItemSelected: AdapterView.OnItemSelectedListener
+    ) {
+        val view = LayoutInflater.from(context)
+            .inflate(R.layout.layout_dialog_spinner, null as ViewGroup?, false)
+        val binding = LayoutDialogSpinnerBinding.bind(view)
+        binding.tvTitle.text = title
+        binding.tvMessage.text = message
+        binding.btnPositive.let {
+            it.text = positiveAction.first
+            it.setOnClickListener {
+                dialog.dismiss()
+                positiveAction.second?.invoke()
+            }
+            it.isAllCaps = buttonAllCaps
+        }
+        negativeAction?.let { pair ->
+            binding.btnNegative.let {
+                it.visibility = View.VISIBLE
+                it.text = pair.first
+                it.setOnClickListener {
+                    dialog.dismiss()
+                    pair.second?.invoke()
+                }
+                it.isAllCaps = buttonAllCaps
+            }
+        }
+
+        val spin = binding.spinner
+        spin.onItemSelectedListener = onSpinnerItemSelected
+
+        // Create the instance of ArrayAdapter
+        // having the list of courses
+        val arrayAdapter: ArrayAdapter<*> = ArrayAdapter<Any?>(
+            context,
+            android.R.layout.simple_spinner_item,
+            spinnerList
+        )
+
+        // set simple layout resource file
+        // for each item of spinner
+        arrayAdapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+
+        // Set the ArrayAdapter (ad) data on the
+        // Spinner which binds data to spinner
+        spin.adapter = arrayAdapter
+
         builder = AlertDialog.Builder(context)
         builder.setView(view)
         builder.setCancelable(autoDismiss)
@@ -132,6 +199,7 @@ object DialogUtils {
         loadingDialog = builder.create()
         loadingDialog.show()
     }
+
 
 
 }

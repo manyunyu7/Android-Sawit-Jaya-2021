@@ -1,7 +1,6 @@
 package com.feylabs.sawitjaya.ui.mnotification
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.databinding.FragmentMNotificationBinding
-import com.feylabs.sawitjaya.utils.base.BaseFragment
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.ui.base.BaseFragment
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
 
 

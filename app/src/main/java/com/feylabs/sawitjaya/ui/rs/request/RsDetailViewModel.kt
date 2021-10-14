@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import kotlinx.coroutines.launch
 
 class RsDetailViewModel(

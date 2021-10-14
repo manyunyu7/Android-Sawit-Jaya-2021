@@ -15,9 +15,9 @@ import com.feylabs.sawitjaya.data.remote.response.LoginResponse
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
 import com.feylabs.sawitjaya.data.remote.response.UserUpdateProfileResponse
 import com.feylabs.sawitjaya.injection.ServiceLocator.BASE_URL
-import com.feylabs.sawitjaya.utils.service.LoginPostRezki
-import com.feylabs.sawitjaya.utils.service.ApiService
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.data.remote.service.LoginPostRezki
+import com.feylabs.sawitjaya.data.remote.service.ApiService
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -226,6 +226,14 @@ class RemoteDataSource(
      * @param body,callback
      *
      */
+    suspend fun refreshToken() =
+        api.refreshToken(getTOKEN())
+
+    /**
+     * get mnotification
+     * @param body,callback
+     *
+     */
     suspend fun storeScaleDataByRsID(rsID: String, result: String, createdBy: String) =
         api.storeRsScaleByRsID(
             rsID = rsID, result = result, createdBy = createdBy,
@@ -361,6 +369,9 @@ class RemoteDataSource(
 
     suspend fun getRsChatByTopic(topicId: String) =
         api.getRsChatByTopic(topicID = topicId, authHeader = getTOKEN())
+
+    suspend fun changeRsStatus(rsID: String, status: String) =
+        api.changeRsStatus(rsID = rsID, status = status, token = getTOKEN())
 
     suspend fun getProfileByUser() =
         api.getProfileByUser(getTOKEN())

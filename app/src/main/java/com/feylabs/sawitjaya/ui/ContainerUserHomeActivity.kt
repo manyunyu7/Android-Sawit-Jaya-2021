@@ -9,7 +9,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.ActivityContainerUserHomeBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 
 class ContainerUserHomeActivity : AppCompatActivity() {

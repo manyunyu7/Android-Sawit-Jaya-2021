@@ -4,15 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.CookieManager
-import android.webkit.CookieSyncManager
 import android.webkit.WebSettings
 import android.webkit.WebViewClient
 import androidx.navigation.fragment.navArgs
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.databinding.FragmentUpdateRsBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator.REAL_URL
-import com.feylabs.sawitjaya.utils.base.BaseFragment
+import com.feylabs.sawitjaya.ui.base.BaseFragment
 
 
 import android.webkit.WebView

@@ -6,14 +6,13 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.sawitjaya.databinding.FragmentRsScaleBinding
 import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
-import com.feylabs.sawitjaya.utils.base.BaseFragment
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.ui.base.BaseFragment
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
