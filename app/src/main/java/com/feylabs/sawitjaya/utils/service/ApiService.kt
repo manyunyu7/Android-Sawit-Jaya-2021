@@ -205,4 +205,15 @@ interface ApiService {
     ): Response<OnlyMessageResponse>
 
 
+    /**
+     *
+     * get request sell scaling by id
+     */
+    @POST("request-sell/scale/{id}/delete")
+    suspend fun deleteRsScaleByID(
+        @Path("id") rsID: String?,
+        @Header("Authorization") token: String?,
+    ): Response<OnlyMessageResponse>
+
+
 }
