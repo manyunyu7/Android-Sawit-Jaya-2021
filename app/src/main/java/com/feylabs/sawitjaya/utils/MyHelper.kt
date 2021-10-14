@@ -48,5 +48,10 @@ object MyHelper {
         return df.format(this).toDouble()
     }
 
+    fun Any.toDoubleStringRoundOff(): String {
+        val current = this.toString().toDouble().roundOffDecimal()
+        return current?.roundOffDecimal().toString()
+    }
+
 
 }

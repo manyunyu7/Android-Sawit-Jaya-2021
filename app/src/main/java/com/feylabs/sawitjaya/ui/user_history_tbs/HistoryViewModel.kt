@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.remote.response.GetRequestSellByUserReq
 import com.feylabs.sawitjaya.ui.user_history_tbs.HistoryPagingModel.HistoryModel
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception

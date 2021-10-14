@@ -13,5 +13,10 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/auth_navigation" />
 
+    <include
+        android:id="@+id/splash"
+        android:visibility="gone"
+        layout="@layout/layout_splash" />
+
 
 </RelativeLayout>

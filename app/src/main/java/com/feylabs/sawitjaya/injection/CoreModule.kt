@@ -11,7 +11,7 @@ import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.data.local.room.MyRoomDatabase
 import com.feylabs.sawitjaya.data.remote.RemoteDataSource
 import com.feylabs.sawitjaya.injection.ServiceLocator.BASE_URL
-import com.feylabs.sawitjaya.utils.service.ApiService
+import com.feylabs.sawitjaya.data.remote.service.ApiService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response

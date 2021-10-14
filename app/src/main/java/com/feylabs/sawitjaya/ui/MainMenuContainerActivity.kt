@@ -21,7 +21,7 @@ import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.ActivityMainMenuContainerBinding
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.lang.Exception

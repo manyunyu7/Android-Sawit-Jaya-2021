@@ -18,6 +18,8 @@ data class HistoryDetailResponse(
     val staffData: User,
     @SerializedName("truck_data")
     val truckData: Truck,
+    @SerializedName("total_weight")
+    val totalWeight: Any,
     @SerializedName("staffs")
     val staffs: List<User>,
     @SerializedName("trucks")
@@ -42,6 +44,8 @@ data class HistoryDetailResponse(
         val estPrice: String,
         @SerializedName("est_weight")
         val estWeight: String,
+        @SerializedName("real_calculation_price")
+        val realCalculationPrice: Any,
         @SerializedName("id")
         val id: Int,
         @SerializedName("lat")

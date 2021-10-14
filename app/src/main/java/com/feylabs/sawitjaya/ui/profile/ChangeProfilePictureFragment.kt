@@ -18,10 +18,8 @@ import java.io.File
 
 import android.net.Uri
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.feylabs.sawitjaya.utils.base.BaseFragment
-import com.feylabs.sawitjaya.injection.ServiceLocator
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.ui.base.BaseFragment
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 

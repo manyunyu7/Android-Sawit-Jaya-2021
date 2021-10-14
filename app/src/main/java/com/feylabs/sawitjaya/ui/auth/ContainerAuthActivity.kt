@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat
 
 import android.content.pm.PackageManager
 import android.os.Build
+import android.view.View
 
 import androidx.core.content.ContextCompat
 
@@ -20,11 +21,14 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.injection.ServiceLocator
 
 import com.feylabs.sawitjaya.ui.MainMenuContainerActivity
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
+import com.feylabs.sawitjaya.utils.DialogUtils
 import java.io.File
 
 
@@ -32,6 +36,8 @@ class ContainerAuthActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityContainerAuthBinding.inflate(layoutInflater)
     }
+
+    lateinit var navController: NavController
 
     lateinit var authViewModel: AuthViewModel
 
@@ -49,18 +55,21 @@ class ContainerAuthActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         actionBar?.hide()
-        val navController = findNavController(R.id.nav_host_auth)
+        navController = findNavController(R.id.nav_host_auth)
         setupActionBarWithNavController(navController)
 
 //        resetRoomDatabase()
         val message = intent.getStringExtra("message")
-        if(intent.getStringExtra("message")!=null){
-            Toast.makeText(this,message,Toast.LENGTH_LONG).show()
+        if (intent.getStringExtra("message") != null) {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
         checkPermissions()
 
         val factory = ServiceLocator.provideFactory(this)
         authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+
+        binding.splash.root.visibility= View.VISIBLE
+
         checkIfLoggedIn()
     }
 
@@ -77,6 +86,8 @@ class ContainerAuthActivity : AppCompatActivity() {
         }
         if (role == "2") {
             startActivity(Intent(this, MainMenuContainerActivity::class.java))
+        }else{
+            binding.splash.root.visibility= View.GONE
         }
     }
 
@@ -98,6 +109,29 @@ class ContainerAuthActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    override fun onBackPressed() {
+        when (navController.currentDestination?.id) {
+            R.id.authFragment -> {
+                DialogUtils.showCustomDialog(
+                    context = this,
+                    title = getString(R.string.title_modal_are_you_sure),
+                    message = getString(R.string.message_modal_exit_app),
+                    positiveAction = Pair("Ya", {
+                        finish();
+                        System.exit(0);
+                    }),
+                    negativeAction = Pair("Tidak", {
+                    }),
+                    autoDismiss = true,
+                    buttonAllCaps = false
+                )
+            }
+            else -> {
+                super.onBackPressed()
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(

@@ -12,8 +12,8 @@ import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
 import com.feylabs.sawitjaya.data.remote.response.PriceResponse
 import com.feylabs.sawitjaya.data.remote.response.UserInfoResponse
-import com.feylabs.sawitjaya.utils.service.LoginPostRezki
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.data.remote.service.LoginPostRezki
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

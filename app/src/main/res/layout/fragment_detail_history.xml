@@ -40,17 +40,17 @@
 
 
                 <LinearLayout
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="-10dp"
                     android:layout_marginEnd="-10dp"
+                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
                         android:layout_marginVertical="5dp"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/montserrat_bold"
@@ -61,32 +61,71 @@
 
                     <com.feylabs.razkyui.SawitCustomStatus
                         android:id="@+id/status"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginHorizontal="10dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/containerChangeStatus"
+                        android:layout_width="match_parent"
+                        android:visibility="visible"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:maxLines="1"
+                            android:text="Ubah Status Transaksi"
+                            android:textColor="@color/blue_auth"
+                            android:textSize="15sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginBottom="10dp" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <TextView
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:layout_marginHorizontal="-10dp"
+                    android:layout_marginVertical="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:maxLines="1"
-                    android:text="Foto Tandan Buah Segar"
-                    android:textColor="@color/blue_auth"
-                    android:textSize="18sp" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:maxLines="1"
+                        android:layout_marginStart="10dp"
+                        android:text="Foto Tandan Buah Segar"
+                        android:textColor="@color/blue_auth"
+                        android:textSize="18sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_photos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="12"
-                    tools:listitem="@layout/item_photo_rs" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_photos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="12"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        tools:listitem="@layout/item_photo_rs" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,6 +144,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="5dp"
                         android:layout_marginTop="20dp"
+                        android:layout_marginStart="5dp"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:maxLines="1"
@@ -116,8 +156,7 @@
                         android:id="@+id/include_detail_rs"
                         layout="@layout/layout_detail_rs"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp" />
+                        android:layout_height="wrap_content" />
 
 
                     <include
