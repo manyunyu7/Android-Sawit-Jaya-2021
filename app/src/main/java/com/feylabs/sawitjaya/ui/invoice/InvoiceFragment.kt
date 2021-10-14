@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.ui
+package com.feylabs.sawitjaya.ui.invoice
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
