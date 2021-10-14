@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.size
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.preference.Preference
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.sawitjaya.R
@@ -19,10 +16,8 @@ import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.databinding.BsActionHistoryBinding
 import com.feylabs.sawitjaya.databinding.FragmentHistoryBinding
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
-import com.feylabs.sawitjaya.ui.rs.request.RsDetailFragment
-import com.feylabs.sawitjaya.ui.user_history_tbs.detail.DetailHistoryFragmentArgs
-import com.feylabs.sawitjaya.utils.base.BaseFragment
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.ui.base.BaseFragment
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.android.viewmodel.ext.android.viewModel
 import com.google.android.material.chip.Chip

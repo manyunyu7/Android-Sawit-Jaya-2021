@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.utils.service
+package com.feylabs.sawitjaya.data.remote.service
 
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
@@ -41,6 +41,16 @@ interface ApiService {
     fun getProfileByUser(
         @Header("Authorization") authHeader: String?,
     ): Response<UserInfoResponse?>
+
+    /**
+     * register
+     * @param get new profile
+     * @return the token
+     */
+    @POST("auth/refresh")
+    fun refreshToken(
+        @Header("Authorization") authHeader: String?,
+    ): Response<RefreshTokenResponse?>
 
     @FormUrlEncoded
     @POST("user/update-data")
@@ -214,6 +224,18 @@ interface ApiService {
         @Path("id") rsID: String?,
         @Header("Authorization") token: String?,
     ): Response<OnlyMessageResponse>
+
+
+    /**
+     * get request sell scaling by id
+     */
+    @POST("request-sell/update-status")
+    @FormUrlEncoded
+    suspend fun changeRsStatus(
+        @Field("id") rsID: String,
+        @Field("status") status: String,
+        @Header("Authorization") token: String?,
+    ): Response<StandardAPIResponse>
 
 
 }

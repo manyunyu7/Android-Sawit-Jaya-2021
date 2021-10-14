@@ -2,11 +2,12 @@ package com.feylabs.sawitjaya.data
 
 import androidx.lifecycle.MutableLiveData as MLD
 import com.feylabs.sawitjaya.data.local.LocalDataSource
+import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
 import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
 import com.feylabs.sawitjaya.data.local.room.entity.PriceResponseEntity
 import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
 import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import com.feylabs.sawitjaya.data.remote.RemoteDataSource as remote
 
 class SawitRepository(
@@ -70,5 +71,14 @@ class SawitRepository(
     suspend fun insertChat(chatStoreRequestBody: RsChatStoreRequestBody) = remoteDs.insertChat(
         chatStoreRequestBody
     )
+
+    suspend fun changeRsStatus(rsId: String, status: String) =
+        remoteDs.changeRsStatus(rsId, status)
+
+    suspend fun localSaveAuthInfo(authEntity: AuthEntity) {
+        localDs.saveAuthInfo(authEntity)
+    }
+
+    suspend fun refreshToken() = remoteDs.refreshToken()
 
 }

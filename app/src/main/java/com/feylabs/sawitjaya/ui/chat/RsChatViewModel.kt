@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
 import com.feylabs.sawitjaya.data.remote.response.RsChatResponse
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import timber.log.Timber

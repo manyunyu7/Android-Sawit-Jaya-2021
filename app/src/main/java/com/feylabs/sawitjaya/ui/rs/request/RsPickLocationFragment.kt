@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
-import com.feylabs.sawitjaya.utils.base.BaseFragment
+import com.feylabs.sawitjaya.ui.base.BaseFragment
 
 import com.google.android.gms.maps.model.Marker
 

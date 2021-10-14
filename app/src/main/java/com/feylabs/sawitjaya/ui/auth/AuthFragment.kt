@@ -1,18 +1,14 @@
 package com.feylabs.sawitjaya.ui.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.databinding.FragmentAuthFragmentBinding
-import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
-import com.feylabs.sawitjaya.utils.base.BaseFragment
-import com.feylabs.sawitjaya.utils.service.LoginPostRezki
+import com.feylabs.sawitjaya.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -24,6 +20,7 @@ class AuthFragment : BaseFragment() {
 //    lateinit var authViewModel: AuthViewModel
 
     val authViewModel : AuthViewModel by viewModel()
+
     override fun initUI() {
     }
 

@@ -19,9 +19,6 @@ class HttpCustomInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val req = chain.request()
         val response = chain.proceed(req)
-
-        val token = MyPreference(context).getToken()
-
         when (response.code) {
             401 -> {
                 mySharedPreferences.clearPreferences()

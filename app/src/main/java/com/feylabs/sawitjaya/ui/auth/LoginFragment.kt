@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.feylabs.sawitjaya.R
-import com.feylabs.sawitjaya.utils.base.BaseFragment
+import com.feylabs.sawitjaya.ui.base.BaseFragment
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
 import com.feylabs.sawitjaya.data.remote.response.LoginResponse
@@ -17,7 +17,7 @@ import com.feylabs.sawitjaya.data.remote.response.User
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.databinding.FragmentLoginBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import com.feylabs.sawitjaya.ui.MainMenuContainerActivity
 import timber.log.Timber
 
@@ -111,9 +111,7 @@ class LoginFragment : BaseFragment() {
                 }
 
                 is Resource.Error -> {
-//                    swLoadingDialog.cancel()
                     Timber.d("login gagal")
-//                    binding.loginProgressBar.hide()
                     showToast("Login Gagal")
                     viewGone(binding.loginLoading)
                     viewVisible(binding.btnLogin)

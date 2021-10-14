@@ -21,8 +21,8 @@ import com.feylabs.sawitjaya.ui.rs.request.model.RsModel
 import com.feylabs.sawitjaya.ui.rs.request.model.RsPhotoModel
 import com.feylabs.sawitjaya.utils.DialogUtils
 import com.feylabs.sawitjaya.utils.TelegramGalleryActivity
-import com.feylabs.sawitjaya.utils.base.BaseFragment
-import com.feylabs.sawitjaya.utils.service.Resource
+import com.feylabs.sawitjaya.ui.base.BaseFragment
+import com.feylabs.sawitjaya.data.remote.service.Resource
 import com.tangxiaolv.telegramgallery.GalleryActivity
 import com.tangxiaolv.telegramgallery.GalleryConfig
 import org.koin.android.viewmodel.ext.android.viewModel

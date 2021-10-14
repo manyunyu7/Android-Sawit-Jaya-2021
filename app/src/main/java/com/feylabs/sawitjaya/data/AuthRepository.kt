@@ -7,9 +7,9 @@ import com.feylabs.sawitjaya.data.remote.RemoteDataSource as remote
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.response.ChangePasswordResponse
 import com.feylabs.sawitjaya.data.remote.response.UserUpdateProfileResponse
-import com.feylabs.sawitjaya.utils.service.LoginPostRezki
+import com.feylabs.sawitjaya.data.remote.service.LoginPostRezki
 import java.io.File
-import com.feylabs.sawitjaya.utils.service.Resource as Res
+import com.feylabs.sawitjaya.data.remote.service.Resource as Res
 
 class AuthRepository(
     private val remoteDs: remote,

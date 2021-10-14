@@ -1,4 +1,4 @@
-package com.feylabs.sawitjaya.utils.service
+package com.feylabs.sawitjaya.data.remote.service
 
 
 import com.google.gson.annotations.SerializedName
