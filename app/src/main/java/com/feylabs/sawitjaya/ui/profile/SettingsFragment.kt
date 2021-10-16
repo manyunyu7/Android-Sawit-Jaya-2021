@@ -23,7 +23,6 @@ import timber.log.Timber
 
 class SettingsFragment : BaseFragment() {
 
-
     override fun onResume() {
         super.onResume()
         viewModel.getProfileLocally()

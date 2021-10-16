@@ -15,6 +15,8 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="petunjuk_ganti_foto">1. Permission untuk camera dan akses galeri untuk aplikasi harus diaktifkan \n\n
     2. Klik Tombol Pilih Foto dan ambil gambar dari kamera atau galleri anda, \n\n 3. Klik Simpan Perubahan untuk mengganti file</string>
+    <string name="petunjuk_signature">1. Dengan Menandatangani Form Ini, Berarti Anda menyetujui hasil timbagan dan menyelesaikan proses transaksi \n\n
+    2. Pastikan anda telah membaca invoice dan hasil timbangan dengan baik, \n\n 3. Tanda tangan dapat dilakukan pada kolom yang telah disediakan, pastikan telah mengisi data dengan benar sebelum mengupload</string>
     <string name="desc_card_kebun_feautre">Klik disini untuk menuju fitur kalender tanam dan manajemen sawit</string>
     <string name="title_activity_maps">MapsActivity</string>
 
@@ -44,5 +46,10 @@
     <string name="message_modal_success_delete_rs_scale">Berhasil Menghapus Data Berat</string>
     <string name="message_modal_exit_app">Apakah Anda Yakin Ingin Keluar Dari Aplikasi</string>
     <string name="title_modal_change_transaction_status">Ubah Status Transaksi</string>
+    <string name="message_modal_save_user_signature">Anda Yakin Ingin Mengupload Tanda Tangan ?. Dengan menandatangani formulir ini berarti anda menyetujui hasil timbangan sawit dan akan menyelesaikan transaksi ini</string>
+    <string name="message_modal_choose_signature_owner">Pilih Pemilik Tanda Tangan Terlebih Dahulu</string>
+    <string name="modal_message_success_save_signature">Berhasil Menyimpan Tanda Tangan</string>
+    <string name="message_modal_error_save_signature">Gagal Menyimpan Tanda Tangan</string>
+    <string name="message_modal_error_empty_signature">Tanda Tangan Masih Kosong</string>
 
 </resources>

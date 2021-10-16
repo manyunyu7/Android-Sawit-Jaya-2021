@@ -1,6 +1,5 @@
 package com.feylabs.sawitjaya.ui.user_history_tbs.detail
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,6 @@ import com.feylabs.sawitjaya.utils.UIHelper.renderHtmlToString
 import com.feylabs.sawitjaya.utils.UIHelper.showLongToast
 import com.feylabs.sawitjaya.ui.base.BaseFragment
 import com.feylabs.sawitjaya.data.remote.service.Resource
-import com.feylabs.sawitjaya.databinding.LayoutDialogSpinnerBinding
 import com.feylabs.sawitjaya.utils.DialogUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -32,12 +30,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.android.viewmodel.ext.android.viewModel
-import android.content.DialogInterface
-import android.widget.Adapter
-import androidx.appcompat.app.AlertDialog
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
-import com.feylabs.sawitjaya.utils.MyHelper.toDoubleStringRoundOff
 
 
 class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
@@ -57,12 +51,12 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
     val statusLiveData = MutableLiveData<String>()
 
     override fun initUI() {
-
+        binding.btnFinishTransaction.visibility = View.GONE
         //hide change status if role is user
         if (MyPreference(requireContext()).getRole() == "3") {
             binding.containerChangeStatus.visibility = View.GONE
+            binding.btnFinishTransaction.visibility = View.GONE
         }
-
         setupStatusSpinner()
         binding.includeAdditionalMenu.apply {
             btnScale.isEnabled = false
@@ -140,6 +134,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                 }
             }
         })
+
         detailObserver = Observer {
             when (it) {
                 is Resource.Success -> {
@@ -158,6 +153,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
         statusLiveData.observe(viewLifecycleOwner, Observer {
             if (it == null) {
+                binding.btnFinishTransaction.isEnabled = false
                 binding.includeAdditionalMenu.btnScale.isEnabled = false
             } else {
                 binding.includeAdditionalMenu.btnScale.isEnabled = true
@@ -169,6 +165,15 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                     }
                 }
 
+            }
+
+            if (it == "5") {
+                binding.btnFinishTransaction.visibility = View.VISIBLE
+                binding.btnFinishTransaction.setOnClickListener {
+                    goToFragmentSignature()
+                }
+            }else{
+                binding.btnFinishTransaction.visibility=View.GONE
             }
         })
 
@@ -273,7 +278,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
             requireContext(), rsData?.photoPath?.toString()
         )
 
-        statusLiveData.postValue(mStatus)
+        statusLiveData.setValue(mStatus)
 
         // setUpMarker Into Map
         var location = LatLng(-34.0, 151.0)
@@ -387,6 +392,14 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
     private fun goToFragmentChat() {
         val directions =
             DetailHistoryFragmentDirections.actionDetailHistoryFragmentToRsChatFragment(
+                args.rsID
+            )
+        findNavController().navigate(directions)
+    }
+
+    private fun goToFragmentSignature() {
+        val directions =
+            DetailHistoryFragmentDirections.actionDetailHistoryFragmentToSignatureFragment(
                 args.rsID
             )
         findNavController().navigate(directions)
