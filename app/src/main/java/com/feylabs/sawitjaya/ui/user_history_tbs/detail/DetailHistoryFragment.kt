@@ -212,6 +212,9 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         val priceData = mData?.price
 
         binding.includeDetailRs.apply {
+
+            tvDate.text = rsData?.createdAt
+
             tvEstPriceOld.build(
                 title = "Estimasi Harga Lama : ",
                 value = "Rp. " + mData?.data?.resultEstPriceOld.toString(),
@@ -388,7 +391,6 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
             )
         findNavController().navigate(directions)
     }
-
 
     private fun goToFragmentInvoice() {
         val directions =
