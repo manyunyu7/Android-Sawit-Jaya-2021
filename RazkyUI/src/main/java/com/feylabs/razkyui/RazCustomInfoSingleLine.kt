@@ -10,8 +10,8 @@ import com.feylabs.razkyui.databinding.RazCustomInfoHorizontalBinding
 import com.feylabs.razkyui.databinding.SawitCustomStatusBinding
 
 class RazCustomInfoSingleLine : FrameLayout {
-    private var title: String = ""
-    private var value: String = ""
+    var title: String = ""
+    var value: String = ""
     private var hint: String = ""
     private var textSize: Float = 16f
     private var isHintVisible: Boolean = false

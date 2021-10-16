@@ -257,4 +257,19 @@ interface ApiService {
         ): Response<StandardAPIResponse>
 
 
+    /**
+     * use to store new weight
+     */
+    @POST("request-sell/{id}/store-final")
+    @FormUrlEncoded
+    suspend fun storeFinalRsData(
+        @Path("id") rsID: String?,
+        @Header("Authorization") token: String?,
+        @Field("final_price") finalPrice: String,
+        @Field("final_margin") finalMargin: String,
+        @Field("price_paid") pricePaid: String,
+    ): Response<StandardAPIResponse>
+
+
+
 }

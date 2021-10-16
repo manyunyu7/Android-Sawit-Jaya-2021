@@ -406,6 +406,17 @@ class RemoteDataSource(
     suspend fun getDetailRequestSell(id: String) =
         api.getRequestSellDetail(id, getTOKEN())
 
+    suspend fun storeRsFinalInfo(
+        rsID: String,
+        finalPrice: String,
+        finalMargin: String,
+        pricePaid: String
+    ) =
+        api.storeFinalRsData(
+            rsID = rsID, token = getTOKEN(), finalPrice = finalPrice,
+            pricePaid = pricePaid, finalMargin = finalMargin
+        )
+
     suspend fun getRsChatByTopic(topicId: String) =
         api.getRsChatByTopic(topicID = topicId, authHeader = getTOKEN())
 

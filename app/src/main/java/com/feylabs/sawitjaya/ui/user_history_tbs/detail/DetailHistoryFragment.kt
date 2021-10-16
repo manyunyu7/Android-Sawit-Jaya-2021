@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.android.viewmodel.ext.android.viewModel
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
+import timber.log.Timber
 
 
 class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
@@ -118,7 +119,6 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
 
     override fun initObserver() {
-
         viewModel.changeRsStatusLD.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
@@ -169,11 +169,8 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
             if (it == "5") {
                 binding.btnFinishTransaction.visibility = View.VISIBLE
-                binding.btnFinishTransaction.setOnClickListener {
-                    goToFragmentSignature()
-                }
-            }else{
-                binding.btnFinishTransaction.visibility=View.GONE
+            } else {
+                binding.btnFinishTransaction.visibility = View.GONE
             }
         })
 
@@ -215,6 +212,9 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         val userData = mData?.userData
         val rsData = mData?.data
         val priceData = mData?.price
+
+
+        setupBtnFinishTransaction(rsData)
 
         binding.includeDetailRs.apply {
 
@@ -389,6 +389,70 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
+    private fun setupBtnFinishTransaction(rsData: HistoryDetailResponse.Data?) {
+        binding.btnFinishTransaction.isEnabled = true
+        binding.btnFinishTransaction.setOnClickListener {
+            var isOKE = true
+            var currentMessage = "Tidak Dapat Mengupload Invoice\n\n"
+
+            val driverId = rsData?.driverId.toString()
+            val staffId = rsData?.staffId.toString()
+            val truckId = rsData?.truckId.toString()
+            Timber.d("liat driverID $driverId")
+            Timber.d("liat staffID $staffId")
+            Timber.d("liat truckID $truckId")
+
+            if (driverId == "0" ) {
+                isOKE = false
+                currentMessage += "Driver"
+            }
+
+            if (staffId == "0" ) {
+                isOKE = false
+                currentMessage += ", Staff"
+            }
+
+
+            if (truckId == "0" ) {
+                isOKE = false
+                currentMessage += " dan Truck"
+            }
+
+            if (rsData?.status != "5") {
+                isOKE = false
+                currentMessage =
+                    "Transaksi Hanya dapat diselesaikan saat status transaksi berada pada `Status Timbang`"
+            }
+
+            currentMessage += "\n\nBelum ada pada transaksi ini, silakan tambahkan sebelum melanjutkan"
+
+            if (isOKE) {
+                DialogUtils.showCustomDialog(
+                    context = requireContext(),
+                    title = getString(R.string.title_modal_are_you_sure),
+                    message = getString(R.string.message_modal_upload_invoice_confirmation),
+                    positiveAction = Pair("OK", {
+                        goToFragmentSignature()
+                    }),
+                    negativeAction = Pair("BATAL", {}),
+                    autoDismiss = true,
+                    buttonAllCaps = false
+                )
+            } else {
+                DialogUtils.showCustomDialog(
+                    context = requireContext(),
+                    title = getString(R.string.title_modal_attention),
+                    message = currentMessage,
+                    positiveAction = Pair("OK", {}),
+                    negativeAction = Pair("BATAL", {}),
+                    autoDismiss = true,
+                    buttonAllCaps = false
+                )
+            }
+
+        }
+    }
+
     private fun goToFragmentChat() {
         val directions =
             DetailHistoryFragmentDirections.actionDetailHistoryFragmentToRsChatFragment(
@@ -466,7 +530,6 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                 "Diproses",
                 "Dalam Penjemputan",
                 "Proses Timbang",
-                "Sukses"
             )
         val spin = binding.spinnerStatus
         val onSpinnerItemSelected = object : AdapterView.OnItemSelectedListener {
@@ -494,9 +557,6 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                         }
                         4 -> {
                             statusCode = "5"
-                        }
-                        5 -> {
-                            statusCode = "1"
                         }
                     }
                     DialogUtils.showCustomDialog(

@@ -188,7 +188,7 @@
                         android:textSize="11sp" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_savze"
+                        android:id="@+id/btn_save_final_data"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -279,7 +279,7 @@
                     </LinearLayout>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_save"
+                        android:id="@+id/btn_save_signature"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

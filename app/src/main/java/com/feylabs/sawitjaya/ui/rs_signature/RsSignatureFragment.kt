@@ -70,7 +70,7 @@ class RsSignatureFragment : BaseFragment() {
                     showCaseHelper(
                         "Petunjuk",
                         "Klik Untuk Menyimpan Tanda Tangan Persetujuan Penjualan",
-                        binding.btnSave
+                        binding.btnSaveSignature
                     ) {}
                 }
             }
@@ -126,6 +126,30 @@ class RsSignatureFragment : BaseFragment() {
             }
         })
 
+        viewModel.storeFinalLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is Resource.Success -> {
+                    DialogUtils.showSuccessDialog(
+                        context = requireContext(),
+                        title = getString(R.string.modal_title_success),
+                        message = getString(R.string.message_modal_success_finish_transaction),
+                        positiveAction =
+                        Pair(getString(R.string.label_Ok), {}),
+                        autoDismiss = true,
+                        buttonAllCaps = false
+                    )
+                    viewGone(binding.includeLoading.root)
+                }
+                is Resource.Error -> {
+                    viewGone(binding.includeLoading.root)
+                }
+
+                is Resource.Loading -> {
+                    viewVisible(binding.includeLoading.root)
+                }
+            }
+        })
+
         uploadObserver = Observer {
             when (it) {
                 is Resource.Success -> {
@@ -167,7 +191,9 @@ class RsSignatureFragment : BaseFragment() {
         val rsData = mData?.data
         val priceData = mData?.price
 
-        binding.tvCoreFinalPrice.build("Harga Akhir : ", "Rp. ${rsData?.resultEstPriceNow} ,-")
+        setupBtnSaveFinalData(it)
+
+        binding.tvCoreFinalPrice.build("Harga Akhir : ", "${rsData?.resultEstPriceNow}")
         binding.etAdjustment.setText(rsData?.resultEstPriceNow)
         binding.tvCoreCurrentPrice.value(priceData?.price?.toDoubleStringRoundOff().toString())
         binding.tvCoreCurrentMargin.value(priceData?.margin?.toDoubleStringRoundOff().toString())
@@ -332,6 +358,62 @@ class RsSignatureFragment : BaseFragment() {
         }
     }
 
+    private fun setupBtnSaveFinalData(it: Resource.Success<HistoryDetailResponse?>) {
+        val mData = it.data
+        val rsData = mData?.data
+
+        binding.btnSaveFinalData.isEnabled = true
+        binding.btnSaveFinalData.setOnClickListener {
+            var isOKE = true
+            var currentMessage = "Tidak Dapat Mengupload Invoice\n\n"
+
+            if (rsData?.signature_user_path == "") {
+                isOKE = false
+                currentMessage += "Pemilik Kebun"
+            }
+
+            if (rsData?.signature_staff_path == "") {
+                isOKE = false
+                currentMessage += ", Staff"
+            }
+
+
+            if (rsData?.signature_driver_path == "") {
+                isOKE = false
+                currentMessage += " dan Driver"
+            }
+
+            currentMessage += "\n\nBelum menandatangani invoice, tanda tangan sudah harus diisi sebelum mengupload invoice"
+
+
+            if (isOKE) {
+                DialogUtils.showCustomDialog(
+                    context = requireContext(),
+                    title = getString(R.string.title_modal_are_you_sure),
+                    message = getString(R.string.message_modal_upload_invoice_confirmation),
+                    positiveAction = Pair("OK", {
+                        uploadInvoice()
+                    }),
+                    negativeAction = Pair("BATAL", {}),
+                    autoDismiss = true,
+                    buttonAllCaps = false
+                )
+            } else {
+                DialogUtils.showCustomDialog(
+                    context = requireContext(),
+                    title = getString(R.string.title_modal_attention),
+                    message = currentMessage,
+                    positiveAction = Pair("OK", {}),
+                    negativeAction = Pair("BATAL", {}),
+                    autoDismiss = true,
+                    buttonAllCaps = false
+                )
+            }
+
+        }
+
+    }
+
 
     fun storeSignature() {
         val file =
@@ -362,7 +444,10 @@ class RsSignatureFragment : BaseFragment() {
 
     override fun initAction() {
 
-        binding.btnSave.setOnClickListener {
+        binding.btnSaveFinalData.isEnabled = false
+
+
+        binding.btnSaveSignature.setOnClickListener {
 
             if (binding.spinnerStatus.selectedItemPosition == 0) {
                 DialogUtils.showCustomDialog(
@@ -431,6 +516,20 @@ class RsSignatureFragment : BaseFragment() {
 
     }
 
+    private fun uploadInvoice() {
+        showToast("Mengupload Invoice")
+        val finalPrice = binding.tvCoreFinalPrice.value
+        val finalMargin = binding.tvCoreCurrentMargin.value
+        val pricePaid = binding.etAdjustment.text.toString()
+
+        viewModel.storeFinalData(
+            id = args.rsID,
+            finalPrice = finalPrice,
+            finalMargin = finalMargin,
+            pricePaid = pricePaid
+        )
+    }
+
     override fun initData() {
         viewModel.fetchScaleData(args.rsID)
         viewModel.getDetail(args.rsID)
@@ -449,6 +548,7 @@ class RsSignatureFragment : BaseFragment() {
         view: View,
         onDismiss: (() -> Unit)
     ) {
+        view.requestFocus()
         GuideView.Builder(requireContext())
             .setTitle(title)
             .setContentText(content)
