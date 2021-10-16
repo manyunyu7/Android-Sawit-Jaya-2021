@@ -269,7 +269,8 @@ class RsScaleFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRsScaleBinding.inflate(inflater)
+        val view = inflater.inflate(R.layout.fragment_invoice, container, false)
+        _binding = FragmentRsScaleBinding.bind(view)
         return binding.root
     }
 

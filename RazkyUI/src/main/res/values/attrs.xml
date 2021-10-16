@@ -14,6 +14,7 @@
         <attr name="customInfoHzTitle" format="string" />
         <attr name="customInfoHzContent" format="string" />
         <attr name="customInfoHzHint" format="string" />
+        <attr name="customInfoHzFontSize" format="float" />
         <attr name="isHintVisible" format="boolean" />
     </declare-styleable>
 

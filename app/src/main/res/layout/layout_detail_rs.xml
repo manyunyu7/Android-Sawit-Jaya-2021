@@ -138,7 +138,7 @@
                         android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/tv_status"
+                        android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_est_weight"
@@ -281,6 +281,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_total_weight" />
+
+                <com.feylabs.razkyui.RazCustomInfoVert
+                    android:id="@+id/tv_weight_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    app:customInfoTitle="Data Timbangan : "
+                    app:customInfoContent="Belum Ada Data"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_total_payment" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

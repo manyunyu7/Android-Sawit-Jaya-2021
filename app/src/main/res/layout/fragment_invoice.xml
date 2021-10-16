@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.InvoiceFragment">
+    tools:context=".ui.invoice.InvoiceFragment">
 
-    <LinearLayout
-        android:id="@+id/root"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/container_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            app:cardCornerRadius="15dp">
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -27,159 +29,78 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="1dp">
 
-                <RelativeLayout
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/logo_small" />
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="INVOICE PENJUALAN TBS"
+                    android:textAlignment="center"
+                    android:textColor="@color/color_blue_golapak"
+                    android:textSize="20sp" />
 
-                    <RelativeLayout
-                        android:id="@+id/relative_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/color_blue_golapak" />
 
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_transaction_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzFontSize="20"
+                    app:customInfoHzTitle="@string/LOADING" />
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_margin="4dp"
-                            app:cardCornerRadius="15dp">
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzContent="@string/LOADING"
+                    app:customInfoHzFontSize="16"
+                    app:customInfoHzTitle="Pemilik Kebun : " />
 
-                            <ImageView
-                                android:id="@+id/iv_main_image"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ranu_kumbolo" />
-                        </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/relative_end"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toEndOf="@id/relative_left">
-
-                        <com.feylabs.razkyui.SawitCustomStatus
-                            android:id="@+id/status"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:id="@+id/relative_right"
+                    <com.feylabs.razkyui.RazCustomInfoVert
+                        android:id="@+id/tv_user_contact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/relative_end"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzFontSize="16"
+                        app:customInfoHzTitle="Pemilik Kebun : " />
+
+                    <com.feylabs.razkyui.RazCustomInfoVert
+                        android:id="@+id/tv_user_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@id/relative_left">
+                        android:layout_weight="1"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzFontSize="16"
+                        app:customInfoHzTitle="Pemilik Kebun : " />
 
-
-                        <TextView
-                            android:id="@+id/label_user_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="5dp"
-                            android:ellipsize="marquee"
-                            android:fontFamily="@font/jaldi_bold"
-                            android:singleLine="true"
-                            android:text="Pemilik : "
-                            android:textColor="@color/color_blue_golapak"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/tv_user_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@id/label_user_name"
-                            android:fontFamily="@font/jaldi_regular"
-                            android:text="Razky Febriansyah"
-                            android:textColor="@color/color_blue_golapak"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/label_est_weight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_user_name"
-                            android:layout_marginHorizontal="5dp"
-                            android:ellipsize="marquee"
-                            android:fontFamily="@font/jaldi_bold"
-                            android:singleLine="true"
-                            android:text="Perkiraan Berat : "
-                            android:textColor="@color/color_blue_golapak"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/tv_est_weight"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_user_name"
-                            android:layout_marginHorizontal="5dp"
-                            android:layout_toEndOf="@id/label_est_weight"
-                            android:ellipsize="marquee"
-                            android:fontFamily="@font/jaldi_bold"
-                            android:singleLine="true"
-                            android:text="500 Kg "
-                            android:textColor="@color/color_blue_golapak"
-                            android:textSize="15sp" />
-
-
-                        <TextView
-                            android:id="@+id/label_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_est_weight"
-                            android:layout_marginHorizontal="5dp"
-                            android:ellipsize="marquee"
-                            android:fontFamily="@font/jaldi_bold"
-                            android:singleLine="true"
-                            android:text="Tanggal : "
-                            android:textColor="@color/color_blue_golapak"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/tv_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_est_weight"
-                            android:layout_marginHorizontal="5dp"
-                            android:layout_toEndOf="@id/label_status"
-                            android:ellipsize="marquee"
-                            android:fontFamily="@font/jaldi_regular"
-                            android:singleLine="true"
-                            android:textColor="@color/color_blue_golapak"
-                            android:textSize="15sp"
-                            tools:text="24/08/2000" />
-
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <com.feylabs.razkyui.RazCustomInfoSingleLine
-                    android:id="@+id/tv_est_price_old"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    app:customInfoHzTitle="Estimasi Harga Lama : " />
-
-                <com.feylabs.razkyui.RazCustomInfoSingleLine
-                    android:id="@+id/tv_est_price_now"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    app:customInfoHzTitle="Estimasi Harga Saat Ini : " />
+                </LinearLayout>
 
                 <com.feylabs.razkyui.RazCustomInfoVert
                     android:id="@+id/tv_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:textSize="18sp"
-                    app:customInfoContent="Jalan Pegangsaan Timur"
+                    app:customInfoContent="@string/LOADING"
                     app:customInfoTitle="Alamat : " />
 
                 <View
@@ -190,8 +111,54 @@
                     android:layout_marginBottom="10dp"
                     android:background="@color/color_blue_golapak" />
 
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_est_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzContent="@string/LOADING"
+                    app:customInfoHzFontSize="16"
+                    app:customInfoHzTitle="Perkiraan Berat : " />
+
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzContent="@string/LOADING"
+                    app:customInfoHzFontSize="16"
+                    app:customInfoHzTitle="Status : " />
+
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzContent="@string/LOADING"
+                    app:customInfoHzFontSize="16"
+                    app:customInfoHzTitle="Tanggal Penjualan : " />
+
+
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_est_price_old"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzContent="@string/LOADING"
+                    app:customInfoHzTitle="Estimasi Harga Lama : " />
+
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_est_price_now"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzContent="@string/LOADING"
+                    app:customInfoHzTitle="Estimasi Harga Saat Ini : " />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/color_blue_golapak" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_marginHorizontal="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -208,8 +175,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp"
                         android:textSize="18sp"
-                        app:customInfoTitle="Margin Lama : "
                         app:customInfoContent=""
+                        app:customInfoTitle="Margin Lama : "
                         app:layout_constraintEnd_toEndOf="@+id/guideline"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -220,18 +187,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:textSize="18sp"
-                        app:customInfoTitle="Margin Saat Ini : "
                         app:customInfoContent=""
+                        app:customInfoTitle="Margin Saat Ini : "
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/barrierLine2"
-                        app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="tv_current_margin,tv_old_margin"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="tv_current_margin,tv_old_margin" />
 
                     <com.feylabs.razkyui.RazCustomInfoVert
                         android:id="@+id/tv_old_price"
@@ -239,8 +206,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp"
                         android:textSize="18sp"
-                        app:customInfoTitle="Harga Lama : "
                         app:customInfoContent=""
+                        app:customInfoTitle="Harga Lama : "
                         app:layout_constraintEnd_toEndOf="@+id/guideline"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/barrierLine2" />
@@ -251,8 +218,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:textSize="18sp"
-                        app:customInfoTitle="Harga Saat Ini : "
                         app:customInfoContent=""
+                        app:customInfoTitle="Harga Saat Ini : "
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toBottomOf="@id/barrierLine2" />
@@ -260,18 +227,18 @@
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/barrierLine3"
-                        app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="tv_current_price,tv_old_price"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="tv_current_price,tv_old_price" />
 
                     <com.feylabs.razkyui.RazCustomInfoVert
                         android:id="@+id/tv_total_weight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        app:customInfoTitle="Total Timbangan (Berat Asli) : "
                         app:customInfoContent="Belum Ada Data"
+                        app:customInfoTitle="Total Timbangan (Berat Asli) : "
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/barrierLine3" />
@@ -281,17 +248,198 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        app:customInfoTitle="Total Pembayaran Diterima : "
                         app:customInfoContent="Belum Ada Data"
+                        app:customInfoTitle="Total Pembayaran Diterima : "
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_total_weight" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/color_blue_golapak" />
+
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_driver_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzContent="@string/LOADING"
+                    app:customInfoHzFontSize="16"
+                    app:customInfoHzTitle="Driver : " />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.feylabs.razkyui.RazCustomInfoVert
+                        android:id="@+id/tv_driver_contact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzFontSize="16"
+                        app:customInfoHzTitle="Kontak Driver : " />
+
+                    <com.feylabs.razkyui.RazCustomInfoVert
+                        android:id="@+id/tv_driver_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzFontSize="16"
+                        app:customInfoHzTitle="Email Driver : " />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/color_blue_golapak" />
+
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_staff_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzContent="@string/LOADING"
+                    app:customInfoHzFontSize="16"
+                    app:customInfoHzTitle="Staff : " />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.feylabs.razkyui.RazCustomInfoVert
+                        android:id="@+id/tv_staff_contact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzFontSize="16"
+                        app:customInfoHzTitle="Kontak Staff : " />
+
+                    <com.feylabs.razkyui.RazCustomInfoVert
+                        android:id="@+id/tv_staff_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzFontSize="16"
+                        app:customInfoHzTitle="Email Staff : " />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/color_blue_golapak" />
+
+                <com.feylabs.razkyui.RazCustomInfoSingleLine
+                    android:id="@+id/tv_truck_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:customInfoHzContent="@string/LOADING"
+                    app:customInfoHzFontSize="16"
+                    app:customInfoHzTitle="Staff : " />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.feylabs.razkyui.RazCustomInfoVert
+                        android:id="@+id/tv_truck_nopol"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzFontSize="16"
+                        app:customInfoHzTitle="Kontak Staff : " />
+
+                    <com.feylabs.razkyui.RazCustomInfoVert
+                        android:id="@+id/tv_truck_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzFontSize="16"
+                        app:customInfoHzTitle="Email Staff : " />
+
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/include_signature"
+                    layout="@layout/layout_invoice_signature" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/include_loading"
+        layout="@layout/layout_loading_screen"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/container_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Opsi Invoice"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/color_blue_golapak"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_local_printshop_24"
+            android:drawablePadding="10dp"
+            android:textColor="@color/color_blue_golapak"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Print Invoice" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_assignment_24"
+            android:drawablePadding="10dp"
+            android:textColor="@color/color_blue_golapak"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Input Tanda Tangan" />
 
     </LinearLayout>
-</FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

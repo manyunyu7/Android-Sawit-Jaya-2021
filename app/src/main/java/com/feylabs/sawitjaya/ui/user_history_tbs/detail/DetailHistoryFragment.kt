@@ -59,8 +59,8 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
     override fun initUI() {
 
         //hide change status if role is user
-        if (MyPreference(requireContext()).getRole()=="3"){
-            binding.containerChangeStatus.visibility=View.GONE
+        if (MyPreference(requireContext()).getRole() == "3") {
+            binding.containerChangeStatus.visibility = View.GONE
         }
 
         setupStatusSpinner()
@@ -79,6 +79,10 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         binding.includeAdditionalMenu.apply {
             btnLiveTrack.setOnClickListener {
                 showToast("Fitur Ini Belum Tersedia")
+            }
+
+            btnInvoice.setOnClickListener {
+                goToFragmentInvoice()
             }
 
             btnDetail.setOnClickListener {
@@ -117,6 +121,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
             }
         })
     }
+
 
     override fun initObserver() {
 
@@ -207,6 +212,9 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         val priceData = mData?.price
 
         binding.includeDetailRs.apply {
+
+            tvDate.text = rsData?.createdAt
+
             tvEstPriceOld.build(
                 title = "Estimasi Harga Lama : ",
                 value = "Rp. " + mData?.data?.resultEstPriceOld.toString(),
@@ -379,6 +387,14 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
     private fun goToFragmentChat() {
         val directions =
             DetailHistoryFragmentDirections.actionDetailHistoryFragmentToRsChatFragment(
+                args.rsID
+            )
+        findNavController().navigate(directions)
+    }
+
+    private fun goToFragmentInvoice() {
+        val directions =
+            DetailHistoryFragmentDirections.actionDetailHistoryFragmentToInvoiceFragment(
                 args.rsID
             )
         findNavController().navigate(directions)

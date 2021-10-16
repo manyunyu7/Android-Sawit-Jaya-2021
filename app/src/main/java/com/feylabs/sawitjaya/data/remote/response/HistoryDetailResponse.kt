@@ -42,6 +42,8 @@ data class HistoryDetailResponse(
         val estMargin: String,
         @SerializedName("est_price")
         val estPrice: String,
+        @SerializedName("rs_code")
+        val rsCode: String,
         @SerializedName("est_weight")
         val estWeight: String,
         @SerializedName("real_calculation_price")
