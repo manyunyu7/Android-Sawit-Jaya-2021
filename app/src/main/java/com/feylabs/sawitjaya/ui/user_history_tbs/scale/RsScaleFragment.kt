@@ -75,13 +75,13 @@ class RsScaleFragment : BaseFragment() {
                 binding.etNewResult.setOnClickListener {
                     showRestrictedStatusDialog()
                 }
-                binding.btnSave.setOnClickListener {
+                binding.btnInsertCount.setOnClickListener {
                     showRestrictedStatusDialog()
                 }
 
                 // if current status is at "Sedang Ditimbang"
             } else {
-                binding.btnSave.setOnClickListener {
+                binding.btnInsertCount.setOnClickListener {
                     val text = binding.etNewResult.text.toString()
                     if (text.isEmpty()) {
                         binding.etNewResult.error = getString(R.string.error_message_empty_input)
@@ -269,7 +269,7 @@ class RsScaleFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_invoice, container, false)
+        val view = inflater.inflate(R.layout.fragment_rs_scale, container, false)
         _binding = FragmentRsScaleBinding.bind(view)
         return binding.root
     }

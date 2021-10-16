@@ -5,10 +5,17 @@ import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
 import com.feylabs.sawitjaya.data.remote.response.*
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+
+import retrofit2.http.POST
+
+import retrofit2.http.Multipart
+
 
 interface ApiService {
 
@@ -236,6 +243,18 @@ interface ApiService {
         @Field("status") status: String,
         @Header("Authorization") token: String?,
     ): Response<StandardAPIResponse>
+
+    /**
+     * get request sell scaling by id
+     */
+    @Multipart
+    @POST("request-sell/{id}/store-signature")
+    suspend fun storeRsSignature(
+        @Path("id") rsID: String?,
+        @Part("description") description: RequestBody?,
+        @Part file: Part?,
+        @Header("Authorization") token: String?,
+        ): Response<StandardAPIResponse>
 
 
 }

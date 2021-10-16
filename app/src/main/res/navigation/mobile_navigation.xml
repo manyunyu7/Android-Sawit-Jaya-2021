@@ -105,6 +105,9 @@
         <action
             android:id="@+id/action_detailHistoryFragment_to_invoiceFragment"
             app:destination="@id/invoiceFragment" />
+        <action
+            android:id="@+id/action_detailHistoryFragment_to_signatureFragment"
+            app:destination="@id/rsSignatureFragment" />
     </fragment>
 
     <fragment
@@ -161,6 +164,22 @@
         <argument
             android:name="rsID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_rsSignatureFragment"
+            app:destination="@id/rsSignatureFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/rsSignatureFragment"
+        android:name="com.feylabs.sawitjaya.ui.rs_signature.RsSignatureFragment"
+        android:label="Tanda Tangan Transaksi"
+        tools:layout="@layout/fragment_rs_signature" >
+        <argument
+            android:name="rsID"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_rsSignatureFragment_to_updateRsFragment"
+            app:destination="@id/updateRsFragment" />
     </fragment>
 
 </navigation>
