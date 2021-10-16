@@ -69,6 +69,15 @@ class SawitRepository(
         return _response
     }
 
+    suspend fun storeFinalRsData(
+        rsId: String, finalPrice: String, finalMargin: String, pricePaid: String
+    ) = remoteDs.storeRsFinalInfo(
+        rsId,
+        finalPrice = finalPrice,
+        finalMargin = finalMargin,
+        pricePaid = pricePaid
+    )
+
     fun storeRequestSellSignature(
         rsId: String,
         type: String,

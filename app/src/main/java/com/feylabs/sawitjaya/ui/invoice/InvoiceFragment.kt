@@ -60,7 +60,6 @@ class InvoiceFragment : BaseFragment() {
             }
         })
 
-
         viewModel.detailRsLD.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {

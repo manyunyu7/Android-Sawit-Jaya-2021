@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.remote.response.GetRsScaleByIDResponse
 import com.feylabs.sawitjaya.data.remote.response.HistoryDetailResponse
+import com.feylabs.sawitjaya.data.remote.response.StandardAPIResponse
 import com.feylabs.sawitjaya.data.remote.service.Resource
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,6 +26,9 @@ class RsSignatureViewModel(private val sawitRepository: SawitRepository) : ViewM
     var _scaleLiveData = MutableLiveData<Resource<GetRsScaleByIDResponse>>()
     val scaleLiveData get() = _scaleLiveData as LiveData<Resource<GetRsScaleByIDResponse>>
 
+
+    var _storeFinalLiveData = MutableLiveData<Resource<StandardAPIResponse?>>()
+    val storeFinalLiveData get() = _storeFinalLiveData as LiveData<Resource<StandardAPIResponse?>>
 
 
     val storeSignatureLD get() = _storeSignatureLD
@@ -66,6 +70,31 @@ class RsSignatureViewModel(private val sawitRepository: SawitRepository) : ViewM
                 }
             } catch (e: Exception) {
                 _detailRsLD.postValue(Resource.Error(e.toString()))
+            }
+        }
+    }
+
+    fun storeFinalData(id: String, finalPrice: String, finalMargin: String, pricePaid: String) {
+        _storeFinalLiveData.postValue(Resource.Loading())
+        Timber.d("start save final")
+        viewModelScope.launch {
+            try {
+                Timber.d("try save final")
+                val request = sawitRepository.storeFinalRsData(
+                    rsId = id,
+                    finalPrice = finalPrice, finalMargin = finalMargin, pricePaid = pricePaid
+                )
+                Timber.d("try save final res ${request}")
+                if (request.isSuccessful) {
+                    Timber.d("save final success")
+                    _storeFinalLiveData.postValue(Resource.Success(request.body()))
+                } else {
+                    Timber.d("save final error")
+                    _storeFinalLiveData.postValue(Resource.Error(request.message()))
+                }
+            } catch (e: Exception) {
+                Timber.d("save final exception ${e.toString()}")
+                _storeFinalLiveData.postValue(Resource.Error(e.toString()))
             }
         }
     }
