@@ -26,6 +26,7 @@
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/drawable/bg_button_positive_dialog.xml" value="0.2203125" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/drawable/bg_dialog.xml" value="0.2203125" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/drawable/ic_add_photo_placeholder.xml" value="0.2203125" />
+        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/drawable/ic_button_rounded.xml" value="0.15052083333333333" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/drawable/raz_alert_container.xml" value="0.11770833333333333" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/drawable/white_border.xml" value="0.171875" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/activity_container_auth.xml" value="0.1578125" />
@@ -33,11 +34,12 @@
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/activity_main_menu_container.xml" value="0.12" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/activity_maps.xml" value="0.1265625" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/app_bar_user_main_menu.xml" value="0.14739583333333334" />
+        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/bs_action_contact.xml" value="0.22" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/bs_action_history.xml" value="0.22" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/content_user_main_menu.xml" value="0.14739583333333334" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_auth_fragment.xml" value="0.12" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_change_profile_picture.xml" value="0.16" />
-        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_detail_history.xml" value="0.18" />
+        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_detail_history.xml" value="0.11538461538461539" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_example_map.xml" value="0.1265625" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_history.xml" value="0.15" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_invoice.xml" value="0.13" />
@@ -52,6 +54,8 @@
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_show_rs_qr_code.xml" value="0.12" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_update_rs.xml" value="0.20416666666666666" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_user_home.xml" value="0.15" />
+        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_user_page.xml" value="0.2" />
+        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_user_profile.xml" value="0.103125" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/history_fragment.xml" value="0.15" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/item_grid_rs.xml" value="0.22" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/item_m_notification.xml" value="0.25" />

@@ -57,5 +57,8 @@
     <string name="dialog_cancel">BATAL</string>
     <string name="text_no_data">Belum Ada Data Tersedia</string>
     <string name="message_empty_chat">Mulai chat dengan mengetik pada kolom dibawah untuk menambahkan chat</string>
+    <string name="title_activate_gps">Aktifkan GPS</string>
+    <string name="title_call_driver">Hubungi Driver</string>
+    <string name="title_call_staff">Hubungi Staff</string>
 
 </resources>

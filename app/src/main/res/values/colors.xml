@@ -42,5 +42,6 @@
     <color name="colorGreenLight">#EFF5F4</color>
     <color name="blue_selected">#7C83FD</color>
     <color name="base_color">#F5FDFB</color>
+    <color name="soft_blue">#EEF2FE</color>
 
 </resources>
