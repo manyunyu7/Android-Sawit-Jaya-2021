@@ -51,6 +51,15 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
     val statusLiveData = MutableLiveData<String>()
 
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun initUI() {
         binding.btnFinishTransaction.visibility = View.GONE
         //hide change status if role is user
@@ -77,7 +86,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
             }
 
             btnInvoice.setOnClickListener {
-                goToFragmentInvoice()
+                showToast("Internet Tidak Tersedia")
             }
 
             btnDetail.setOnClickListener {
@@ -148,19 +157,22 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
             }
         })
 
-
         viewModel.changeRsStatusLD.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
+                    binding.spinnerStatus.setSelection(0)
                     viewGone(binding.includeLoading.root)
                     viewModel.getDetail(args.rsID)
+                    viewModel._scaleLiveData.postValue(Resource.Default())
                 }
                 is Resource.Error -> {
                     viewGone(binding.includeLoading.root)
+                    viewModel._scaleLiveData.postValue(Resource.Default())
                 }
 
                 is Resource.Loading -> {
                     viewVisible(binding.includeLoading.root)
+                    viewModel._scaleLiveData.postValue(Resource.Default())
                 }
             }
         })
@@ -245,6 +257,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
 
         setupBtnFinishTransaction(rsData)
+        setupBtnInvoice(rsData)
 
         binding.includeDetailRs.apply {
 
@@ -422,6 +435,27 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
+    private fun setupBtnInvoice(rsData: HistoryDetailResponse.Data?) {
+        binding.includeAdditionalMenu.apply {
+            btnInvoice.setOnClickListener {
+                if (rsData?.status.toString() != "1") {
+                    DialogUtils.showCustomDialog(
+                        context = requireContext(),
+                        title = getString(R.string.title_modal_attention),
+                        message = getString(R.string.message_modal_restrict_invoice_from_detail),
+                        positiveAction = Pair(getString(R.string.dialog_ok), {
+                        }),
+                        negativeAction = Pair(getString(R.string.dialog_cancel), {}),
+                        autoDismiss = true,
+                        buttonAllCaps = false
+                    )
+                } else {
+                    goToFragmentInvoice()
+                }
+            }
+        }
+    }
+
     private fun setupBtnFinishTransaction(rsData: HistoryDetailResponse.Data?) {
         binding.btnFinishTransaction.isEnabled = true
         binding.btnFinishTransaction.setOnClickListener {
@@ -435,18 +469,18 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
             Timber.d("liat staffID $staffId")
             Timber.d("liat truckID $truckId")
 
-            if (driverId == "0" ) {
+            if (driverId == "0") {
                 isOKE = false
                 currentMessage += "Driver"
             }
 
-            if (staffId == "0" ) {
+            if (staffId == "0") {
                 isOKE = false
                 currentMessage += ", Staff"
             }
 
 
-            if (truckId == "0" ) {
+            if (truckId == "0") {
                 isOKE = false
                 currentMessage += " dan Truck"
             }
