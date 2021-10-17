@@ -49,7 +49,7 @@ class InvoiceFragment : BaseFragment() {
 
                     if (detailWeight == "") {
                         binding.includeInvoiceDet.tvDetailWeight.value("Belum Ada Data Timbangan")
-                    }else{
+                    } else {
                         binding.includeInvoiceDet.tvDetailWeight.value(detailWeight)
                     }
                 }
@@ -198,14 +198,15 @@ class InvoiceFragment : BaseFragment() {
                 )
 
                 tvCurrentMargin.value(
-                    value = priceData?.margin?.times(100)?.roundOffDecimal().toString()
+                    value = rsData?.finalMargin.toString()
                 )
 
                 tvOldPrice.value(
                     value = "Rp. ${rsData?.estPrice.toString()}"
                 )
-                tvCurrentPrice.value(
-                    value = "Rp. ${priceData?.price.toString()}"
+
+                tvFinalPrice.value(
+                    value = "Rp. ${rsData?.finalPrice.toString()}"
                 )
 
                 tvTotalWeight.value(
@@ -218,7 +219,7 @@ class InvoiceFragment : BaseFragment() {
 
                 tvTotalPayment.value(
                     value = "Rp. ${
-                        rsData?.realCalculationPrice?.toString()
+                        rsData?.pricePaid?.toString()
                     }"
                 )
 

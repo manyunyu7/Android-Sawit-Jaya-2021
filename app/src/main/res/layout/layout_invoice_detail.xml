@@ -92,6 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:customInfoHzContent="@string/LOADING"
+        android:visibility="gone"
         app:customInfoHzTitle="Estimasi Harga Lama : " />
 
     <com.feylabs.razkyui.RazCustomInfoSingleLine
@@ -99,6 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:customInfoHzContent="@string/LOADING"
+        android:visibility="gone"
         app:customInfoHzTitle="Estimasi Harga Saat Ini : " />
 
     <View
@@ -139,7 +141,7 @@
             android:layout_marginStart="5dp"
             android:textSize="18sp"
             app:customInfoContent=""
-            app:customInfoTitle="Margin Saat Ini : "
+            app:customInfoTitle="Margin Final : "
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
@@ -164,13 +166,13 @@
             app:layout_constraintTop_toBottomOf="@id/barrierLine2" />
 
         <com.feylabs.razkyui.RazCustomInfoVert
-            android:id="@+id/tv_current_price"
+            android:id="@+id/tv_final_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:textSize="18sp"
             app:customInfoContent=""
-            app:customInfoTitle="Harga Saat Ini : "
+            app:customInfoTitle="Harga Final : "
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@id/barrierLine2" />

@@ -86,6 +86,10 @@ data class HistoryDetailResponse(
         val userPhoto: String,
         @SerializedName("final_price")
         val finalPrice: String,
+        @SerializedName("price_paid")
+        val pricePaid: String,
+        @SerializedName("final_margin")
+        val finalMargin: String,
         @SerializedName("final_weight")
         val finalWeight: String,
         @SerializedName("finished_at")

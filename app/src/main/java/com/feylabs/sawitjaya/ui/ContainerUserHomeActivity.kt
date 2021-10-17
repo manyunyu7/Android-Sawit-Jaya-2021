@@ -29,7 +29,6 @@ class ContainerUserHomeActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_user_home)
         setupActionBarWithNavController(navController)
 
-        getPriceData(true)
 
         authViewModel.pricesLiveData.observe(this, Observer {
             when(it){
@@ -42,10 +41,6 @@ class ContainerUserHomeActivity : AppCompatActivity() {
             }
         })
 
-    }
-
-    fun getPriceData(saveLocally:Boolean){
-        authViewModel.getPrices(saveLocally)
     }
 
 

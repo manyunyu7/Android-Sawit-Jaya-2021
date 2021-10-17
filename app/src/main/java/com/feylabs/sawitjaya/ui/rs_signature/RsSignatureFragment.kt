@@ -196,7 +196,7 @@ class RsSignatureFragment : BaseFragment() {
         binding.tvCoreFinalPrice.build("Harga Akhir : ", "${rsData?.resultEstPriceNow}")
         binding.etAdjustment.setText(rsData?.resultEstPriceNow)
         binding.tvCoreCurrentPrice.value(priceData?.price?.toDoubleStringRoundOff().toString())
-        binding.tvCoreCurrentMargin.value(priceData?.margin?.toDoubleStringRoundOff().toString())
+        binding.tvCoreCurrentMargin.value(priceData?.margin?.toString().toString())
 
         binding.includeInvoiceDet.apply {
 
@@ -258,6 +258,9 @@ class RsSignatureFragment : BaseFragment() {
 
                 }
 
+                binding.tvCoreTotalWeight.value(
+                    mData?.totalWeight?.toDoubleStringRoundOff().toString()
+                )
 
                 tvDate.value(rsData?.createdAt.toString())
                 tvEstWeight.value(
@@ -288,13 +291,13 @@ class RsSignatureFragment : BaseFragment() {
                 )
 
                 tvCurrentMargin.value(
-                    value = priceData?.margin?.times(100)?.roundOffDecimal().toString()
+                    value = priceData?.margin?.times(100)?.toString().toString()
                 )
 
                 tvOldPrice.value(
                     value = "Rp. ${rsData?.estPrice.toString()}"
                 )
-                tvCurrentPrice.value(
+                tvFinalPrice.value(
                     value = "Rp. ${priceData?.price.toString()}"
                 )
 
@@ -426,10 +429,10 @@ class RsSignatureFragment : BaseFragment() {
                 type = "1"
             }
             2 -> {  //Staff
-                type = "2"
+                type = "3"
             }
             3 -> { //Driver
-                type = "3"
+                type = "2"
             }
             else -> {
                 isError = true
@@ -518,7 +521,7 @@ class RsSignatureFragment : BaseFragment() {
 
     private fun uploadInvoice() {
         showToast("Mengupload Invoice")
-        val finalPrice = binding.tvCoreFinalPrice.value
+        val finalPrice = binding.tvCoreCurrentPrice.value
         val finalMargin = binding.tvCoreCurrentMargin.value
         val pricePaid = binding.etAdjustment.text.toString()
 

@@ -119,6 +119,36 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
 
     override fun initObserver() {
+        viewModel.scaleLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is Resource.Loading -> {
+                    viewVisible(binding.includeLoading.root)
+                }
+                is Resource.Success -> {
+                    viewGone(binding.includeLoading.root)
+                    var detailWeight = ""
+                    it.data?.resData.let { listData ->
+                        // add data to recyclerview
+                        listData?.data?.forEachIndexed { index, data ->
+                            Timber.d("nry weighted $data")
+                            detailWeight += "${index + 1}. ${data.result} Kg Ditimbang Oleh : (${data.staff_name})\n"
+                        }
+                    }
+
+                    if (detailWeight == "") {
+                        binding.includeDetailRs.tvWeightList.value("Belum Ada Data Timbangan")
+                    } else {
+                        binding.includeDetailRs.tvWeightList.value(detailWeight)
+                    }
+                }
+                is Resource.Error -> {
+                    viewGone(binding.includeLoading.root)
+                    showToast("Terjadi Kesalahan")
+                }
+            }
+        })
+
+
         viewModel.changeRsStatusLD.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
@@ -262,7 +292,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
             tvTotalPayment.value(
                 value = "Rp. ${
-                    rsData?.realCalculationPrice?.toString()
+                    rsData?.pricePaid?.toString()
                 }"
             )
 
@@ -290,6 +320,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         viewModel.mapLatLngLv.value = location
 
         if (mData?.driverData != null) {
+            viewVisible(binding.includeDriverInfo.containerContent)
             val driverData = mData.driverData
             binding.includeDriverInfo.apply {
                 this.labelTitle.text = "Informasi Driver"
@@ -304,6 +335,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         if (mData?.truckData != null) {
+            viewVisible(binding.includeTruckInfo.containerContent)
             val truckData = mData.truckData
             binding.includeTruckInfo.apply {
                 labelTitle.text = "Informasi Truck Penjemput"
@@ -320,6 +352,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         if (mData?.staffData != null) {
+            viewVisible(binding.includeStaffInfo.containerContent)
             val staffData = mData.staffData
             binding.includeStaffInfo.apply {
                 labelTitle.text = "Informasi Staff"
@@ -497,6 +530,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun initData() {
         viewModel.getDetail(args.rsID)
+        viewModel.fetchScaleData(args.rsID)
         viewModel.detailRsLD.observe(viewLifecycleOwner, detailObserver)
     }
 
