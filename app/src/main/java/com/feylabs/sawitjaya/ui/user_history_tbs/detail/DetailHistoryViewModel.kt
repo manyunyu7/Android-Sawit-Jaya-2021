@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.feylabs.sawitjaya.data.SawitRepository
+import com.feylabs.sawitjaya.data.remote.response.GetRsScaleByIDResponse
 import com.feylabs.sawitjaya.data.remote.response.HistoryDetailResponse
 import com.feylabs.sawitjaya.data.remote.response.StandardAPIResponse
 import com.feylabs.sawitjaya.data.remote.service.Resource
@@ -16,6 +17,10 @@ import java.lang.Exception
 class DetailHistoryViewModel(
     val sawitRepository: SawitRepository
 ) : ViewModel() {
+
+    var _scaleLiveData = MutableLiveData<Resource<GetRsScaleByIDResponse>>()
+    val scaleLiveData get() = _scaleLiveData as LiveData<Resource<GetRsScaleByIDResponse>>
+
 
     val isMapReady = MutableLiveData<Boolean>()
     val mapLatLngLv = MutableLiveData<LatLng>()
@@ -61,6 +66,24 @@ class DetailHistoryViewModel(
                 Timber.d("log detailx ${e.message}")
                 Timber.d("log detailx ${e.stackTrace}")
                 _changeRsStatusLD.postValue(Resource.Error(e.toString()))
+            }
+        }
+    }
+
+    fun fetchScaleData(rsID: String) {
+        viewModelScope.launch {
+            _scaleLiveData.value = Resource.Loading()
+            try {
+                val res = sawitRepository.getScaleDataByRsId(rsID)
+                Timber.d("rs_scale $res")
+                if (res.isSuccessful) {
+                    _scaleLiveData.value = Resource.Success(res.body()!!)
+                } else {
+                    _scaleLiveData.value = Resource.Error(res.message())
+                }
+            } catch (e: Exception) {
+                Timber.d("rs_scale ${e.toString()}")
+                _scaleLiveData.value = Resource.Error(e.message.toString())
             }
         }
     }

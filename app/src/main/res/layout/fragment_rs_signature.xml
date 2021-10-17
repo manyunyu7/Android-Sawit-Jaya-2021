@@ -104,7 +104,7 @@
                 android:id="@+id/containerFinalInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp">
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -200,98 +200,141 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_marginTop="10dp"
                 android:id="@+id/containerSignature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp">
+                android:layout_marginHorizontal="1dp"
+                android:layout_marginVertical="10dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:maxLines="1"
-                        android:text="Tanda Tangan Milik : "
-                        android:textColor="@color/blue_auth"
-                        android:textSize="15sp" />
 
-                    <Spinner
-                        android:id="@+id/spinner_status"
+                    <com.github.florent37.expansionpanel.ExpansionHeader
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginBottom="10dp" />
+                        app:expansion_headerIndicator="@id/headerIndicator4"
+                        app:expansion_layout="@id/expansionLayout4"
+                        app:expansion_toggleOnClick="true">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:maxLines="1"
-                        android:text="Gambar Tanda Tangan"
-                        android:textColor="@color/blue_auth"
-                        android:textSize="15sp" />
-
-                    <com.github.gcacace.signaturepad.views.SignaturePad
-                        android:id="@+id/signature_pad"
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        app:penColor="@android:color/black" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_clear"
-                            android:layout_weight="1"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:backgroundTint="@color/white"
-                            android:text="Reset form" />
+                            android:layout_alignParentStart="true"
+                            android:layout_marginVertical="5dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:maxLines="1"
+                            android:text="Upload Tanda Tangan"
+                            android:textColor="@color/blue_auth"
+                            android:textSize="18sp" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_see_data"
-                            android:layout_weight="1"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_width="match_parent"
+
+                        <ImageView
+                            android:id="@+id/headerIndicator4"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:drawablePadding="10dp"
-                            android:drawableStart="@drawable/ic_baseline_assignment_24"
-                            android:layout_marginStart="10dp"
-                            android:backgroundTint="@color/white"
-                            android:text="Lihat Invoice" />
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_marginLeft="16dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+                    </com.github.florent37.expansionpanel.ExpansionHeader>
 
-                    </LinearLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_save_signature"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    <com.github.florent37.expansionpanel.ExpansionLayout
+                        android:id="@+id/expansionLayout4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Simpan Perubahan" />
+                        app:expansion_expanded="false">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:layout_marginVertical="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:maxLines="1"
+                                android:text="Tanda Tangan Milik : "
+                                android:textColor="@color/blue_auth"
+                                android:textSize="15sp" />
+
+                            <Spinner
+                                android:id="@+id/spinner_status"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:layout_marginBottom="10dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:layout_marginVertical="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:maxLines="1"
+                                android:text="Gambar Tanda Tangan"
+                                android:textColor="@color/blue_auth"
+                                android:textSize="15sp" />
+
+                            <com.github.gcacace.signaturepad.views.SignaturePad
+                                android:id="@+id/signature_pad"
+                                android:layout_width="match_parent"
+                                android:layout_height="250dp"
+                                app:penColor="@android:color/black" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btn_clear"
+                                    android:layout_weight="1"
+                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:backgroundTint="@color/white"
+                                    android:text="Reset form" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btn_see_data"
+                                    android:layout_weight="1"
+                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:drawablePadding="10dp"
+                                    android:drawableStart="@drawable/ic_baseline_assignment_24"
+                                    android:layout_marginStart="10dp"
+                                    android:backgroundTint="@color/white"
+                                    android:text="Lihat Invoice" />
+
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_save_signature"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="Simpan Perubahan" />
+
+                        </LinearLayout>
+
+                    </com.github.florent37.expansionpanel.ExpansionLayout>
                 </LinearLayout>
-
-
             </androidx.cardview.widget.CardView>
-
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_regular"
-        android:text="Driver\nShizi Manyunyu"
+        android:text="Staff\nShizi Manyunyu"
         android:textAlignment="center"
         android:layout_marginHorizontal="10dp"
         android:textColor="@color/color_blue_golapak"
