@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.remote.response.HistoryDetailResponse
 import com.feylabs.sawitjaya.data.remote.service.Resource
+import com.feylabs.sawitjaya.databinding.BsActionHistoryBinding
 import com.feylabs.sawitjaya.databinding.FragmentRsSignatureBinding
 import com.feylabs.sawitjaya.ui.base.BaseFragment
 import com.feylabs.sawitjaya.utils.DialogUtils
@@ -25,6 +26,7 @@ import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
 import com.feylabs.sawitjaya.utils.MyHelper.toDoubleStringRoundOff
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.github.gcacace.signaturepad.views.SignaturePad
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.android.viewmodel.ext.android.viewModel
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
 
@@ -57,10 +59,6 @@ class RsSignatureFragment : BaseFragment() {
     override fun initUI() {
         setupShowCase()
         setupStatusSpinner()
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     private fun setupShowCase() {

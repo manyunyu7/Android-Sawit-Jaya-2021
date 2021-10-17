@@ -31,7 +31,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.android.viewmodel.ext.android.viewModel
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
+import com.feylabs.sawitjaya.databinding.BsActionContactBinding
+import com.feylabs.sawitjaya.databinding.BsActionHistoryBinding
+import com.feylabs.sawitjaya.utils.MyHelper.openCallerWithNumber
+import com.feylabs.sawitjaya.utils.MyHelper.openSmsWithNumber
+import com.feylabs.sawitjaya.utils.MyHelper.openWhatsappWithNumber
 import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import timber.log.Timber
 
 
@@ -51,6 +57,23 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
     val statusLiveData = MutableLiveData<String>()
 
+    val bottomSheetDialog by lazy {
+        BottomSheetDialog(
+            requireActivity(),
+            R.style.Theme_MaterialComponents_BottomSheetDialog
+        )
+    }
+
+    private val bsBinding by lazy {
+        BsActionContactBinding.bind(
+            LayoutInflater.from(requireContext())
+                .inflate(
+                    R.layout.bs_action_contact,
+                    requireActivity().findViewById(R.id.bottom_action)
+                )
+        )
+    }
+
     override fun onResume() {
         super.onResume()
     }
@@ -61,6 +84,8 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     override fun initUI() {
+        bottomSheetDialog.setContentView(bsBinding.root)
+
         binding.btnFinishTransaction.visibility = View.GONE
         //hide change status if role is user
         if (MyPreference(requireContext()).getRole() == "3") {
@@ -335,6 +360,16 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         if (mData?.driverData != null) {
             viewVisible(binding.includeDriverInfo.containerContent)
             val driverData = mData.driverData
+
+            binding.includeDriverInfo.btnCallStaff.setOnClickListener {
+                showContactBottomSheet(
+                    id = driverData.id.toString(),
+                    contact = driverData.contact,
+                    name = driverData.name,
+                    title = driverData.name
+                )
+            }
+
             binding.includeDriverInfo.apply {
                 this.labelTitle.text = "Informasi Driver"
                 this.ivMainImage.loadImageFromURL(requireContext(), driverData.photo_path)
@@ -365,8 +400,18 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         if (mData?.staffData != null) {
-            viewVisible(binding.includeStaffInfo.containerContent)
             val staffData = mData.staffData
+
+            binding.includeStaffInfo.btnCallStaff.setOnClickListener {
+                showContactBottomSheet(
+                    id = staffData.id.toString(),
+                    contact = staffData.contact,
+                    name = staffData.name,
+                    title = staffData.name
+                )
+            }
+
+            viewVisible(binding.includeStaffInfo.containerContent)
             binding.includeStaffInfo.apply {
                 labelTitle.text = "Informasi Staff"
                 ivMainImage.loadImageFromURL(requireContext(), staffData.photo_path)
@@ -432,6 +477,23 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
             photoAdapter.setWithNewData(
                 listPhoto
             )
+        }
+    }
+
+    private fun showContactBottomSheet(title: String, id: String, name: String, contact: String) {
+        bottomSheetDialog.show()
+        bsBinding.title.text = title
+        bsBinding.btnCall.setOnClickListener {
+            openCallerWithNumber(requireContext(), contact)
+            bottomSheetDialog.dismissWithAnimation
+        }
+        bsBinding.btnSms.setOnClickListener {
+            openSmsWithNumber(requireContext(), contact)
+            bottomSheetDialog.dismissWithAnimation
+        }
+
+        bsBinding.btnWhatapp.setOnClickListener {
+            openWhatsappWithNumber(requireContext(), contact)
         }
     }
 

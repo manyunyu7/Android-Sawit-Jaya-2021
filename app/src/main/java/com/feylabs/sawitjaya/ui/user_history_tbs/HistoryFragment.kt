@@ -51,14 +51,16 @@ class HistoryFragment : BaseFragment() {
     val viewModel: HistoryViewModel by viewModel()
     val authViewModel: AuthViewModel by viewModel()
 
+
+    var userId = ""
+
+
     val bottomSheetDialog by lazy {
         BottomSheetDialog(
             requireActivity(),
             R.style.Theme_MaterialComponents_BottomSheetDialog
         )
     }
-    var userId = ""
-
 
     private val bsBinding by lazy {
         BsActionHistoryBinding.bind(

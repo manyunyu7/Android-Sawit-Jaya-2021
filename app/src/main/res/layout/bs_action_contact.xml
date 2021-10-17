@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_action"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+   >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Aksi"
+            android:textColor="@color/color_blue_golapak"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/btn_sms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/ic_baseline_message_24"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/color_blue_golapak"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="SMS Driver"
+            android:textColor="@color/color_blue_golapak" />
+
+        <TextView
+            android:id="@+id/btn_call"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/ic_baseline_call_24"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/color_blue_golapak"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Telepon Driver"
+            android:textColor="@color/color_blue_golapak" />
+
+        <TextView
+            android:id="@+id/btn_whatapp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/ic_wa"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/color_blue_golapak"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Buka di Whatsapp"
+            android:textColor="@color/color_blue_golapak" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginVertical="10dp"
+            android:background="@color/color_blue_golapak" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_detail_or_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:text="Lihat Profil" />
+
+
+        </RelativeLayout>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+</RelativeLayout>
