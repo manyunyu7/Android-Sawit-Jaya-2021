@@ -102,6 +102,12 @@
         <action
             android:id="@+id/action_detailHistoryFragment_to_rsScaleFragment"
             app:destination="@id/rsScaleFragment" />
+        <action
+            android:id="@+id/action_detailHistoryFragment_to_invoiceFragment"
+            app:destination="@id/invoiceFragment" />
+        <action
+            android:id="@+id/action_detailHistoryFragment_to_signatureFragment"
+            app:destination="@id/rsSignatureFragment" />
     </fragment>
 
     <fragment
@@ -150,22 +156,30 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/invoiceFragment"
+        android:name="com.feylabs.sawitjaya.ui.invoice.InvoiceFragment"
+        android:label="Invoice"
+        tools:layout="@layout/fragment_invoice">
+        <argument
+            android:name="rsID"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_invoiceFragment_to_rsSignatureFragment"
+            app:destination="@id/rsSignatureFragment" />
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/nav_home"-->
-    <!--        android:name="com.feylabs.sawitjaya.ui.staff.home.StaffHomeFragment"-->
-    <!--        android:label="@string/menu_home"-->
-    <!--        tools:layout="@layout/fragment_staff_home" />-->
+    </fragment>
+    <fragment
+        android:id="@+id/rsSignatureFragment"
+        android:name="com.feylabs.sawitjaya.ui.rs_signature.RsSignatureFragment"
+        android:label="Tanda Tangan Transaksi"
+        tools:layout="@layout/fragment_rs_signature" >
+        <argument
+            android:name="rsID"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_rsSignatureFragment_to_updateRsFragment"
+            app:destination="@id/updateRsFragment" />
+    </fragment>
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/nav_gallery"-->
-    <!--        android:name="com.feylabs.sawitjaya.ui.staff.gallery.GalleryFragment"-->
-    <!--        android:label="@string/menu_gallery"-->
-    <!--        tools:layout="@layout/fragment_gallery" />-->
-
-    <!--    <fragment-->
-    <!--        android:id="@+id/nav_slideshow"-->
-    <!--        android:name="com.feylabs.sawitjaya.ui.staff.slideshow.SlideshowFragment"-->
-    <!--        android:label="@string/menu_slideshow"-->
-    <!--        tools:layout="@layout/fragment_slideshow" />-->
 </navigation>

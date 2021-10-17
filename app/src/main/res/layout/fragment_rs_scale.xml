@@ -107,7 +107,7 @@
                             android:textColor="@color/blue_auth" />
 
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_save"
+                            android:id="@+id/btn_insert_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/jaldi_regular"

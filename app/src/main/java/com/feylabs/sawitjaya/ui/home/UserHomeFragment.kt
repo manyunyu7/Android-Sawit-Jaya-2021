@@ -54,32 +54,37 @@ class UserHomeFragment : BaseFragment() {
             }
         })
 
-        authViewModel.priceLocalLiveData.observe(requireActivity(), Observer {
-            if (it.isNotEmpty()) {
-                val newestPrice = it[0]?.price.toString()
-                val newestMargin = (it[0]?.margin)?.times(100)?.roundOffDecimal()
-                binding.tvPriceToday.text = "Rp. $newestPrice"
-                binding.tvMargin.text =
-                    "Margin : ${newestMargin}% dari total harga jual tandan buah segar"
+        authViewModel.pricesLiveData.observe(viewLifecycleOwner, Observer { response ->
+            if (response is Resource.Success) {
+                val data = response.data
+                data?.let {
+                    if (it.isNotEmpty()) {
+                        val newestPrice = it[0]?.price.toString()
+                        val newestMargin = (it[0]?.margin)?.times(100)?.roundOffDecimal()
+                        binding.tvPriceToday.text = "Rp. $newestPrice"
+                        binding.tvMargin.text =
+                            "Margin : ${newestMargin}% dari total harga jual tandan buah segar"
 
-                val tempList = mutableListOf<DataPoint>()
-                tempList.clear()
-                var maxIndex = it.size
+                        val tempList = mutableListOf<DataPoint>()
+                        tempList.clear()
+                        var maxIndex = it.size
 
-                it.forEachIndexed { index, priceResponseEntity ->
-                    val price = (priceResponseEntity?.price)?.toFloat()
-                    Timber.d("price chared $price")
-                    tempList.add(DataPoint(maxIndex.toFloat(), price!!))
-                    maxIndex--
+                        it.forEachIndexed { index, priceResponseEntity ->
+                            val price = (priceResponseEntity?.price)?.toFloat()
+                            Timber.d("price chared $price")
+                            tempList.add(DataPoint(maxIndex.toFloat(), price!!))
+                            maxIndex--
+                        }
+
+                        Timber.d("added set : ${tempList.asReversed()}")
+                        val dataset = Dataset(
+                            tempList.asReversed()
+                        )
+                        drawChart(dataset)
+                    } else {
+                        binding.tvPriceToday.text = "Loading...."
+                    }
                 }
-
-                Timber.d("added set : ${tempList.asReversed()}")
-                val dataset = Dataset(
-                    tempList.asReversed()
-                )
-                drawChart(dataset)
-            } else {
-                binding.tvPriceToday.text = "Loading...."
             }
         })
 
@@ -138,6 +143,7 @@ class UserHomeFragment : BaseFragment() {
     }
 
     override fun initData() {
+        authViewModel.getPrices(true)
 
         uiScope.launch(Dispatchers.IO) {
             authViewModel.getProfileLocally()
@@ -172,6 +178,8 @@ class UserHomeFragment : BaseFragment() {
         authViewModel.localProfileLD.observe(requireActivity(), Observer {
             updateView(it)
         })
+
+
 
         authViewModel.getPrices(true)
 

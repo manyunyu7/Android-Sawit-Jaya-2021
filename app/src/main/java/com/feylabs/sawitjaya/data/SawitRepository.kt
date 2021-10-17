@@ -8,6 +8,7 @@ import com.feylabs.sawitjaya.data.local.room.entity.PriceResponseEntity
 import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
 import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
 import com.feylabs.sawitjaya.data.remote.service.Resource
+import java.io.File
 import com.feylabs.sawitjaya.data.remote.RemoteDataSource as remote
 
 class SawitRepository(
@@ -64,6 +65,32 @@ class SawitRepository(
                 _response.postValue(response)
             }
         })
+
+        return _response
+    }
+
+    suspend fun storeFinalRsData(
+        rsId: String, finalPrice: String, finalMargin: String, pricePaid: String
+    ) = remoteDs.storeRsFinalInfo(
+        rsId,
+        finalPrice = finalPrice,
+        finalMargin = finalMargin,
+        pricePaid = pricePaid
+    )
+
+    fun storeRequestSellSignature(
+        rsId: String,
+        type: String,
+        file: File
+    ): MLD<Resource<String?>> {
+        val _response = MLD<Resource<String?>>()
+        remoteDs.storeRsFileSignature(
+            rsID = rsId, type = type, file = file, object : remote.CallbackStoreRsSignature {
+                override fun value(response: Resource<String?>) {
+                    _response.postValue(response)
+                }
+
+            })
 
         return _response
     }

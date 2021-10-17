@@ -10,9 +10,10 @@ import com.feylabs.razkyui.databinding.RazCustomInfoHorizontalBinding
 import com.feylabs.razkyui.databinding.SawitCustomStatusBinding
 
 class RazCustomInfoSingleLine : FrameLayout {
-    private var title: String = ""
-    private var value: String = ""
+    var title: String = ""
+    var value: String = ""
     private var hint: String = ""
+    private var textSize: Float = 16f
     private var isHintVisible: Boolean = false
     private var binding: RazCustomInfoHorizontalBinding =
         RazCustomInfoHorizontalBinding.inflate(LayoutInflater.from(context))
@@ -46,6 +47,7 @@ class RazCustomInfoSingleLine : FrameLayout {
         title(title)
         value(value)
         hint(hint)
+        size(textSize)
     }
 
     fun build(
@@ -66,6 +68,10 @@ class RazCustomInfoSingleLine : FrameLayout {
     fun title(title: String) {
         this.title = title
         binding.tvInfoTitle.text = title
+    }
+
+    fun size(size: Float) {
+        fontSizeSp(size)
     }
 
     fun isHintVisible(value: Boolean = false) {
@@ -103,6 +109,8 @@ class RazCustomInfoSingleLine : FrameLayout {
             title = getString(R.styleable.RazCustomInfoSingleLine_customInfoHzTitle) ?: title
             hint = getString(R.styleable.RazCustomInfoSingleLine_customInfoHzHint) ?: hint
             value = getString(R.styleable.RazCustomInfoSingleLine_customInfoHzContent) ?: value
+            textSize =
+                getFloat(R.styleable.RazCustomInfoSingleLine_customInfoHzFontSize, 16f) ?: textSize
             isHintVisible = getBoolean(R.styleable.RazCustomInfoSingleLine_isHintVisible, false)
         }
 

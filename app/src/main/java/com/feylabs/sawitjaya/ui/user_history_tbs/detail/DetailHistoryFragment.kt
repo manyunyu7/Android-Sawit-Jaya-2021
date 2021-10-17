@@ -1,6 +1,5 @@
 package com.feylabs.sawitjaya.ui.user_history_tbs.detail
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,6 @@ import com.feylabs.sawitjaya.utils.UIHelper.renderHtmlToString
 import com.feylabs.sawitjaya.utils.UIHelper.showLongToast
 import com.feylabs.sawitjaya.ui.base.BaseFragment
 import com.feylabs.sawitjaya.data.remote.service.Resource
-import com.feylabs.sawitjaya.databinding.LayoutDialogSpinnerBinding
 import com.feylabs.sawitjaya.utils.DialogUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -32,12 +30,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.android.viewmodel.ext.android.viewModel
-import android.content.DialogInterface
-import android.widget.Adapter
-import androidx.appcompat.app.AlertDialog
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
-import com.feylabs.sawitjaya.utils.MyHelper.toDoubleStringRoundOff
+import timber.log.Timber
 
 
 class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
@@ -57,12 +52,12 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
     val statusLiveData = MutableLiveData<String>()
 
     override fun initUI() {
-
+        binding.btnFinishTransaction.visibility = View.GONE
         //hide change status if role is user
-        if (MyPreference(requireContext()).getRole()=="3"){
-            binding.containerChangeStatus.visibility=View.GONE
+        if (MyPreference(requireContext()).getRole() == "3") {
+            binding.containerChangeStatus.visibility = View.GONE
+            binding.btnFinishTransaction.visibility = View.GONE
         }
-
         setupStatusSpinner()
         binding.includeAdditionalMenu.apply {
             btnScale.isEnabled = false
@@ -79,6 +74,10 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         binding.includeAdditionalMenu.apply {
             btnLiveTrack.setOnClickListener {
                 showToast("Fitur Ini Belum Tersedia")
+            }
+
+            btnInvoice.setOnClickListener {
+                goToFragmentInvoice()
             }
 
             btnDetail.setOnClickListener {
@@ -118,7 +117,37 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         })
     }
 
+
     override fun initObserver() {
+        viewModel.scaleLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is Resource.Loading -> {
+                    viewVisible(binding.includeLoading.root)
+                }
+                is Resource.Success -> {
+                    viewGone(binding.includeLoading.root)
+                    var detailWeight = ""
+                    it.data?.resData.let { listData ->
+                        // add data to recyclerview
+                        listData?.data?.forEachIndexed { index, data ->
+                            Timber.d("nry weighted $data")
+                            detailWeight += "${index + 1}. ${data.result} Kg Ditimbang Oleh : (${data.staff_name})\n"
+                        }
+                    }
+
+                    if (detailWeight == "") {
+                        binding.includeDetailRs.tvWeightList.value("Belum Ada Data Timbangan")
+                    } else {
+                        binding.includeDetailRs.tvWeightList.value(detailWeight)
+                    }
+                }
+                is Resource.Error -> {
+                    viewGone(binding.includeLoading.root)
+                    showToast("Terjadi Kesalahan")
+                }
+            }
+        })
+
 
         viewModel.changeRsStatusLD.observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -135,6 +164,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                 }
             }
         })
+
         detailObserver = Observer {
             when (it) {
                 is Resource.Success -> {
@@ -153,6 +183,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
         statusLiveData.observe(viewLifecycleOwner, Observer {
             if (it == null) {
+                binding.btnFinishTransaction.isEnabled = false
                 binding.includeAdditionalMenu.btnScale.isEnabled = false
             } else {
                 binding.includeAdditionalMenu.btnScale.isEnabled = true
@@ -164,6 +195,12 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                     }
                 }
 
+            }
+
+            if (it == "5") {
+                binding.btnFinishTransaction.visibility = View.VISIBLE
+            } else {
+                binding.btnFinishTransaction.visibility = View.GONE
             }
         })
 
@@ -206,7 +243,13 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         val rsData = mData?.data
         val priceData = mData?.price
 
+
+        setupBtnFinishTransaction(rsData)
+
         binding.includeDetailRs.apply {
+
+            tvDate.text = rsData?.createdAt
+
             tvEstPriceOld.build(
                 title = "Estimasi Harga Lama : ",
                 value = "Rp. " + mData?.data?.resultEstPriceOld.toString(),
@@ -249,7 +292,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
             tvTotalPayment.value(
                 value = "Rp. ${
-                    rsData?.realCalculationPrice?.toString()
+                    rsData?.pricePaid?.toString()
                 }"
             )
 
@@ -265,7 +308,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
             requireContext(), rsData?.photoPath?.toString()
         )
 
-        statusLiveData.postValue(mStatus)
+        statusLiveData.setValue(mStatus)
 
         // setUpMarker Into Map
         var location = LatLng(-34.0, 151.0)
@@ -277,6 +320,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         viewModel.mapLatLngLv.value = location
 
         if (mData?.driverData != null) {
+            viewVisible(binding.includeDriverInfo.containerContent)
             val driverData = mData.driverData
             binding.includeDriverInfo.apply {
                 this.labelTitle.text = "Informasi Driver"
@@ -291,6 +335,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         if (mData?.truckData != null) {
+            viewVisible(binding.includeTruckInfo.containerContent)
             val truckData = mData.truckData
             binding.includeTruckInfo.apply {
                 labelTitle.text = "Informasi Truck Penjemput"
@@ -307,6 +352,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         if (mData?.staffData != null) {
+            viewVisible(binding.includeStaffInfo.containerContent)
             val staffData = mData.staffData
             binding.includeStaffInfo.apply {
                 labelTitle.text = "Informasi Staff"
@@ -376,9 +422,89 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
+    private fun setupBtnFinishTransaction(rsData: HistoryDetailResponse.Data?) {
+        binding.btnFinishTransaction.isEnabled = true
+        binding.btnFinishTransaction.setOnClickListener {
+            var isOKE = true
+            var currentMessage = "Tidak Dapat Mengupload Invoice\n\n"
+
+            val driverId = rsData?.driverId.toString()
+            val staffId = rsData?.staffId.toString()
+            val truckId = rsData?.truckId.toString()
+            Timber.d("liat driverID $driverId")
+            Timber.d("liat staffID $staffId")
+            Timber.d("liat truckID $truckId")
+
+            if (driverId == "0" ) {
+                isOKE = false
+                currentMessage += "Driver"
+            }
+
+            if (staffId == "0" ) {
+                isOKE = false
+                currentMessage += ", Staff"
+            }
+
+
+            if (truckId == "0" ) {
+                isOKE = false
+                currentMessage += " dan Truck"
+            }
+
+            if (rsData?.status != "5") {
+                isOKE = false
+                currentMessage =
+                    "Transaksi Hanya dapat diselesaikan saat status transaksi berada pada `Status Timbang`"
+            }
+
+            currentMessage += "\n\nBelum ada pada transaksi ini, silakan tambahkan sebelum melanjutkan"
+
+            if (isOKE) {
+                DialogUtils.showCustomDialog(
+                    context = requireContext(),
+                    title = getString(R.string.title_modal_are_you_sure),
+                    message = getString(R.string.message_modal_upload_invoice_confirmation),
+                    positiveAction = Pair("OK", {
+                        goToFragmentSignature()
+                    }),
+                    negativeAction = Pair("BATAL", {}),
+                    autoDismiss = true,
+                    buttonAllCaps = false
+                )
+            } else {
+                DialogUtils.showCustomDialog(
+                    context = requireContext(),
+                    title = getString(R.string.title_modal_attention),
+                    message = currentMessage,
+                    positiveAction = Pair("OK", {}),
+                    negativeAction = Pair("BATAL", {}),
+                    autoDismiss = true,
+                    buttonAllCaps = false
+                )
+            }
+
+        }
+    }
+
     private fun goToFragmentChat() {
         val directions =
             DetailHistoryFragmentDirections.actionDetailHistoryFragmentToRsChatFragment(
+                args.rsID
+            )
+        findNavController().navigate(directions)
+    }
+
+    private fun goToFragmentSignature() {
+        val directions =
+            DetailHistoryFragmentDirections.actionDetailHistoryFragmentToSignatureFragment(
+                args.rsID
+            )
+        findNavController().navigate(directions)
+    }
+
+    private fun goToFragmentInvoice() {
+        val directions =
+            DetailHistoryFragmentDirections.actionDetailHistoryFragmentToInvoiceFragment(
                 args.rsID
             )
         findNavController().navigate(directions)
@@ -404,6 +530,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun initData() {
         viewModel.getDetail(args.rsID)
+        viewModel.fetchScaleData(args.rsID)
         viewModel.detailRsLD.observe(viewLifecycleOwner, detailObserver)
     }
 
@@ -437,7 +564,6 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                 "Diproses",
                 "Dalam Penjemputan",
                 "Proses Timbang",
-                "Sukses"
             )
         val spin = binding.spinnerStatus
         val onSpinnerItemSelected = object : AdapterView.OnItemSelectedListener {
@@ -465,9 +591,6 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                         }
                         4 -> {
                             statusCode = "5"
-                        }
-                        5 -> {
-                            statusCode = "1"
                         }
                     }
                     DialogUtils.showCustomDialog(

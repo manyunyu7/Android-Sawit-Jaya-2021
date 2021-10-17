@@ -42,6 +42,8 @@ data class HistoryDetailResponse(
         val estMargin: String,
         @SerializedName("est_price")
         val estPrice: String,
+        @SerializedName("rs_code")
+        val rsCode: String,
         @SerializedName("est_weight")
         val estWeight: String,
         @SerializedName("real_calculation_price")
@@ -84,8 +86,14 @@ data class HistoryDetailResponse(
         val userPhoto: String,
         @SerializedName("final_price")
         val finalPrice: String,
+        @SerializedName("price_paid")
+        val pricePaid: String,
+        @SerializedName("final_margin")
+        val finalMargin: String,
         @SerializedName("final_weight")
         val finalWeight: String,
+        @SerializedName("finished_at")
+        val finished_at: String,
         @SerializedName("created_at_idn")
         val created_at_idn: String,
         @SerializedName("updated_at_idn")
@@ -94,6 +102,12 @@ data class HistoryDetailResponse(
         val resultEstPriceNow: String,
         @SerializedName("result_est_price_old")
         val resultEstPriceOld: String,
+        @SerializedName("signature_user_path")
+        val signature_user_path: String,
+        @SerializedName("signature_driver_path")
+        val signature_driver_path: String,
+        @SerializedName("signature_staff_path")
+        val signature_staff_path: String,
     ) {
         fun mapToPhotoModel(): MutableList<PhotoListModel> {
             val tempList = mutableListOf<PhotoListModel>()

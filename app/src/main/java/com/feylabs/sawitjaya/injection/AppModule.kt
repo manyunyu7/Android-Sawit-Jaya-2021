@@ -5,7 +5,9 @@ import com.feylabs.sawitjaya.ui.mnotification.MNotificationViewModel
 import com.feylabs.sawitjaya.ui.news.NewsViewModel
 import com.feylabs.sawitjaya.ui.profile.SettingsViewModel
 import com.feylabs.sawitjaya.ui.chat.RsChatViewModel
+import com.feylabs.sawitjaya.ui.invoice.InvoiceViewModel
 import com.feylabs.sawitjaya.ui.rs.request.RsDetailViewModel
+import com.feylabs.sawitjaya.ui.rs_signature.RsSignatureViewModel
 import com.feylabs.sawitjaya.ui.staff.home.StaffHomeViewModel
 import com.feylabs.sawitjaya.ui.user_history_tbs.HistoryViewModel
 import com.feylabs.sawitjaya.ui.user_history_tbs.detail.DetailHistoryViewModel
@@ -25,5 +27,7 @@ val viewModelModule = module {
     viewModel { MNotificationViewModel(get()) }
     viewModel { RsChatViewModel(get()) }
     viewModel { RsScaleViewModel(get()) }
+    viewModel { InvoiceViewModel(get()) }
+    viewModel { RsSignatureViewModel(get()) }
 }
 

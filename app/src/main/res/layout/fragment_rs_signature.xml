@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base_color"
+    tools:context=".ui.rs_signature.RsSignatureFragment">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:maxLines="1"
+                android:text="Upload Tanda Tangan"
+                android:textColor="@color/blue_auth"
+                android:textSize="18sp" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/containerTransactionData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="1dp"
+                android:layout_marginVertical="10dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <com.github.florent37.expansionpanel.ExpansionHeader
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:expansion_headerIndicator="@id/headerIndicator3"
+                        app:expansion_layout="@id/expansionLayout3"
+                        app:expansion_toggleOnClick="true">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginVertical="5dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:maxLines="1"
+                            android:text="Data Transaksi"
+                            android:textColor="@color/blue_auth"
+                            android:textSize="18sp" />
+
+
+                        <ImageView
+                            android:id="@+id/headerIndicator3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_marginLeft="16dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+                    </com.github.florent37.expansionpanel.ExpansionHeader>
+
+                    <com.github.florent37.expansionpanel.ExpansionLayout
+                        android:id="@+id/expansionLayout3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:expansion_expanded="false">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <include
+                                android:id="@+id/include_invoice_det"
+                                layout="@layout/layout_invoice_detail" />
+
+
+                        </LinearLayout>
+
+
+                    </com.github.florent37.expansionpanel.ExpansionLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/containerFinalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:maxLines="1"
+                        android:text="Persetujuan"
+                        android:textColor="@color/blue_auth"
+                        android:textSize="15sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Dengan Menatandatangani form diatas maka saya selaku pemilik kebun menyetujui bahwa data dibawah adalah benar : "
+                        android:textColor="@color/blue_auth"
+                        android:textSize="15sp" />
+
+                    <com.feylabs.razkyui.RazCustomInfoSingleLine
+                        android:id="@+id/tv_core_total_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzTitle="Total Berat Sawit : "/>
+
+                    <com.feylabs.razkyui.RazCustomInfoSingleLine
+                        android:id="@+id/tv_core_current_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzTitle="Harga Sawit Hari Ini : "/>
+
+                    <com.feylabs.razkyui.RazCustomInfoSingleLine
+                        android:id="@+id/tv_core_current_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:customInfoHzContent="@string/LOADING"
+                        app:customInfoHzTitle="Margin Saat Ini : "/>
+
+                    <com.feylabs.razkyui.RazCustomInfoVert
+                        android:id="@+id/tv_core_final_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Penyesuaian Harga"
+                        android:textColor="@color/home_secondary"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_adjustment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="Penyesuaian Harga"
+                        android:textColor="@color/blue_auth" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Pembulatan dan penyesuaian harga akhir, Diisi Oleh Staff/Driver"
+                        android:textColor="@color/home_secondary"
+                        android:textSize="11sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_save_final_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Upload Invoice" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/containerSignature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="1dp"
+                android:layout_marginVertical="10dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+
+                    <com.github.florent37.expansionpanel.ExpansionHeader
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:expansion_headerIndicator="@id/headerIndicator4"
+                        app:expansion_layout="@id/expansionLayout4"
+                        app:expansion_toggleOnClick="true">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginVertical="5dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:maxLines="1"
+                            android:text="Upload Tanda Tangan"
+                            android:textColor="@color/blue_auth"
+                            android:textSize="18sp" />
+
+
+                        <ImageView
+                            android:id="@+id/headerIndicator4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_marginLeft="16dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+                    </com.github.florent37.expansionpanel.ExpansionHeader>
+
+                    <com.github.florent37.expansionpanel.ExpansionLayout
+                        android:id="@+id/expansionLayout4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:expansion_expanded="false">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:layout_marginVertical="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:maxLines="1"
+                                android:text="Tanda Tangan Milik : "
+                                android:textColor="@color/blue_auth"
+                                android:textSize="15sp" />
+
+                            <Spinner
+                                android:id="@+id/spinner_status"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:layout_marginBottom="10dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:layout_marginVertical="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/montserrat_bold"
+                                android:maxLines="1"
+                                android:text="Gambar Tanda Tangan"
+                                android:textColor="@color/blue_auth"
+                                android:textSize="15sp" />
+
+                            <com.github.gcacace.signaturepad.views.SignaturePad
+                                android:id="@+id/signature_pad"
+                                android:layout_width="match_parent"
+                                android:layout_height="250dp"
+                                app:penColor="@android:color/black" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btn_clear"
+                                    android:layout_weight="1"
+                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:backgroundTint="@color/white"
+                                    android:text="Reset form" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btn_see_data"
+                                    android:layout_weight="1"
+                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:drawablePadding="10dp"
+                                    android:drawableStart="@drawable/ic_baseline_assignment_24"
+                                    android:layout_marginStart="10dp"
+                                    android:backgroundTint="@color/white"
+                                    android:text="Lihat Invoice" />
+
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_save_signature"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="Simpan Perubahan" />
+
+                        </LinearLayout>
+
+                    </com.github.florent37.expansionpanel.ExpansionLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="1dp"
+                android:layout_marginVertical="10dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+
+                    <com.github.florent37.expansionpanel.ExpansionHeader
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:expansion_headerIndicator="@id/headerIndicator"
+                        app:expansion_layout="@id/expansionLayout"
+                        app:expansion_toggleOnClick="true">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginVertical="5dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:maxLines="1"
+                            android:text="Petunjuk"
+                            android:textColor="@color/blue_auth"
+                            android:textSize="18sp" />
+
+
+                        <ImageView
+                            android:id="@+id/headerIndicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_marginLeft="16dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+                    </com.github.florent37.expansionpanel.ExpansionHeader>
+
+                    <com.github.florent37.expansionpanel.ExpansionLayout
+                        android:id="@+id/expansionLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:expansion_expanded="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lato_regular"
+                                android:text="@string/petunjuk_signature"
+                                android:textColor="@color/home_secondary"
+                                android:textSize="16sp" />
+
+
+                        </LinearLayout>
+
+
+                    </com.github.florent37.expansionpanel.ExpansionLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="1dp"
+                android:layout_marginVertical="10dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+
+                    <com.github.florent37.expansionpanel.ExpansionHeader
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:expansion_headerIndicator="@id/headerIndicator2"
+                        app:expansion_layout="@id/expansionLayout2"
+                        app:expansion_toggleOnClick="true">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginVertical="5dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:maxLines="1"
+                            android:text="Data Tanda Tangan Saat Ini"
+                            android:textColor="@color/blue_auth"
+                            android:textSize="18sp" />
+
+
+                        <ImageView
+                            android:id="@+id/headerIndicator2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|right"
+                            android:layout_marginLeft="16dp"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+                    </com.github.florent37.expansionpanel.ExpansionHeader>
+
+                    <com.github.florent37.expansionpanel.ExpansionLayout
+                        android:id="@+id/expansionLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:expansion_expanded="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <include
+                                android:id="@+id/include_signature"
+                                layout="@layout/layout_invoice_signature" />
+
+                        </LinearLayout>
+
+
+                    </com.github.florent37.expansionpanel.ExpansionLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <include
+        android:id="@+id/include_loading"
+        layout="@layout/layout_loading_screen_full"
+        android:elevation="99dp"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

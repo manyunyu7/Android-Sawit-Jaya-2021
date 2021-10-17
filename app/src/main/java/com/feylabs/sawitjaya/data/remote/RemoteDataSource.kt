@@ -10,14 +10,12 @@ import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
 import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
-import com.feylabs.sawitjaya.data.remote.response.ChangePasswordResponse
-import com.feylabs.sawitjaya.data.remote.response.LoginResponse
-import com.feylabs.sawitjaya.data.remote.response.NewsResponse
-import com.feylabs.sawitjaya.data.remote.response.UserUpdateProfileResponse
+import com.feylabs.sawitjaya.data.remote.response.*
 import com.feylabs.sawitjaya.injection.ServiceLocator.BASE_URL
 import com.feylabs.sawitjaya.data.remote.service.LoginPostRezki
 import com.feylabs.sawitjaya.data.remote.service.ApiService
 import com.feylabs.sawitjaya.data.remote.service.Resource
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -252,6 +250,47 @@ class RemoteDataSource(
         )
 
     /**
+     */
+    fun storeRsFileSignature(
+        rsID: String,
+        type: String,
+        file: File,
+        callback: CallbackStoreRsSignature
+    ) {
+        AndroidNetworking.upload(
+            BASE_URL + "request-sell/$rsID/store-signature"
+        )
+            .setPriority(Priority.HIGH)
+            .addMultipartParameter("type", type)
+            .addMultipartFile("photo", file)
+            .addHeaders("Authorization", getTOKEN())
+            .build()
+            .setUploadProgressListener { bytesUploaded, totalBytes ->
+                val value = "${bytesUploaded / 1024} KB of ${totalBytes / 1024} KB"
+                callback.value(Resource.Loading(value))
+            }
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject?) {
+                    Timber.d("FAN Upload Success : $response")
+                    val res = response
+                    val message = res?.getString("message") ?: "Default Message"
+                    callback.value(Resource.Success(message, message))
+                }
+
+                override fun onError(anError: ANError?) {
+                    Timber.d("FAN Upload Error : $anError")
+                    Timber.d("FAN Upload Error RSID  : $rsID")
+                    Timber.d("FAN Upload Error Body : ${anError?.errorBody}")
+                    Timber.d("FAN Upload Error Code : ${anError?.errorCode}")
+                    Timber.d("FAN Upload Error Detail : ${anError?.errorDetail}")
+                    Timber.d("FAN Upload Error Localized Message : ${anError?.localizedMessage}")
+                    callback.value(Resource.Error("Error : " + anError))
+                }
+
+            })
+    }
+
+    /**
      * Register
      * @param body,callback
      */
@@ -367,6 +406,17 @@ class RemoteDataSource(
     suspend fun getDetailRequestSell(id: String) =
         api.getRequestSellDetail(id, getTOKEN())
 
+    suspend fun storeRsFinalInfo(
+        rsID: String,
+        finalPrice: String,
+        finalMargin: String,
+        pricePaid: String
+    ) =
+        api.storeFinalRsData(
+            rsID = rsID, token = getTOKEN(), finalPrice = finalPrice,
+            pricePaid = pricePaid, finalMargin = finalMargin
+        )
+
     suspend fun getRsChatByTopic(topicId: String) =
         api.getRsChatByTopic(topicID = topicId, authHeader = getTOKEN())
 
@@ -395,19 +445,11 @@ class RemoteDataSource(
         fun value(response: Resource<String?>)
     }
 
-    interface CallbackNews {
-        fun value(response: Resource<NewsResponse?>)
-    }
-
-    interface CallbackPrice {
-        fun value(response: Resource<NewsResponse?>)
-    }
-
-    interface CallbackRequestSell {
-        fun value(response: Resource<NewsResponse?>)
-    }
-
     interface CallbackUploadRS {
+        fun value(response: Resource<String?>)
+    }
+
+    interface CallbackStoreRsSignature {
         fun value(response: Resource<String?>)
     }
 

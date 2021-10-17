@@ -8,8 +8,8 @@ import android.widget.FrameLayout
 import com.feylabs.razkyui.databinding.RazCustomInfoVertBinding
 
 class RazCustomInfoVert : FrameLayout {
-    private var title: String = ""
-    private var value: String = ""
+    var title: String = ""
+    var value: String = ""
     val binding = RazCustomInfoVertBinding.inflate(LayoutInflater.from(context), this, true)
 
 
@@ -22,7 +22,11 @@ class RazCustomInfoVert : FrameLayout {
         initView(context)
     }
 
-    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(context, attributeSet, defStyle) {
+    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(
+        context,
+        attributeSet,
+        defStyle
+    ) {
         extractAttributes(attributeSet)
         initView(context)
     }
@@ -32,7 +36,7 @@ class RazCustomInfoVert : FrameLayout {
         value(value)
     }
 
-    fun build(title:String,value:String){
+    fun build(title: String, value: String) {
         title(title)
         value(value)
     }
