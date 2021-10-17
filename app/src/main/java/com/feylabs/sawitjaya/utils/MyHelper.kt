@@ -1,5 +1,6 @@
 package com.feylabs.sawitjaya.utils
 
+import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
@@ -9,8 +10,39 @@ import java.io.ByteArrayOutputStream
 import java.math.RoundingMode
 import java.net.URL
 import java.text.DecimalFormat
+import androidx.core.content.ContextCompat.startActivity
+
+import android.content.Intent
+import android.net.Uri
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.ContextCompat.startActivity
+
 
 object MyHelper {
+
+    fun openCallerWithNumber(context: Context, number: String) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:$number")
+        context.startActivity(intent)
+    }
+
+    fun openSmsWithNumber(context: Context, number: String) {
+        val smsIntent = Intent(Intent.ACTION_VIEW)
+        smsIntent.type = "vnd.android-dir/mms-sms"
+        smsIntent.putExtra("address", "$number")
+        context.startActivity(smsIntent)
+    }
+
+    fun openWhatsappWithNumber(context: Context, number: String) {
+        var sendNumber = number
+        if (sendNumber.startsWith("0"))
+            sendNumber = sendNumber.replaceFirst("0", "62")
+        val url = "https://api.whatsapp.com/send?phone=$sendNumber"
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        context.startActivity(i)
+    }
 
     fun getByteArrayFromImageURL(url: String): String? {
         try {
