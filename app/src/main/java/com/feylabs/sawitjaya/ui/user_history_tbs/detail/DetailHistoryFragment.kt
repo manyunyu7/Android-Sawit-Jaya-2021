@@ -39,6 +39,9 @@ import com.feylabs.sawitjaya.utils.MyHelper.openWhatsappWithNumber
 import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import timber.log.Timber
+import android.content.Intent
+import android.net.Uri
+import com.feylabs.sawitjaya.utils.MyHelper.openGmapsWithDirections
 
 
 class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
@@ -284,6 +287,8 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         setupBtnFinishTransaction(rsData)
         setupBtnInvoice(rsData)
 
+
+
         binding.includeDetailRs.apply {
 
             tvDate.text = rsData?.createdAt
@@ -352,6 +357,11 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
         var location = LatLng(-34.0, 151.0)
         val apiLat = rsData?.lat?.toDouble()
         val apiLong = rsData?.long?.toDouble()
+
+        binding.btnIntentGmaps.setOnClickListener {
+            openGmapsWithDirections(requireContext(),apiLat,apiLong)
+        }
+
         if (apiLat != null && apiLong != null) {
             location = LatLng(apiLat, apiLong)
         }
@@ -377,6 +387,7 @@ class DetailHistoryFragment : BaseFragment(), OnMapReadyCallback {
                 this.labelUserEmail.build("Email : ", driverData.email, showHint = false)
                 this.labelContact.build("Contact : ", driverData.contact, showHint = false)
             }
+
         } else {
             viewGone(binding.includeDriverInfo.containerContent)
             binding.includeDriverInfo.labelTitle.text = "Belum Ada Driver"
