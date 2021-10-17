@@ -271,25 +271,27 @@ class RsDetailFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //list of photos of seleced
-        if (requestCode == 120) {
-            val photos = data?.getSerializableExtra(GalleryActivity.PHOTOS) as List<String>
-            if (photos != null) {
-                //Clear adapter data
-                mAdapter.clearData()
-                tempFileListGlobal.clear()
-                val tempList = mutableListOf<RsPhotoModel>()
-                photos.forEachIndexed { index, s ->
-                    Timber.d("photo loop @${index}")
-                    Timber.d("photo loop @${photos[index]}")
-                    val uriFIle = "file://" + photos[index]
-                    val mFileUri = Uri.parse(uriFIle) //for glide
-                    val uploadedFile = File(Uri.parse(uriFIle).path.toString())
-                    tempList.add(RsPhotoModel(mFileUri, uploadedFile))
-                    tempFileListGlobal.add(uploadedFile)
+        if (data!=null){
+            if (requestCode == 120) {
+                val photos = data.getSerializableExtra(GalleryActivity.PHOTOS) as List<String>
+                if (photos != null) {
+                    //Clear adapter data
+                    mAdapter.clearData()
+                    tempFileListGlobal.clear()
+                    val tempList = mutableListOf<RsPhotoModel>()
+                    photos.forEachIndexed { index, s ->
+                        Timber.d("photo loop @${index}")
+                        Timber.d("photo loop @${photos[index]}")
+                        val uriFIle = "file://" + photos[index]
+                        val mFileUri = Uri.parse(uriFIle) //for glide
+                        val uploadedFile = File(Uri.parse(uriFIle).path.toString())
+                        tempList.add(RsPhotoModel(mFileUri, uploadedFile))
+                        tempFileListGlobal.add(uploadedFile)
+                    }
+                    mAdapter.setWithNewData(tempList)
+                    mAdapter.notifyDataSetChanged()
+                    showToast(mAdapter.data.size.toString())
                 }
-                mAdapter.setWithNewData(tempList)
-                mAdapter.notifyDataSetChanged()
-                showToast(mAdapter.data.size.toString())
             }
         }
 

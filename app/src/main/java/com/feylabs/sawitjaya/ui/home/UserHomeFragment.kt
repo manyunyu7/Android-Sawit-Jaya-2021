@@ -1,6 +1,10 @@
 package com.feylabs.sawitjaya.ui.home
 
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +27,7 @@ import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
 import com.feylabs.sawitjaya.utils.UIHelper
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.ui.base.BaseFragment
+import com.feylabs.sawitjaya.utils.DialogUtils
 import com.yabu.livechart.model.DataPoint
 import com.yabu.livechart.model.Dataset
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +47,10 @@ class UserHomeFragment : BaseFragment() {
     override fun initUI() {
         setNewsAdapter()
         setNewsRecylerView()
+
+
     }
+
 
     override fun initObserver() {
         binding.tvPriceToday.text = "Loading...."
@@ -124,7 +132,27 @@ class UserHomeFragment : BaseFragment() {
     override fun initAction() {
 
         binding.btnSellSawit.setOnClickListener {
-            findNavController().navigate(R.id.rsPickLocationFragment)
+            val manager =
+                requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager;
+
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                DialogUtils.showCustomDialog(
+                    context = requireContext(),
+                    title = getString(R.string.title_modal_attention),
+                    message = "Untuk Menggunakan Menu Ini, Anda Harus Mengaktifkan GPS Anda, \n\n Silakan Aktifkan GPS dan Coba Lagi",
+                    positiveAction = Pair(getString(R.string.title_activate_gps), {
+                        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }),
+                    negativeAction = Pair(getString(R.string.dialog_cancel), {
+
+                    }),
+                    autoDismiss = true,
+                    buttonAllCaps = false
+                )
+            } else {
+                findNavController().navigate(R.id.rsPickLocationFragment)
+            }
+
         }
 
         binding.btnSendSawit.setOnClickListener {
