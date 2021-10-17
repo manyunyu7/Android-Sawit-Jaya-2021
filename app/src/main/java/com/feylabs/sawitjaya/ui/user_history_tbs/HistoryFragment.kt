@@ -9,6 +9,7 @@ import androidx.core.view.size
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.feylabs.sawitjaya.R
@@ -18,6 +19,8 @@ import com.feylabs.sawitjaya.databinding.FragmentHistoryBinding
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.ui.base.BaseFragment
 import com.feylabs.sawitjaya.data.remote.service.Resource
+import com.feylabs.sawitjaya.ui.user_history_tbs.detail.DetailHistoryFragmentDirections
+import com.feylabs.sawitjaya.utils.DialogUtils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.android.viewmodel.ext.android.viewModel
 import com.google.android.material.chip.Chip
@@ -151,6 +154,29 @@ class HistoryFragment : BaseFragment() {
         adapterHistory.setInterface(object : HistoryAdapter.HistoryItemInterface {
             override fun onclick(model: HistoryPagingModel.HistoryModel) {
                 bottomSheetDialog.show()
+
+                bsBinding.btnQrCode.setOnClickListener {
+                    goToFragmentQR(model)
+                    bottomSheetDialog.dismiss()
+                }
+
+                bsBinding.btnSeeInvoicw.setOnClickListener {
+                    if (model.status != "1") {
+                        DialogUtils.showCustomDialog(
+                            context = requireContext(),
+                            title = getString(R.string.title_modal_attention),
+                            message = getString(R.string.message_modal_restrict_invoice_from_detail),
+                            positiveAction = Pair(getString(R.string.dialog_ok), {
+                            }),
+                            negativeAction = Pair(getString(R.string.dialog_cancel), {}),
+                            autoDismiss = true,
+                            buttonAllCaps = false
+                        )
+                    } else {
+                        goToFragmentInvoice(model.id.toString())
+                    }
+                }
+
                 bsBinding.btnDetailOrEdit.setOnClickListener {
                     goToFragmentDetail(model.id)
                     bottomSheetDialog.dismiss()
@@ -164,12 +190,27 @@ class HistoryFragment : BaseFragment() {
 
     }
 
+    private fun goToFragmentQR(model: HistoryPagingModel.HistoryModel) {
+        val directions = HistoryFragmentDirections.actionHistoryFragmentToShowRsQrCodeFragment(
+            model.id.toString(), model.rs_code, model.userName
+        )
+        findNavController().navigate(directions)
+    }
+
     private fun goToFragmentDetail(id: Int) {
         val directions =
             HistoryFragmentDirections.actionHistoryFragmentToDetailHistoryFragment(
                 id.toString()
             )
         menuNavController?.navigate(directions)
+    }
+
+    private fun goToFragmentInvoice(id: String) {
+        val directions =
+            HistoryFragmentDirections.actionHistoryFragmentToInvoiceFragment(
+                id
+            )
+        findNavController().navigate(directions)
     }
 
 

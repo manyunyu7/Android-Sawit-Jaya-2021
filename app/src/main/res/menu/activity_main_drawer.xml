@@ -8,10 +8,7 @@
             android:id="@+id/userHomeFragment"
             android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home" />
-        <item
-            android:id="@+id/historyFragment"
-            android:icon="@drawable/ic_baseline_history_24"
-            android:title="Riwayat Penjualan" />
+
         <item
             android:id="@+id/newsFragment"
             android:icon="@drawable/ic_icons8_news"
@@ -20,6 +17,17 @@
             android:id="@+id/mNotificationFragment"
             android:icon="@drawable/ic_baseline_notifications_none_24"
             android:title="Notifikasi" />
+    </group>
+
+    <group android:id="@+id/menu_others2">
+        <item
+            android:id="@+id/historyFragment"
+            android:icon="@drawable/ic_baseline_history_24"
+            android:title="Riwayat Penjualan" />
+        <item
+            android:id="@+id/nav_scanQR"
+            android:icon="@drawable/ic_baseline_qr_code_2_24"
+            android:title="Scan QR Code" />
     </group>
 
     <group android:id="@+id/menu_others1">

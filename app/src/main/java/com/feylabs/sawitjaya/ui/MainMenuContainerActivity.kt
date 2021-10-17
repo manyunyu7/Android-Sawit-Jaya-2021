@@ -48,23 +48,6 @@ class MainMenuContainerActivity : AppCompatActivity(),
 
         setContentView(binding.root)
 
-//        val factory = ServiceLocator.provideFactory(this)
-//        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
-
-        getPriceData(true)
-
-
-        authViewModel.pricesLiveData.observe(this, Observer {
-            when (it) {
-                is Resource.Success -> {
-                }
-                is Resource.Error -> {
-                }
-                is Resource.Loading -> {
-                }
-            }
-        })
-
 
         setSupportActionBar(binding.appBarUserMainMenu.toolbar)
 
@@ -81,7 +64,7 @@ class MainMenuContainerActivity : AppCompatActivity(),
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.newsFragment, R.id.mNotificationFragment,
+                R.id.newsFragment, R.id.mNotificationFragment, R.id.scanQrCodeFragment,
                 R.id.userHomeFragment, R.id.historyFragment, R.id.settingsFragment
             ), drawerLayout
         )
@@ -95,12 +78,20 @@ class MainMenuContainerActivity : AppCompatActivity(),
         val navUserEmail: TextView = headerView.findViewById(R.id.tv_email)
         val navPicture: ImageView = headerView.findViewById(R.id.iv_profile_picture)
 
+        val menu = navigationView.menu
+
+        navigationView.setNavigationItemSelectedListener(this)
+
 
         val role = MyPreference(this).getPrefString("ROLE")
         if (role == "2") {
-            val menu = navigationView.menu
             menu.findItem(R.id.historyFragment).title = "Pekerjaan Saya"
-            navigationView.setNavigationItemSelectedListener(this)
+            menu.findItem(R.id.nav_scanQR).setVisible(true)
+        }
+
+
+        if (role == "3") {
+            menu.findItem(R.id.nav_scanQR).setVisible(false)
         }
 
         authViewModel.getProfileLocally()
@@ -158,6 +149,9 @@ class MainMenuContainerActivity : AppCompatActivity(),
             }
             R.id.mNotificationFragment -> {
                 findNavController(R.id.nav_host_fragment_content_user_main_menu).navigate(R.id.mNotificationFragment)
+            }
+            R.id.nav_scanQR -> {
+                findNavController(R.id.nav_host_fragment_content_user_main_menu).navigate(R.id.scanQrCodeFragment)
             }
         }
         return true

@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_userHomeFragment_to_rsChatFragment"
             app:destination="@id/rsChatFragment" />
+        <action
+            android:id="@+id/action_userHomeFragment_to_scanQrCodeFragment"
+            app:destination="@id/scanQrCodeFragment" />
     </fragment>
 
     <fragment
@@ -71,6 +74,14 @@
         <action
             android:id="@+id/action_historyFragment_to_detailHistoryFragment"
             app:destination="@id/detailHistoryFragment" />
+        <action
+            android:id="@+id/action_historyFragment_to_showRsQrCodeFragment"
+            app:destination="@id/showRsQrCodeFragment"
+
+            />
+        <action
+            android:id="@+id/action_historyFragment_to_invoiceFragment"
+            app:destination="@id/invoiceFragment" />
     </fragment>
 
     <fragment
@@ -108,6 +119,9 @@
         <action
             android:id="@+id/action_detailHistoryFragment_to_signatureFragment"
             app:destination="@id/rsSignatureFragment" />
+        <action
+            android:id="@+id/action_detailHistoryFragment_to_showRsQrCodeFragment"
+            app:destination="@id/showRsQrCodeFragment" />
     </fragment>
 
     <fragment
@@ -180,6 +194,34 @@
         <action
             android:id="@+id/action_rsSignatureFragment_to_updateRsFragment"
             app:destination="@id/updateRsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showRsQrCodeFragment"
+        tools:layout="@layout/fragment_show_rs_qr_code"
+        android:name="com.feylabs.sawitjaya.ui.qr.ShowRsQrCodeFragment"
+        android:label="QR Code" >
+
+        <argument
+            android:name="rsID"
+            app:argType="string"/>
+
+        <argument
+            android:name="transactionCode"
+            app:argType="string"/>
+
+        <argument
+            android:name="ownerName"
+            app:argType="string"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/scanQrCodeFragment"
+        android:name="com.feylabs.sawitjaya.ui.qr.ScanQrCodeFragment"
+        android:label="Scan QR Code"
+        tools:layout="@layout/fragment_scan_qr_code" >
+        <action
+            android:id="@+id/action_scanQrCodeFragment_to_detailHistoryFragment"
+            app:destination="@id/detailHistoryFragment" />
     </fragment>
 
 </navigation>

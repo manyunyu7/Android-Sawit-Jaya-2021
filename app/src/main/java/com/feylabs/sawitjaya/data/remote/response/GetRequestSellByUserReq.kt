@@ -26,6 +26,8 @@ data class GetRequestSellByUserReq(
     data class DataRds(
         @SerializedName("id")
         val id: Int,
+        @SerializedName("rs_code")
+        val rsCode: String,
         @SerializedName("user_id")
         val userId: Int,
         @SerializedName("address")

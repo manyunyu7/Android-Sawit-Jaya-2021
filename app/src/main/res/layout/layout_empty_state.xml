@@ -21,8 +21,9 @@
         android:layout_below="@id/anim"
         android:layout_centerInParent="true"
         android:fontFamily="@font/montserrat_regular"
-        android:text="             "
+        android:text="@string/text_no_data"
         android:layout_marginHorizontal="20dp"
+        android:textSize="20sp"
         android:textColor="@color/color_blue_golapak"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,27 +36,15 @@
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="130dp"
-        android:padding="10dp"
+        android:padding="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="error.json"
+        app:lottie_fileName="empty_state.json"
         app:lottie_loop="true" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_desc"
-        android:layout_marginHorizontal="30dp"
-        android:text="REFRESH"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_desc" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
