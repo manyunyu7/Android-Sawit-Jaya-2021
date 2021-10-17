@@ -51,7 +51,7 @@
     <string name="modal_message_success_save_signature">Berhasil Menyimpan Tanda Tangan</string>
     <string name="message_modal_error_save_signature">Gagal Menyimpan Tanda Tangan</string>
     <string name="message_modal_error_empty_signature">Tanda Tangan Masih Kosong</string>
-   <string name="message_modal_upload_invoice_confirmation">Anda Yakin Akan Mengupload Invoice ? Aksi Ini Dilakukan Setelah Pemilik Kebun Menerima Pembayaran \n\n\nSerta Menandakan Berakhirnya Transaksi Penjualan Sawit</string>
+    <string name="message_modal_upload_invoice_confirmation">Anda Yakin Akan Mengupload Invoice ? Aksi Ini Dilakukan Setelah Pemilik Kebun Menerima Pembayaran \n\n\nSerta Menandakan Berakhirnya Transaksi Penjualan Sawit</string>
     <string name="message_modal_success_finish_transaction">Berhasil Menyelesaikan Transaksi, Cetak Invoice pada menu Invoice</string>
     <string name="message_modal_restrict_invoice_from_detail">Invoice hanya bisa dibuka saat status transaksi sudah selesai/sukses</string>
     <string name="dialog_cancel">BATAL</string>

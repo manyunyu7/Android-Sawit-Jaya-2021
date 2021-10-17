@@ -8,10 +8,11 @@ data class HistoryPagingModel(
     @SerializedName("current_page")
     val currentPage: Int,
     @SerializedName("data")
-    val data : MutableList<HistoryModel>
-){
+    val data: MutableList<HistoryModel>
+) {
     data class HistoryModel(
         val id: Int,
+        val rs_code: String,
         val userId: Int,
         val address: String,
         val contact: String,
