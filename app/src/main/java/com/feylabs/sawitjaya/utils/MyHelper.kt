@@ -27,6 +27,15 @@ object MyHelper {
         context.startActivity(intent)
     }
 
+    fun openGmapsWithDirections(context: Context,lat: Double?, long: Double?) {
+        val navigationIntentUri: Uri =
+            Uri.parse("google.navigation:q=$lat,$long") //creating intent with latlng
+
+        val mapIntent = Intent(Intent.ACTION_VIEW, navigationIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        context.startActivity(mapIntent)
+    }
+
     fun openSmsWithNumber(context: Context, number: String) {
         val smsIntent = Intent(Intent.ACTION_VIEW)
         smsIntent.type = "vnd.android-dir/mms-sms"

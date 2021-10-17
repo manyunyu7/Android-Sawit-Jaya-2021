@@ -5,7 +5,7 @@
     android:id="@+id/srl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5FDFB">
+    android:background="@color/base_color">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -226,6 +226,22 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="300dp" />
                         </androidx.cardview.widget.CardView>
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_intent_gmaps"
+                            android:layout_weight="1"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:drawablePadding="10dp"
+                            android:drawableStart="@drawable/ic_baseline_bubble_chart_24"
+                            android:backgroundTint="@color/white"
+                            android:text="Petunjuk Arah" />
+
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
