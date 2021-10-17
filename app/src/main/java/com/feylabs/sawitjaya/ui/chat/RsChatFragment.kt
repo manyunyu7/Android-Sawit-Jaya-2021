@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
 import com.feylabs.sawitjaya.data.remote.response.RsChatResponseItem
@@ -72,17 +73,23 @@ class RsChatFragment : BaseFragment() {
                     val data = it.data
                     data?.let { chatList ->
                         if (chatList.size > 0) {
+                            viewGone(binding.includeEmpty.root)
                             mAdapter.addData(chatList)
                             mAdapter.notifyDataSetChanged()
+                        }else{
+                            binding.includeEmpty.tvDesc.text=getString(R.string.message_empty_chat)
+                            viewVisible(binding.includeEmpty.root)
                         }
                     }
                     viewGone(binding.includeLoading.root)
                     binding.rvChat.scrollToPosition(mAdapter.itemCount)
                 }
                 is Resource.Error -> {
+                    viewGone(binding.includeEmpty.root)
                     viewGone(binding.includeLoading.root)
                 }
                 is Resource.Loading -> {
+                    viewGone(binding.includeEmpty.root)
                     viewVisible(binding.includeLoading.root)
                 }
             }
