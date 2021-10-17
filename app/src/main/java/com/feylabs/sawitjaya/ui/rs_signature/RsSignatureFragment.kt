@@ -59,6 +59,10 @@ class RsSignatureFragment : BaseFragment() {
         setupStatusSpinner()
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     private fun setupShowCase() {
         showCaseHelper("Petunjuk", "Pilih Pemilik Tanda Tangan", binding.spinnerStatus) {
             showCaseHelper(
@@ -134,7 +138,9 @@ class RsSignatureFragment : BaseFragment() {
                         title = getString(R.string.modal_title_success),
                         message = getString(R.string.message_modal_success_finish_transaction),
                         positiveAction =
-                        Pair(getString(R.string.label_Ok), {}),
+                        Pair(getString(R.string.label_Ok), {
+                            findNavController().popBackStack()
+                        }),
                         autoDismiss = true,
                         buttonAllCaps = false
                     )

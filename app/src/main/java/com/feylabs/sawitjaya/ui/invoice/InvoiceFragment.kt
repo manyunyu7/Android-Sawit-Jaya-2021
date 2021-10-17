@@ -194,7 +194,7 @@ class InvoiceFragment : BaseFragment() {
                     value = rsData?.address.toString()
                 )
                 tvOldMargin.value(
-                    value = rsData?.estMargin?.toDouble()?.times(100)?.roundOffDecimal().toString()
+                    value = rsData?.estMargin?.toDouble()?.roundOffDecimal().toString()
                 )
 
                 tvCurrentMargin.value(
