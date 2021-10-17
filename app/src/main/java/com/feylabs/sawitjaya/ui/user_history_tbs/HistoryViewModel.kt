@@ -58,6 +58,7 @@ class HistoryViewModel(
             temp.add(
                 HistoryModel(
                     id = it.id,
+                    rs_code = it.rsCode,
                     userId = it.userId,
                     address = it.address,
                     contact = it.contact,

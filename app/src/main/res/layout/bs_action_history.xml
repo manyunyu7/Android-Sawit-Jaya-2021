@@ -23,8 +23,31 @@
             android:textColor="@color/color_blue_golapak"
             android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/btn_see_invoicw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/ic_baseline_assignment_24"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/color_blue_golapak"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Lihat Invoice"
+            android:textColor="@color/color_blue_golapak" />
 
-
+        <TextView
+            android:id="@+id/btn_qr_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/ic_baseline_qr_code_2_24"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/color_blue_golapak"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Tampilkan QR Code"
+            android:textColor="@color/color_blue_golapak" />
 
         <View
             android:layout_width="match_parent"
@@ -44,14 +67,6 @@
                 android:layout_gravity="end"
                 android:text="Lihat Detail" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_delete"
-                android:layout_toStartOf="@id/btn_detail_or_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_gravity="end"
-                android:text="Hapus" />
 
         </RelativeLayout>
 

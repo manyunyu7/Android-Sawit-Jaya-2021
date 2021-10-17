@@ -44,10 +44,12 @@
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_m_notification.xml" value="0.5" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_news.xml" value="0.14" />
-        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_rs_chat.xml" value="0.2" />
+        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_rs_chat.xml" value="0.1" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_rs_detail.xml" value="0.25" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_rs_scale.xml" value="0.25" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_rs_signature.xml" value="0.22" />
+        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_scan_qr_code.xml" value="0.134375" />
+        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_show_rs_qr_code.xml" value="0.12" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_update_rs.xml" value="0.20416666666666666" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/fragment_user_home.xml" value="0.15" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/history_fragment.xml" value="0.15" />
@@ -69,6 +71,7 @@
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/layout_dialog_single_button_image.xml" value="0.2" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/layout_dialog_single_image.xml" value="0.20416666666666666" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/layout_dialog_spinner.xml" value="0.1" />
+        <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/layout_empty_state.xml" value="0.2" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/layout_image_preview.xml" value="0.14635416666666667" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/layout_info_staff.xml" value="0.25" />
         <entry key="..\:/#2021Project/Android-Sawit-Jaya-2021/app/src/main/res/layout/layout_info_truck.xml" value="0.19947916666666668" />
