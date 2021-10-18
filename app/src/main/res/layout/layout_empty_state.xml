@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -20,11 +20,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/anim"
         android:layout_centerInParent="true"
+        android:layout_marginHorizontal="20dp"
         android:fontFamily="@font/montserrat_regular"
         android:text="@string/text_no_data"
-        android:layout_marginHorizontal="20dp"
-        android:textSize="20sp"
+        android:textAlignment="center"
         android:textColor="@color/color_blue_golapak"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/anim" />
@@ -44,7 +45,6 @@
         app:lottie_autoPlay="true"
         app:lottie_fileName="empty_state.json"
         app:lottie_loop="true" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

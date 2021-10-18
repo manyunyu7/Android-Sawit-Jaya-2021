@@ -58,11 +58,22 @@
                     android:layout_marginEnd="10dp"
                     android:layout_toEndOf="@id/relative_left">
 
+
+                    <com.feylabs.razkyui.RazCustomInfoSingleLine
+                        android:id="@+id/transaction_code"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:customInfoHzTitle="Kode Transaksi " />
+
                     <com.feylabs.razkyui.SawitCustomStatus
                         android:id="@+id/status"
-                        android:layout_margin="10dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/transaction_code"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        />
 
                     <ImageButton
                         android:id="@+id/btn_burger"
@@ -170,6 +181,14 @@
                 android:text="Estimasi Harga : "
                 android:textColor="@color/color_blue_golapak"
                 android:textSize="18sp" />
+
+            <com.feylabs.razkyui.RazCustomInfoSingleLine
+                android:id="@+id/tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                app:customInfoHzTitle="24/08/00" />
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

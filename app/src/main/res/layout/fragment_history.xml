@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,10 +8,14 @@
 
 
     <HorizontalScrollView
-        android:layout_marginVertical="20dp"
         android:id="@+id/container_chip"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -24,30 +28,30 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    android:layout_marginStart="10dp"
                     android:id="@+id/chip_all"
                     style="@style/ChipHistory"
-                    android:text="Semua"/>
+                    android:layout_marginStart="10dp"
+                    android:text="Semua" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_pending"
                     style="@style/ChipHistory"
-                    android:text="Pending"/>
+                    android:text="Pending" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_on_the_way"
                     style="@style/ChipHistory"
-                    android:text="Dalam Penjemputan"/>
+                    android:text="Dalam Penjemputan" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_processed"
                     style="@style/ChipHistory"
-                    android:text="Diproses"/>
+                    android:text="Diproses" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_success"
                     style="@style/ChipHistory"
-                    android:text="Selesai"/>
+                    android:text="Selesai" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -55,37 +59,38 @@
     </HorizontalScrollView>
 
 
-    <LinearLayout
-        android:layout_below="@id/container_chip"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_rs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:itemCount="2"
+        app:layout_constraintBottom_toTopOf="@id/progressBar"
+        app:layout_constraintTop_toBottomOf="@id/container_chip"
+        tools:listitem="@layout/item_grid_rs" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_rs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:itemCount="100"
-            tools:listitem="@layout/item_grid_rs" />
-
-
-    </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <include
-        android:layout_below="@+id/container_chip"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
         android:id="@+id/include_loading"
-        android:visibility="visible"
-        layout="@layout/layout_loading_screen"/>
-    <include
-        android:layout_below="@+id/container_chip"
-        android:layout_width="wrap_content"
+        layout="@layout/layout_loading_screen"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/container_chip"
+        android:visibility="visible" />
+
+    <include
         android:id="@+id/include_desc"
+        layout="@layout/layout_empty_state"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:visibility="gone"
-        layout="@layout/layout_loading_error"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container_chip"
+        android:layout_below="@+id/container_chip"/>
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
