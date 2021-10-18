@@ -106,20 +106,21 @@ class ChangeProfilePictureFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //list of photos of seleced
+        if (data != null) {
+            if (requestCode == 120) {
+                val photos = data?.getSerializableExtra(GalleryActivity.PHOTOS) as List<String>
+                val firstPhotos = photos[0]
+                val uriFIle = "file://" + firstPhotos
+                Timber.d("photosz picked $photos")
+                Timber.d("photosz file picked $uriFIle")
+                Timber.d("photosz upload uri parse : ${Uri.parse(uriFIle)}")
 
-        if (requestCode == 120) {
-            val photos = data?.getSerializableExtra(GalleryActivity.PHOTOS) as List<String>
-            val firstPhotos = photos[0]
-            val uriFIle = "file://" + firstPhotos
-            Timber.d("photosz picked $photos")
-            Timber.d("photosz file picked $uriFIle")
-            Timber.d("photosz upload uri parse : ${Uri.parse(uriFIle)}")
+                Glide.with(requireContext())
+                    .load(Uri.parse(uriFIle)).into(binding.ivProfilePicture)
 
-            Glide.with(requireContext())
-                .load(Uri.parse(uriFIle)).into(binding.ivProfilePicture)
+                uploadedFile = File(Uri.parse(uriFIle).path.toString())
 
-            uploadedFile = File(Uri.parse(uriFIle).path.toString())
-
+            }
         }
 
     }

@@ -1,13 +1,17 @@
 package com.feylabs.sawitjaya.ui.home
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -44,13 +48,18 @@ class UserHomeFragment : BaseFragment() {
 
     val adapterNews by lazy { NewsAdapter() }
 
+    val MULTIPLE_PERMISSIONS = 99 // code you want.
+
+    var permissions = arrayOf<String>(
+        Manifest.permission.CAMERA,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
     override fun initUI() {
         setNewsAdapter()
         setNewsRecylerView()
-
-
     }
-
 
     override fun initObserver() {
         binding.tvPriceToday.text = "Loading...."
@@ -68,7 +77,7 @@ class UserHomeFragment : BaseFragment() {
                 data?.let {
                     if (it.isNotEmpty()) {
                         val newestPrice = it[0]?.price.toString()
-                        val newestMargin = (it[0]?.margin)?.times(100)?.roundOffDecimal()
+                        val newestMargin = (it[0]?.margin)?.toDouble()?.times(100)?.roundOffDecimal()
                         binding.tvPriceToday.text = "Rp. $newestPrice"
                         binding.tvMargin.text =
                             "Margin : ${newestMargin}% dari total harga jual tandan buah segar"
@@ -132,16 +141,18 @@ class UserHomeFragment : BaseFragment() {
     override fun initAction() {
 
         binding.btnSellSawit.setOnClickListener {
-            val manager =
-                requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager;
 
-            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 DialogUtils.showCustomDialog(
                     context = requireContext(),
                     title = getString(R.string.title_modal_attention),
-                    message = "Untuk Menggunakan Menu Ini, Anda Harus Mengaktifkan GPS Anda, \n\n Silakan Aktifkan GPS dan Coba Lagi",
-                    positiveAction = Pair(getString(R.string.title_activate_gps), {
-                        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    message = "Izin Akses Lokasi Belum Diizinkan, Silakan Izinkan untuk melanjutkan menggunakan aplikasi",
+                    positiveAction = Pair("Izinkan GPS", {
+                        checkPermissions()
                     }),
                     negativeAction = Pair(getString(R.string.dialog_cancel), {
 
@@ -150,13 +161,40 @@ class UserHomeFragment : BaseFragment() {
                     buttonAllCaps = false
                 )
             } else {
-                findNavController().navigate(R.id.rsPickLocationFragment)
+                val manager =
+                    requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager;
+
+                if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    DialogUtils.showCustomDialog(
+                        context = requireContext(),
+                        title = getString(R.string.title_modal_attention),
+                        message = "Untuk Menggunakan Menu Ini, Anda Harus Mengaktifkan GPS Anda, \n\n Silakan Aktifkan GPS dan Coba Lagi",
+                        positiveAction = Pair(getString(R.string.title_activate_gps), {
+                            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }),
+                        negativeAction = Pair(getString(R.string.dialog_cancel), {
+
+                        }),
+                        autoDismiss = true,
+                        buttonAllCaps = false
+                    )
+                } else {
+                    findNavController().navigate(R.id.rsPickLocationFragment)
+                }
             }
 
         }
 
         binding.btnSendSawit.setOnClickListener {
-
+            DialogUtils.showCustomDialog(
+                context = requireContext(),
+                title = getString(R.string.title_modal_attention),
+                message = "Saat Ini Fitur Tersebut Belum Tersedia atau Dalam tahap pengembangan",
+                positiveAction = Pair(getString(R.string.title_activate_gps), { }),
+                negativeAction = Pair(getString(R.string.dialog_cancel), { }),
+                autoDismiss = true,
+                buttonAllCaps = false
+            )
         }
 
         binding.btnRequestSell.setOnClickListener {
@@ -206,8 +244,6 @@ class UserHomeFragment : BaseFragment() {
         authViewModel.localProfileLD.observe(requireActivity(), Observer {
             updateView(it)
         })
-
-
 
         authViewModel.getPrices(true)
 
@@ -288,5 +324,26 @@ class UserHomeFragment : BaseFragment() {
     private fun getNews() {
         authViewModel.getNews()
     }
+
+    private fun checkPermissions(): Boolean {
+        var result: Int
+        val listPermissionsNeeded: MutableList<String> = ArrayList()
+        for (p in permissions) {
+            result = ContextCompat.checkSelfPermission(requireActivity(), p)
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p)
+            }
+        }
+        if (listPermissionsNeeded.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                listPermissionsNeeded.toTypedArray(),
+                MULTIPLE_PERMISSIONS
+            )
+            return false
+        }
+        return true
+    }
+
 
 }

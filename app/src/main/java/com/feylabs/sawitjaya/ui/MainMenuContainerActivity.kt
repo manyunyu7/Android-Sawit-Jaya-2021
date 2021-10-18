@@ -89,7 +89,6 @@ class MainMenuContainerActivity : AppCompatActivity(),
             menu.findItem(R.id.nav_scanQR).setVisible(true)
         }
 
-
         if (role == "3") {
             menu.findItem(R.id.nav_scanQR).setVisible(false)
         }
@@ -110,21 +109,12 @@ class MainMenuContainerActivity : AppCompatActivity(),
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.user_main_menu, menu)
-        return true
-    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_user_main_menu)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-
-    fun getPriceData(saveLocally: Boolean) {
-        authViewModel.getPrices(saveLocally)
-    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
