@@ -20,6 +20,11 @@ class MyPreference(context: Context) {
         editor.commit()
     }
 
+    fun saveTokenWithTemplate(TOKEN: String) {
+        editor.putString("TOKEN", "Bearer $TOKEN")
+        editor.commit()
+    }
+
     fun getToken(): String? {
         return sharedPref.getString("TOKEN", "")
     }

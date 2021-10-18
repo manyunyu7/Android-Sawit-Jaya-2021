@@ -57,7 +57,7 @@ interface ApiService {
     @POST("auth/refresh")
     fun refreshToken(
         @Header("Authorization") authHeader: String?,
-    ): Response<RefreshTokenResponse?>
+    ): Call<RefreshTokenResponse?>
 
     @FormUrlEncoded
     @POST("user/update-data")

@@ -48,6 +48,7 @@ val networkModule = module {
     }
     single {
         OkHttpClient.Builder()
+            .authenticator(TokenAuthenticator(get(), get()))
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(
                 ChuckerInterceptor.Builder(androidContext())
