@@ -44,6 +44,8 @@ class HistoryFragment : BaseFragment() {
         _binding = null
     }
 
+    var currentStatus: String? = null // save current chip status
+
     var isLoading = true
 
     private var _binding: FragmentHistoryBinding? = null
@@ -235,18 +237,23 @@ class HistoryFragment : BaseFragment() {
                 adapterHistory.clear()
                 when (i) {
                     0 -> {
+                        currentStatus = null
                         viewModel.getRSByUser(userID = userId, status = null)
                     }
                     1 -> {
+                        currentStatus = "3"
                         viewModel.getRSByUser(userID = userId, status = "3")
                     }
                     2 -> {
+                        currentStatus = "4"
                         viewModel.getRSByUser(userID = userId, status = "4")
                     }
                     3 -> {
+                        currentStatus = "2"
                         viewModel.getRSByUser(userID = userId, status = "2")
                     }
                     4 -> {
+                        currentStatus = "1"
                         viewModel.getRSByUser(userID = userId, status = "1")
                     }
 
@@ -305,7 +312,7 @@ class HistoryFragment : BaseFragment() {
     }
 
     private fun getDatas(onRefresh: Boolean, page: Int) {
-        viewModel.getRSByUser(userId, page = page)
+        viewModel.getRSByUser(userId, page = page, status = currentStatus)
     }
 
     fun isLastVisible(rv: RecyclerView): Boolean {
