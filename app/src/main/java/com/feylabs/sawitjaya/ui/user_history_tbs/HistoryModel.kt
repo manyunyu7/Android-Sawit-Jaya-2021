@@ -6,7 +6,9 @@ import com.google.gson.annotations.SerializedName
 data class HistoryPagingModel(
     val perPage: String,
     @SerializedName("current_page")
-    val currentPage: Int,
+    val currentPage: Any,
+    @SerializedName("to")
+    val to: Any,
     @SerializedName("data")
     val data: MutableList<HistoryModel>
 ) {
@@ -32,6 +34,6 @@ data class HistoryPagingModel(
         val userName: String,
         val staffName: String,
         val updatedAt: String,
-        val updatedBy: Int,
+        val updatedBy: String,
     )
 }

@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.feylabs.sawitjaya.R
+import com.feylabs.sawitjaya.data.remote.response.HistoryDataResponse
 import com.feylabs.sawitjaya.databinding.ItemGridRsBinding
 import com.feylabs.sawitjaya.utils.BusinessHelper
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
@@ -14,7 +15,9 @@ import com.feylabs.sawitjaya.utils.UIHelper.setColorStatus
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
-    val data = mutableListOf<HistoryPagingModel.HistoryModel>()
+    var page = 1
+
+    val data = mutableListOf<HistoryDataResponse.Data>()
     lateinit var itemInterface: HistoryItemInterface
 
 
@@ -26,18 +29,15 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
 
         val binding = ItemGridRsBinding.bind(view)
 
-        fun bind(data: HistoryPagingModel.HistoryModel) {
+        fun bind(data: HistoryDataResponse.Data) {
             binding.tvEstWeight.text = "${data.estWeight} Kg"
             binding.tvUserName.text = data.userName
+            binding.tvDate.title(data.createdAt)
 
             binding.status.build(
                 type = data.status,
                 text = data.statusDesc
             )
-
-            //Change Card Color
-            val context = binding.root.context
-            val color = setColorStatus(data.status)
 
             itemView.setOnClickListener {
                 itemInterface.onclick(data)
@@ -49,9 +49,17 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
                 weight = data.estWeight.toDouble()
             )
 
+            binding.transactionCode.title(data.rsCode)
             binding.tvEstPrice.text = "Estimasi Harga : ${price}"
+
+            if (data.status == "1") {
+                binding.labelEstWeight.text = "Berat Ditimbang : "
+                binding.tvEstPrice.text = "Harga Dibayarkan : ${data.pricePaid}"
+                binding.tvEstWeight.text = data.totalWeight.toString()
+            }
+
             binding.ivProfilePicture.loadImageFromURL(binding.root.context, data.userPhoto)
-            binding.ivMainImage.loadImageFromURL(binding.root.context, data.photo)
+            binding.ivMainImage.loadImageFromURL(binding.root.context, data.photoPath)
         }
     }
 
@@ -60,7 +68,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
         notifyDataSetChanged()
     }
 
-    fun addData(model: MutableList<HistoryPagingModel.HistoryModel>) {
+    fun addData(model: MutableList<HistoryDataResponse.Data>) {
         data.addAll(model)
         notifyDataSetChanged()
     }
@@ -79,7 +87,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
     }
 
     interface HistoryItemInterface {
-        fun onclick(model: HistoryPagingModel.HistoryModel)
+        fun onclick(model: HistoryDataResponse.Data)
     }
 
 }

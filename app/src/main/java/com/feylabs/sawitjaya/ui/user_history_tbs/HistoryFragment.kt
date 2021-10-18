@@ -1,6 +1,7 @@
 package com.feylabs.sawitjaya.ui.user_history_tbs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
+import com.feylabs.sawitjaya.data.remote.response.HistoryDataResponse
 import com.feylabs.sawitjaya.databinding.BsActionHistoryBinding
 import com.feylabs.sawitjaya.databinding.FragmentHistoryBinding
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
@@ -41,19 +44,20 @@ class HistoryFragment : BaseFragment() {
         _binding = null
     }
 
+    var isLoading = true
+
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding as FragmentHistoryBinding
 
     private val adapterHistory by lazy { HistoryAdapter() }
 
-    private lateinit var historyObserver: Observer<Resource<HistoryPagingModel>>
+    private lateinit var historyObserver: Observer<Resource<HistoryDataResponse?>>
 
     val viewModel: HistoryViewModel by viewModel()
     val authViewModel: AuthViewModel by viewModel()
 
 
     var userId = ""
-
 
     val bottomSheetDialog by lazy {
         BottomSheetDialog(
@@ -73,37 +77,43 @@ class HistoryFragment : BaseFragment() {
     }
 
     override fun initUI() {
+        setupBottomSheet()
+        setupRecyclerView(LAYOUT_TYPE.LINEAR)
+        setupChip()
+        binding.progressBar.visibility = View.GONE
     }
 
     override fun initObserver() {
         historyObserver = Observer {
             when (it) {
                 is Resource.Loading -> {
+                    isLoading = true
                     viewVisible(binding.includeLoading.root)
                 }
                 is Resource.Success -> {
+                    isLoading = false
                     val dataSize = it.data?.data?.size
                     //hide desc/error view
                     viewGone(binding.includeDesc.root)
                     binding.includeDesc.tvDesc.text = ""
 
-                    if (dataSize == 0) {
-                        viewGone(binding.includeLoading.root)
+                    it.data?.data?.let { data ->
+                        adapterHistory.addData(data.toMutableList())
+                    }
+                    viewGone(binding.includeLoading.root)
+
+                    if (adapterHistory.itemCount == 0) {
                         binding.includeDesc.apply {
                             root.visibility = View.VISIBLE
                             tvDesc.text = "Belum Ada Data"
                             viewVisible(this.root)
                         }
-                    } else {
-                        it.data?.data?.let { data ->
-                            adapterHistory.addData(data)
-                        }
-                        viewGone(binding.includeLoading.root)
                     }
 
                 }
 
                 is Resource.Error -> {
+                    isLoading = false
                     viewGone(binding.includeLoading.root)
                     binding.includeDesc.apply {
                         root.visibility = View.VISIBLE
@@ -123,7 +133,7 @@ class HistoryFragment : BaseFragment() {
         if (MyPreference(requireContext()).getRole() == "1") {
             userId = "all"
         }
-        viewModel.getRSByUser(userId)
+        getDatas(false, 1)
         viewModel.historyDataLD.observe(viewLifecycleOwner, historyObserver)
     }
 
@@ -140,10 +150,6 @@ class HistoryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupBottomSheet()
-        setupRecyclerView(LAYOUT_TYPE.LINEAR)
-        setupChip()
-
         binding.group.setOnCheckedChangeListener { groupz, checkedId ->
             val ids: List<Int> = groupz.checkedChipIds
             for (id in ids) {
@@ -152,9 +158,8 @@ class HistoryFragment : BaseFragment() {
             }
         }
 
-
         adapterHistory.setInterface(object : HistoryAdapter.HistoryItemInterface {
-            override fun onclick(model: HistoryPagingModel.HistoryModel) {
+            override fun onclick(model: HistoryDataResponse.Data) {
                 bottomSheetDialog.show()
 
                 bsBinding.btnQrCode.setOnClickListener {
@@ -190,11 +195,12 @@ class HistoryFragment : BaseFragment() {
 
         })
 
+
     }
 
-    private fun goToFragmentQR(model: HistoryPagingModel.HistoryModel) {
+    private fun goToFragmentQR(model: HistoryDataResponse.Data) {
         val directions = HistoryFragmentDirections.actionHistoryFragmentToShowRsQrCodeFragment(
-            model.id.toString(), model.rs_code, model.userName
+            model.id.toString(), model.rsCode, model.userName
         )
         findNavController().navigate(directions)
     }
@@ -225,6 +231,7 @@ class HistoryFragment : BaseFragment() {
                 showToast(i.toString())
             }
             chip.setOnClickListener {
+                adapterHistory.page = 1
                 adapterHistory.clear()
                 when (i) {
                     0 -> {
@@ -254,6 +261,36 @@ class HistoryFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView(type: LAYOUT_TYPE) {
+        adapterHistory.page = 1
+        binding.rvRs.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                val layoutManager = binding.rvRs.layoutManager as LinearLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
+
+                if (adapterHistory.itemCount < 10)
+                    adapterHistory.page = 1
+
+                // If current item of the page is not multiple of 10
+                // because my pagination backend is allowed 10 each page
+                var isEndOfPage = false
+                if (adapterHistory.itemCount % 10 == 0) {
+                    isEndOfPage = true
+                }
+
+                if (!isLoading && isEndOfPage) {
+                    if (visibleItemCount + pastVisibleItem == adapterHistory.itemCount) {
+                        adapterHistory.page++
+                        getDatas(onRefresh = false, adapterHistory.page)
+                    }
+                }
+
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
+
+
         binding.rvRs.apply {
             when (type) {
                 LAYOUT_TYPE.GRID -> {
@@ -265,6 +302,17 @@ class HistoryFragment : BaseFragment() {
             }
             adapter = adapterHistory
         }
+    }
+
+    private fun getDatas(onRefresh: Boolean, page: Int) {
+        viewModel.getRSByUser(userId, page = page)
+    }
+
+    fun isLastVisible(rv: RecyclerView): Boolean {
+        val layoutManager = rv.layoutManager as LinearLayoutManager
+        val pos = layoutManager.findLastCompletelyVisibleItemPosition()
+        val numItems: Int = rv.adapter!!.itemCount
+        return pos >= numItems - 1
     }
 
     enum class LAYOUT_TYPE(val int: Int) {

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.feylabs.sawitjaya.data.SawitRepository
 import com.feylabs.sawitjaya.data.remote.response.GetRequestSellByUserReq
+import com.feylabs.sawitjaya.data.remote.response.HistoryDataResponse
+import com.feylabs.sawitjaya.data.remote.response.HistoryDetailResponse
 import com.feylabs.sawitjaya.ui.user_history_tbs.HistoryPagingModel.HistoryModel
 import com.feylabs.sawitjaya.data.remote.service.Resource
 import kotlinx.coroutines.launch
@@ -19,9 +21,9 @@ class HistoryViewModel(
     var filterStatus: MutableLiveData<String> = MutableLiveData(null);
 
     var _historyDataLD =
-        MutableLiveData<Resource<HistoryPagingModel>>()
+        MutableLiveData<Resource<HistoryDataResponse?>>()
 
-    val historyDataLD: LiveData<Resource<HistoryPagingModel>>
+    val historyDataLD: LiveData<Resource<HistoryDataResponse?>>
         get() = _historyDataLD
 
     fun getRSByUser(
@@ -35,7 +37,7 @@ class HistoryViewModel(
                     userID = userID, paginate = paginate, page = page, per_page = perPage,
                     status = status
                 )
-                val mBody = historyResponseDataToHistoryModelMapper(request.body()!!)
+                val mBody = request.body()
                 if (request.isSuccessful) {
                     _historyDataLD.postValue(Resource.Success(mBody))
                 } else {
@@ -44,51 +46,7 @@ class HistoryViewModel(
             } catch (e: Exception) {
                 _historyDataLD.postValue(Resource.Error("Terjadi Kesalahan : ${e.message}"))
             }
-
         }
-    }
-
-
-    fun historyResponseDataToHistoryModelMapper(
-        response: GetRequestSellByUserReq
-    ): HistoryPagingModel {
-
-        val temp = mutableListOf<HistoryModel>()
-        response.data.forEach {
-            temp.add(
-                HistoryModel(
-                    id = it.id,
-                    rs_code = it.rsCode,
-                    userId = it.userId,
-                    address = it.address,
-                    contact = it.contact,
-                    createdAt = it.createdAt,
-                    driverId = it.driverId,
-                    estMargin = it.estMargin,
-                    estPrice = it.estPrice,
-                    estWeight = it.estWeight,
-                    lat = it.lat,
-                    long = it.long,
-                    userPhoto = it.userPhoto,
-                    photo = it.photoPath,
-                    staffId = it.staffId,
-                    status = it.status,
-                    statusDesc = it.statusDesc,
-                    driverName = it.driverName,
-                    staffName = it.staffName,
-                    updatedAt = it.updatedAt,
-                    updatedBy = it.updatedBy,
-                    userName = it.userName
-                )
-            )
-        }
-
-        val pagingModel = HistoryPagingModel(
-            perPage = response.perPage,
-            data = temp,
-            currentPage = response.currentPage
-        )
-        return pagingModel
     }
 
 

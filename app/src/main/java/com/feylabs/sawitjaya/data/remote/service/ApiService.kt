@@ -130,7 +130,7 @@ interface ApiService {
         @Query("per_page") per_page: Int = 10,
         @Query("status") status: String? = null,
         @Header("Authorization") authHeader: String?,
-    ): Response<GetRequestSellByUserReq?>
+    ): Response<HistoryDataResponse?>
 
     /**
      * rs
