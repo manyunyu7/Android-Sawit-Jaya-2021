@@ -23,8 +23,11 @@ import com.feylabs.sawitjaya.utils.DialogUtils
 import com.feylabs.sawitjaya.utils.TelegramGalleryActivity
 import com.feylabs.sawitjaya.ui.base.BaseFragment
 import com.feylabs.sawitjaya.data.remote.service.Resource
+import com.feylabs.sawitjaya.utils.MyHelper.roundOffDecimal
 import com.tangxiaolv.telegramgallery.GalleryActivity
 import com.tangxiaolv.telegramgallery.GalleryConfig
+import com.yabu.livechart.model.DataPoint
+import com.yabu.livechart.model.Dataset
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.io.File
@@ -167,12 +170,32 @@ class RsDetailFragment : BaseFragment() {
     }
 
     override fun initObserver() {
-        authViewModel.priceLocalLiveData.observe(requireActivity(), Observer {
+        authViewModel.pricesLiveData.observe(requireActivity(), Observer { response ->
 
-            if (it.isNotEmpty()) {
-                if (it[0] != null) {
-                    newestPrice = it[0]?.price
-                    newestMargin = (it[0]?.margin)?.times(100)
+            if (response is Resource.Loading) {
+                binding.includeLoading.root.visibility = View.VISIBLE
+            } else {
+                viewGone(binding.includeLoading.root)
+            }
+
+            if (response is Resource.Success) {
+                val data = response.data
+                data?.let {
+                    if (it.isNotEmpty()) {
+                        newestPrice = it[0].price
+                        newestMargin =
+                            (it[0].margin)?.toDouble()?.times(100)?.roundOffDecimal()
+
+                        val tempList = mutableListOf<DataPoint>()
+                        tempList.clear()
+
+
+
+                        Timber.d("added set : ${tempList.asReversed()}")
+                        val dataset = Dataset(
+                            tempList.asReversed()
+                        )
+                    }
                 }
             }
         })
@@ -217,6 +240,16 @@ class RsDetailFragment : BaseFragment() {
                     viewGone(binding.includeLoading.root)
                     binding.tvUploadProgress.visibility = View.GONE
                     showToast(it.data.toString())
+
+                    DialogUtils.showCustomDialog(
+                        context = requireContext(),
+                        title = getString(R.string.title_modal_error_occured),
+                        message = getString(R.string.message_modal_error_upload_rs),
+                        positiveAction = Pair("OK", {}),
+                        autoDismiss = true,
+                        buttonAllCaps = false
+                    )
+
                 }
                 is Resource.Loading -> {
                     viewVisible(binding.includeLoading.root)
@@ -271,7 +304,7 @@ class RsDetailFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //list of photos of seleced
-        if (data!=null){
+        if (data != null) {
             if (requestCode == 120) {
                 val photos = data.getSerializableExtra(GalleryActivity.PHOTOS) as List<String>
                 if (photos != null) {

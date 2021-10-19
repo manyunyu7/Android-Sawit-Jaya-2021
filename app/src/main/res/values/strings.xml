@@ -60,5 +60,6 @@
     <string name="title_activate_gps">Aktifkan GPS</string>
     <string name="title_call_driver">Hubungi Driver</string>
     <string name="title_call_staff">Hubungi Staff</string>
+    <string name="message_modal_error_upload_rs">Gagal Mengirim Permintaan Jual, Lengkapi Inputan atau coba lagi nanti</string>
 
 </resources>
