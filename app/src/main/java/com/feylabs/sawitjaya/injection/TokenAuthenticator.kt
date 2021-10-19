@@ -7,11 +7,13 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
+import com.feylabs.sawitjaya.data.remote.response.LoginResponse
 import com.feylabs.sawitjaya.data.remote.response.RefreshTokenResponse
 import com.feylabs.sawitjaya.data.remote.service.ApiClient
 import com.feylabs.sawitjaya.ui.auth.ContainerAuthActivity
 import com.google.gson.Gson
 import okhttp3.*
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import timber.log.Timber
@@ -66,13 +68,17 @@ class TokenAuthenticator(val pref: MyPreference, val context: Context) : Authent
 
         Timber.d("NRY requesting start req new token with ${MyPreference(context).getToken()} ")
 
-        AndroidNetworking.post(ServiceLocator.BASE_URL + "auth/refresh")
+
+        AndroidNetworking.post(ServiceLocator.BASE_URL + "auth/login")
             .addHeaders("Authorization", MyPreference(context).getToken())
+            .addBodyParameter("email", MyPreference(context).getUserEmail())
+            .addBodyParameter("password", MyPreference(context).getUserPassword())
             .build()
             .getAsString(object : StringRequestListener {
                 override fun onResponse(response: String?) {
-                    val json = Gson().fromJson(response, RefreshTokenResponse::class.java)
-                    val newToken = json.accessToken
+                    val json = Gson().fromJson(response, LoginResponse::class.java)
+                    val newToken = json.access_token
+
                     authTokenResponse = newToken
                     Timber.d("nry fan response ${response}")
                     MyPreference(context).saveTokenWithTemplate(newToken)
@@ -84,6 +90,7 @@ class TokenAuthenticator(val pref: MyPreference, val context: Context) : Authent
                     Timber.d("nry fan response er body ${anError?.errorBody}")
                     Timber.d("nry fan response er code${anError?.errorCode}")
                     Timber.d("nry fan response er det${anError?.errorDetail}")
+                    logout()
                 }
 
             })
@@ -104,14 +111,6 @@ class TokenAuthenticator(val pref: MyPreference, val context: Context) : Authent
 //            override fun onFailure(call: Call<RefreshTokenResponse?>, t: Throwable) {
 //                Timber.d("NRY authenticator error : ${t.toString()}")
 //                Timber.d("NRY requesting new token result ${t.toString()}")
-//                MyPreference(context).clearPreferences()
-//                if (context is Activity) {
-//                    context.finish()
-//                }
-//                val intent = Intent(context, ContainerAuthActivity::class.java)
-//                intent.putExtra("message", "Sesi Anda Telah Habis, Silakan Login Kembali")
-//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
-//                context.startActivity(intent)
 //            }
 //
 //
@@ -121,6 +120,17 @@ class TokenAuthenticator(val pref: MyPreference, val context: Context) : Authent
 
 
 //        Timber.d("updated_token")
+    }
+
+    private fun logout() {
+        MyPreference(context).clearPreferences()
+        if (context is Activity) {
+            context.finish()
+        }
+        val intent = Intent(context, ContainerAuthActivity::class.java)
+        intent.putExtra("message", "Sesi Anda Telah Habis, Silakan Login Kembali")
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+        context.startActivity(intent)
     }
 
 }

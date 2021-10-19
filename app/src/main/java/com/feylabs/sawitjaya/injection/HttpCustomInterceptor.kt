@@ -1,14 +1,18 @@
 package com.feylabs.sawitjaya.injection
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import com.feylabs.sawitjaya.data.local.preference.MyPreference
 import okhttp3.Interceptor
 import okhttp3.Response
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
+import com.feylabs.sawitjaya.data.remote.response.LoginResponse
 import com.feylabs.sawitjaya.data.remote.response.RefreshTokenResponse
 import com.feylabs.sawitjaya.injection.ServiceLocator.BASE_URL
+import com.feylabs.sawitjaya.ui.auth.ContainerAuthActivity
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,6 +31,9 @@ class HttpCustomInterceptor(
             200->{
                 Timber.d("intercept-manyunyu7 200 lanjutt")
             }
+            401->{
+               logout()
+            }
             2201 -> {
                 val newToken = updateToken(chain)
                 Timber.d("updateTOKEN ${newToken}")
@@ -36,15 +43,6 @@ class HttpCustomInterceptor(
                     .addHeader("Authorization", newToken)
                     .build()
                 chain.proceed(newRequest)
-
-//                mySharedPreferences.clearPreferences()
-//                if (context is Activity) {
-//                    context.finish()
-//                }
-//                val intent = Intent(context, ContainerAuthActivity::class.java)
-//                intent.putExtra("message","Sesi Anda Telah Habis, Silakan Login Kembali")
-//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
-//                context.startActivity(intent)
             }
         }
         return response
@@ -79,6 +77,42 @@ class HttpCustomInterceptor(
             })
 
         return authTokenResponse
+    }
+
+    private fun updateToken(): String {
+
+        var authTokenResponse = ""
+
+        Timber.d("NRY requesting start req new token with ${MyPreference(context).getToken()} ")
+
+
+        AndroidNetworking.post(ServiceLocator.BASE_URL + "auth/login")
+            .addHeaders("Authorization", MyPreference(context).getToken())
+            .addBodyParameter("email", MyPreference(context).getUserEmail())
+            .addBodyParameter("password", MyPreference(context).getUserPassword())
+            .build()
+            .getAsString(object : StringRequestListener {
+                override fun onResponse(response: String?) {
+                    val json = Gson().fromJson(response, LoginResponse::class.java)
+                    val newToken = json.access_token
+
+                    authTokenResponse = newToken
+                    Timber.d("nry fan response ${response}")
+                    MyPreference(context).saveTokenWithTemplate(newToken)
+                    MyPreference(context).getToken().toString()
+                }
+
+                override fun onError(anError: ANError?) {
+                    Timber.d("nry fan response ${anError}")
+                    Timber.d("nry fan response er body ${anError?.errorBody}")
+                    Timber.d("nry fan response er code${anError?.errorCode}")
+                    Timber.d("nry fan response er det${anError?.errorDetail}")
+                    logout()
+                }
+
+            })
+
+        return authTokenResponse
 
 //        req.enqueue(object : Callback<RefreshTokenResponse?> {
 //            override fun onResponse(
@@ -94,14 +128,6 @@ class HttpCustomInterceptor(
 //            override fun onFailure(call: Call<RefreshTokenResponse?>, t: Throwable) {
 //                Timber.d("NRY authenticator error : ${t.toString()}")
 //                Timber.d("NRY requesting new token result ${t.toString()}")
-//                MyPreference(context).clearPreferences()
-//                if (context is Activity) {
-//                    context.finish()
-//                }
-//                val intent = Intent(context, ContainerAuthActivity::class.java)
-//                intent.putExtra("message", "Sesi Anda Telah Habis, Silakan Login Kembali")
-//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
-//                context.startActivity(intent)
 //            }
 //
 //
@@ -111,6 +137,17 @@ class HttpCustomInterceptor(
 
 
 //        Timber.d("updated_token")
+    }
+
+    private fun logout() {
+        MyPreference(context).clearPreferences()
+        if (context is Activity) {
+            context.finish()
+        }
+        val intent = Intent(context, ContainerAuthActivity::class.java)
+        intent.putExtra("message", "Sesi Anda Telah Habis, Silakan Login Kembali")
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+        context.startActivity(intent)
     }
 
 
