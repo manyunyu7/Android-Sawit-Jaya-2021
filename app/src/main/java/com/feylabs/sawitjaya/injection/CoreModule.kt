@@ -12,6 +12,7 @@ import com.feylabs.sawitjaya.data.local.room.MyRoomDatabase
 import com.feylabs.sawitjaya.data.remote.RemoteDataSource
 import com.feylabs.sawitjaya.injection.ServiceLocator.BASE_URL
 import com.feylabs.sawitjaya.data.remote.service.ApiService
+import com.feylabs.sawitjaya.data.remote.service.AuthService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -48,7 +49,7 @@ val networkModule = module {
     }
     single {
         OkHttpClient.Builder()
-            .authenticator(TokenAuthenticator(get(), get()))
+//            .authenticator(TokenAuthenticator(get(), get()))
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(
                 ChuckerInterceptor.Builder(androidContext())
@@ -58,11 +59,12 @@ val networkModule = module {
                     .alwaysReadResponseBody(true)
                     .build()
             )
-//            .addInterceptor(HttpCustomInterceptor(get(), get()))
+            .addInterceptor(HttpCustomInterceptor(get(), get()))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .build()
     }
+
     single {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -72,10 +74,20 @@ val networkModule = module {
             .build()
         retrofit.create(ApiService::class.java)
     }
+
+    single {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+//            .baseUrl("http://sawit-jaya.feylabs.my.id/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(get())
+            .build()
+        retrofit.create(AuthService::class.java)
+    }
 }
 
 val repositoryModule = module {
-    single { RemoteDataSource(get(), get()) }
+    single { RemoteDataSource(get(), get(), get()) }
     single { LocalDataSource(get()) }
     single { SawitRepository(get(), get()) }
     single { AuthRepository(get(), get()) }

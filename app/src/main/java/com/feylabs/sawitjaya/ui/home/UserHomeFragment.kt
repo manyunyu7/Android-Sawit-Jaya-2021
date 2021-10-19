@@ -252,7 +252,6 @@ class UserHomeFragment : BaseFragment() {
     private fun drawChart(dataset: Dataset) {
         // set dataset, display options, and ... draw!
         binding.liveChart.setDataset(dataset)
-        binding.liveChart.setDataset(dataset)
             // Draws the Y Axis bounds with Text data points.
             .drawYBounds()
             // Draws a customizable base line from the first point of the dataset or manually set a data point
@@ -269,6 +268,7 @@ class UserHomeFragment : BaseFragment() {
             .drawHorizontalGuidelines(steps = 4)
             // Draw smooth path
             .drawSmoothPath()
+            .drawTouchOverlayAlways()
             // Draw last point tag label
             .drawLastPointLabel()
             .drawDataset()

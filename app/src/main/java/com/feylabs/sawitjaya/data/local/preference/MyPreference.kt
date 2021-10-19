@@ -46,6 +46,25 @@ class MyPreference(context: Context) {
         editor.commit()
     }
 
+    fun saveUserEmail(id: String) {
+        editor.putString("USER_EMAIL", id)
+        editor.commit()
+    }
+
+    fun getUserEmail(): String? {
+        return sharedPref.getString("USER_EMAIL", "")
+    }
+
+    fun saveUserPassword(id: String) {
+        editor.putString("USER_PASSWORD", id)
+        editor.commit()
+    }
+
+    fun getUserPassword(): String? {
+        return sharedPref.getString("USER_PASSWORD", "")
+    }
+
+
     fun save(KEY_NAME: String, value: Boolean) {
         editor.putBoolean(KEY_NAME, value)
         editor.commit()

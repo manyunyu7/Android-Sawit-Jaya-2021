@@ -19,6 +19,7 @@ import com.feylabs.sawitjaya.databinding.FragmentLoginBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.data.remote.service.Resource
 import com.feylabs.sawitjaya.ui.MainMenuContainerActivity
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 
@@ -27,7 +28,7 @@ class LoginFragment : BaseFragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding as FragmentLoginBinding
 
-    lateinit var authViewModel: AuthViewModel
+    val authViewModel: AuthViewModel by viewModel()
 
 
     lateinit var observerLogin: Observer<Resource<LoginResponse?>>
@@ -66,10 +67,6 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setLoginObserver()
-        authViewModel = ViewModelProvider(
-            requireActivity(),
-            ServiceLocator.provideFactory(requireContext())
-        ).get(AuthViewModel::class.java)
 
         binding.labelBack.setOnClickListener {
             findNavController().navigate(R.id.authFragment)
@@ -151,6 +148,10 @@ class LoginFragment : BaseFragment() {
         MyPreference(requireContext()).saveUserID(user?.id.toString())
         MyPreference(requireContext()).saveTokenWithTemplate("$token")
         MyPreference(requireContext()).save("TOKEN_RAW", "$token")
+
+        MyPreference(requireContext()).saveUserEmail(user?.email.toString())
+        MyPreference(requireContext()).saveUserPassword(binding.etPassword.text.toString())
+
         Timber.d("Tokenn Saved : Bearer $token")
         startActivity(Intent(requireContext(), MainMenuContainerActivity::class.java))
     }

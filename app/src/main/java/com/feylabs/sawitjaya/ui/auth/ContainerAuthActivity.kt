@@ -66,10 +66,6 @@ class ContainerAuthActivity : AppCompatActivity() {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
         checkPermissions()
-
-        val factory = ServiceLocator.provideFactory(this)
-        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
-
         binding.splash.root.visibility= View.VISIBLE
 
         checkIfLoggedIn()

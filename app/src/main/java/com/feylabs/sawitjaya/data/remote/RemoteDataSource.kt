@@ -12,10 +12,9 @@ import com.feylabs.sawitjaya.data.remote.request.RequestSellRequest
 import com.feylabs.sawitjaya.data.remote.request.RsChatStoreRequestBody
 import com.feylabs.sawitjaya.data.remote.response.*
 import com.feylabs.sawitjaya.injection.ServiceLocator.BASE_URL
-import com.feylabs.sawitjaya.data.remote.service.LoginPostRezki
 import com.feylabs.sawitjaya.data.remote.service.ApiService
+import com.feylabs.sawitjaya.data.remote.service.AuthService
 import com.feylabs.sawitjaya.data.remote.service.Resource
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -26,7 +25,8 @@ import java.lang.Exception
 import retrofit2.Callback as retrocallbak
 
 class RemoteDataSource(
-    private val api: ApiService,
+    private val commonService: ApiService,
+    private val authService: AuthService,
     private val context: Context
 ) {
 
@@ -41,7 +41,7 @@ class RemoteDataSource(
 
         val returnValue = MutableLiveData<Resource<LoginResponse?>>()
 
-        api.login(
+        authService.login(
             username,
             password
         ).enqueue(object : retrocallbak<LoginResponse> {
@@ -74,7 +74,7 @@ class RemoteDataSource(
         callback: CallbackUpdateProfile
     ) {
         callback.value(Resource.Loading())
-        api.update_data(
+        commonService.update_data(
             getTOKEN().toString(),
             email, role, name, contact,
         ).enqueue(object : retrocallbak<UserUpdateProfileResponse> {
@@ -110,7 +110,7 @@ class RemoteDataSource(
         callback: CallbackRegisterProfile
     ) {
         callback.value(Resource.Loading())
-        api.register(getTOKEN(), body)?.enqueue(object : retrocallbak<ResponseBody> {
+        authService.register(getTOKEN(), body)?.enqueue(object : retrocallbak<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 Timber.d("response register (success) -> ${response.body()}")
                 try {
@@ -149,7 +149,7 @@ class RemoteDataSource(
     ) {
         callback.value(Resource.Loading())
 
-        api.changePassword(getTOKEN(), old_password, new_password)
+        commonService.changePassword(getTOKEN(), old_password, new_password)
             ?.enqueue(object : retrocallbak<ChangePasswordResponse> {
                 override fun onResponse(
                     call: Call<ChangePasswordResponse>,
@@ -178,7 +178,7 @@ class RemoteDataSource(
         status: String? = null,
         page: Int, per_page: Int, paginate: Boolean = true
     ) =
-        api.getRequestSellByUser(
+        commonService.getRequestSellByUser(
             userID = userID,
             paginate = paginate,
             page = page,
@@ -193,7 +193,7 @@ class RemoteDataSource(
      *
      */
     suspend fun getNews() =
-        api.getNews(getTOKEN())
+        commonService.getNews(getTOKEN())
 
     /**
      * get price
@@ -201,7 +201,7 @@ class RemoteDataSource(
      *
      */
     suspend fun getPrices() =
-        api.getPrice(getTOKEN())
+        commonService.getPrice(getTOKEN())
 
     /**
      * get mnotification
@@ -209,7 +209,7 @@ class RemoteDataSource(
      *
      */
     suspend fun getMNotificationByUser(userID: String) =
-        api.getMNotificationByUser(userID, getTOKEN())
+        commonService.getMNotificationByUser(userID, getTOKEN())
 
     /**
      * get mnotification
@@ -217,7 +217,7 @@ class RemoteDataSource(
      *
      */
     suspend fun getScaleDataByRsID(rsID: String) =
-        api.getRsScaleByRsID(rsID, getTOKEN())
+        commonService.getRsScaleByRsID(rsID, getTOKEN())
 
     /**
      * get mnotification
@@ -225,7 +225,7 @@ class RemoteDataSource(
      *
      */
     suspend fun refreshToken() =
-        api.refreshToken(getTOKEN())
+        commonService.refreshToken(getTOKEN())
 
     /**
      * get mnotification
@@ -233,7 +233,7 @@ class RemoteDataSource(
      *
      */
     suspend fun storeScaleDataByRsID(rsID: String, result: String, createdBy: String) =
-        api.storeRsScaleByRsID(
+        commonService.storeRsScaleByRsID(
             rsID = rsID, result = result, createdBy = createdBy,
             token = getTOKEN()
         )
@@ -244,7 +244,7 @@ class RemoteDataSource(
      *
      */
     suspend fun deleteScaleDataByID(rsID: String) =
-        api.deleteRsScaleByID(
+        commonService.deleteRsScaleByID(
             rsID = rsID,
             token = getTOKEN()
         )
@@ -404,7 +404,7 @@ class RemoteDataSource(
     }
 
     suspend fun getDetailRequestSell(id: String) =
-        api.getRequestSellDetail(id, getTOKEN())
+        commonService.getRequestSellDetail(id, getTOKEN())
 
     suspend fun storeRsFinalInfo(
         rsID: String,
@@ -412,22 +412,22 @@ class RemoteDataSource(
         finalMargin: String,
         pricePaid: String
     ) =
-        api.storeFinalRsData(
+        commonService.storeFinalRsData(
             rsID = rsID, token = getTOKEN(), finalPrice = finalPrice,
             pricePaid = pricePaid, finalMargin = finalMargin
         )
 
     suspend fun getRsChatByTopic(topicId: String) =
-        api.getRsChatByTopic(topicID = topicId, authHeader = getTOKEN())
+        commonService.getRsChatByTopic(topicID = topicId, authHeader = getTOKEN())
 
     suspend fun changeRsStatus(rsID: String, status: String) =
-        api.changeRsStatus(rsID = rsID, status = status, token = getTOKEN())
+        commonService.changeRsStatus(rsID = rsID, status = status, token = getTOKEN())
 
     suspend fun getProfileByUser() =
-        api.getProfileByUser(getTOKEN())
+        commonService.getProfileByUser(getTOKEN())
 
     suspend fun insertChat(chatStoreRequestBody: RsChatStoreRequestBody) =
-        api.storeChat(getTOKEN(), chatStoreRequestBody)
+        commonService.storeChat(getTOKEN(), chatStoreRequestBody)
 
     interface CallbackUpdateProfile {
         fun value(response: Resource<UserUpdateProfileResponse?>)

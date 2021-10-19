@@ -10,6 +10,7 @@ import com.feylabs.sawitjaya.R
 import com.feylabs.sawitjaya.data.remote.response.HistoryDataResponse
 import com.feylabs.sawitjaya.databinding.ItemGridRsBinding
 import com.feylabs.sawitjaya.utils.BusinessHelper
+import com.feylabs.sawitjaya.utils.MyHelper.toDoubleStringRoundOff
 import com.feylabs.sawitjaya.utils.UIHelper.loadImageFromURL
 import com.feylabs.sawitjaya.utils.UIHelper.setColorStatus
 
@@ -54,8 +55,9 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
 
             if (data.status == "1") {
                 binding.labelEstWeight.text = "Berat Ditimbang : "
-                binding.tvEstPrice.text = "Harga Dibayarkan : ${data.pricePaid}"
-                binding.tvEstWeight.text = data.totalWeight.toString()
+                binding.tvEstPrice.text =
+                    "Harga Dibayarkan : Rp. ${data.pricePaid.toDoubleStringRoundOff()}"
+                binding.tvEstWeight.text = data.totalWeight.toString() + " Kg"
             }
 
             binding.ivProfilePicture.loadImageFromURL(binding.root.context, data.userPhoto)

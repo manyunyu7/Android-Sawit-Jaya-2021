@@ -14,6 +14,7 @@ import com.feylabs.sawitjaya.databinding.FragmentRegisterBinding
 import com.feylabs.sawitjaya.injection.ServiceLocator
 import com.feylabs.sawitjaya.data.remote.service.Resource
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class RegisterFragment : BaseFragment() {
@@ -24,8 +25,8 @@ class RegisterFragment : BaseFragment() {
 
     lateinit var registerObserver: Observer<Resource<String?>>
 
-    lateinit var authViewModel: AuthViewModel
 
+    val authViewModel : AuthViewModel by viewModel()
     override fun initUI() {
     }
 
@@ -56,12 +57,6 @@ class RegisterFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpObserver()
-
-        authViewModel = ViewModelProvider(
-            requireActivity(),
-            ServiceLocator.provideFactory(requireContext())
-        ).get(AuthViewModel::class.java)
-
 
         binding.btnBack.setOnClickListener {
             findNavController().navigate(R.id.authFragment)

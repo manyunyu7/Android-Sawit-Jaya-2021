@@ -29,13 +29,6 @@ interface ApiService {
     @GET("/test")
     suspend fun testAPI(): Response<String>
 
-    @FormUrlEncoded
-    @POST("auth/login")
-    fun login(
-        @Field("email") username: String,
-        @Field("password") password: String
-    ): Call<LoginResponse>
-
     @GET("auth/user-profile")
     suspend fun userInfo(): Response<UserInfoResponse>
 
@@ -69,20 +62,7 @@ interface ApiService {
         @Field("user_contact") contact: String,
     ): Call<UserUpdateProfileResponse>
 
-
     /**
-     * register
-     * @param register
-     * @return the token
-     */
-    @POST("auth/register")
-    fun register(
-        @Header("Authorization") token: String?,
-        @Body body: RegisterRequestBody?,
-    ): Call<ResponseBody>?
-
-    /**
-     * register
      *
      * change password
      * @param token,old_password,new_password
