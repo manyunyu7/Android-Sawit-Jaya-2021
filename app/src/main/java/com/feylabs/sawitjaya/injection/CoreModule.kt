@@ -58,7 +58,7 @@ val networkModule = module {
                     .alwaysReadResponseBody(true)
                     .build()
             )
-            .addInterceptor(HttpCustomInterceptor(get(), get()))
+//            .addInterceptor(HttpCustomInterceptor(get(), get()))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .build()
