@@ -19,9 +19,10 @@ class AuthFragment : BaseFragment() {
     private val binding get() = _binding as FragmentAuthFragmentBinding
 //    lateinit var authViewModel: AuthViewModel
 
-    val authViewModel : AuthViewModel by viewModel()
+    val authViewModel: AuthViewModel by viewModel()
 
     override fun initUI() {
+        hideActionBar()
     }
 
     override fun initObserver() {

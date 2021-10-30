@@ -22,11 +22,18 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <ImageView
-            android:layout_width="171dp"
-            android:layout_height="171dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_golapak_logo" />
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="171dp"
+                android:layout_height="171dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/logo_small" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="match_parent"
@@ -48,17 +55,17 @@
 
 
     <LinearLayout
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_version"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <FrameLayout
-            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp">
 
             <ImageButton
                 android:id="@+id/btn_register"
@@ -79,10 +86,9 @@
         </FrameLayout>
 
         <FrameLayout
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            >
+            android:layout_marginLeft="10dp">
 
             <ImageButton
                 android:id="@+id/btn_login"
@@ -97,9 +103,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:drawablePadding="20dp"
                 android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
-                android:drawablePadding="20dp"
                 android:text="Sign In"
                 android:textColor="@color/white" />
         </FrameLayout>
@@ -123,7 +129,7 @@
 
     <include
         android:id="@+id/include_splash"
-        android:visibility="gone"
-        layout="@layout/layout_splash"/>
+        layout="@layout/layout_splash"
+        android:visibility="gone" />
 
 </RelativeLayout>

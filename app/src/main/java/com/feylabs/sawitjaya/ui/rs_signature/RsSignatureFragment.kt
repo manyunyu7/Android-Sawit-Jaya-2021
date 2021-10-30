@@ -57,7 +57,7 @@ class RsSignatureFragment : BaseFragment() {
     }
 
     override fun initUI() {
-        setupShowCase()
+//        setupShowCase()
         setupStatusSpinner()
     }
 

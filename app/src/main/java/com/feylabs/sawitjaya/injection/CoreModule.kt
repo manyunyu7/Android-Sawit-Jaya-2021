@@ -51,14 +51,14 @@ val networkModule = module {
         OkHttpClient.Builder()
 //            .authenticator(TokenAuthenticator(get(), get()))
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .addInterceptor(
-                ChuckerInterceptor.Builder(androidContext())
-                    .collector(ChuckerCollector(androidContext()))
-                    .maxContentLength(250000L)
-                    .redactHeaders(emptySet())
-                    .alwaysReadResponseBody(true)
-                    .build()
-            )
+//            .addInterceptor(
+//                ChuckerInterceptor.Builder(androidContext())
+//                    .collector(ChuckerCollector(androidContext()))
+//                    .maxContentLength(250000L)
+//                    .redactHeaders(emptySet())
+//                    .alwaysReadResponseBody(true)
+//                    .build()
+//            )
             .addInterceptor(HttpCustomInterceptor(get(), get()))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
@@ -68,7 +68,6 @@ val networkModule = module {
     single {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
-//            .baseUrl("http://sawit-jaya.feylabs.my.id/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
@@ -78,7 +77,6 @@ val networkModule = module {
     single {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
-//            .baseUrl("http://sawit-jaya.feylabs.my.id/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()

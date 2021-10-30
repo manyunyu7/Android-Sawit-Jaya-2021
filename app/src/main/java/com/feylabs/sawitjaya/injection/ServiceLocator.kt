@@ -2,11 +2,11 @@ package com.feylabs.sawitjaya.injection
 
 object ServiceLocator {
 
-//    const val REAL_URL = "https://sawit-jaya.feylabs.my.id/"
-//    const val BASE_URL = "${REAL_URL}api/"
-
-    const val REAL_URL = "http://192.168.1.161:3202/"
+    const val REAL_URL = "https://sawit-jaya.feylabs.my.id/"
     const val BASE_URL = "${REAL_URL}api/"
+
+//    const val REAL_URL = "http://192.168.1.161:3202/"
+//    const val BASE_URL = "${REAL_URL}api/"
 
 //    fun provideAuthRepository(context: Context): AuthRepository {
 //        val apiService = ApiClient.getClient(context)
