@@ -9,10 +9,10 @@ import com.feylabs.sawitjaya.data.local.room.entity.AuthEntity
 import com.feylabs.sawitjaya.data.local.room.entity.NewsEntity
 import com.feylabs.sawitjaya.data.local.room.entity.PriceResponseEntity
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
+import com.feylabs.sawitjaya.data.remote.response.LandingMessageResponse
 import com.feylabs.sawitjaya.data.remote.response.NewsResponse
 import com.feylabs.sawitjaya.data.remote.response.PriceResponse
 import com.feylabs.sawitjaya.data.remote.response.UserInfoResponse
-import com.feylabs.sawitjaya.data.remote.service.LoginPostRezki
 import com.feylabs.sawitjaya.data.remote.service.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,11 +35,11 @@ class AuthViewModel(
     val newsLocalLiveData = MutableLiveData<List<NewsEntity?>>()
     val priceLocalLiveData = MutableLiveData<List<PriceResponseEntity?>>()
 
-    val rezkiData = MutableLiveData<Resource<String>>()
-
     private var _userLiveData = MutableLiveData<Resource<UserInfoResponse?>>()
     val userLiveData get() = _userLiveData
 
+    private var _landingMessageLiveData = MutableLiveData<Resource<LandingMessageResponse?>>()
+    val landingMessageLiveData get() = _landingMessageLiveData
 
     fun login(username: String, password: String) =
         authRepository.login(username, password)
@@ -53,7 +53,7 @@ class AuthViewModel(
         }
     }
 
-    fun clearNews(){
+    fun clearNews() {
         viewModelScope.launch {
             sawitRepository.clearNewsLocally()
         }
@@ -93,7 +93,6 @@ class AuthViewModel(
     fun updateProfilePicture(file: File) =
         authRepository.changeProfilePicture(file)
 
-
     fun saveAuthInfo(authEntity: AuthEntity) =
         viewModelScope.launch {
             authRepository.localSaveAuthInfo(
@@ -116,6 +115,19 @@ class AuthViewModel(
         }
     }
 
+    fun getLandingMessage() = viewModelScope.launch {
+        _landingMessageLiveData.postValue(Resource.Loading())
+        try {
+            val data = sawitRepository.getLandingMessage()
+            if (data.isSuccessful) {
+                _landingMessageLiveData.postValue(Resource.Success(data.body()))
+            } else {
+                _landingMessageLiveData.postValue(Resource.Error("Terjadi Kesalahan"))
+            }
+        } catch (e: Exception) {
+            _landingMessageLiveData.postValue(Resource.Error(e.message.toString()))
+        }
+    }
 
 
     fun getNewsLocally() {

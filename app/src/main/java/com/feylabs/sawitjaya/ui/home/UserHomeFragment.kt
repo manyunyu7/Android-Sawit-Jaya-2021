@@ -64,6 +64,30 @@ class UserHomeFragment : BaseFragment() {
     override fun initObserver() {
         binding.tvPriceToday.text = "Loading...."
         binding.tvMargin.text = "Loading..."
+        binding.tvNotifTitle.text = "Loading..."
+        binding.tvNotifContent.text = "Loading..."
+
+        authViewModel.landingMessageLiveData.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                    binding.cardNotif.visibility = View.GONE
+                }
+                is Resource.Error -> {
+                    binding.cardNotif.visibility = View.GONE
+                }
+                is Resource.Success->{
+                    val data = it.data
+                    if (data != null) {
+                        binding.cardNotif.visibility = View.VISIBLE
+                        binding.tvNotifTitle.text = data.title
+                        binding.tvNotifContent.text = data.contentMessage
+                    } else {
+                        binding.cardNotif.visibility = View.GONE
+                    }
+                }
+                else -> {}
+            }
+        })
 
         authViewModel.newsLocalLiveData.observe(requireActivity(), Observer {
             if (it.isNotEmpty()) {
@@ -77,7 +101,8 @@ class UserHomeFragment : BaseFragment() {
                 data?.let {
                     if (it.isNotEmpty()) {
                         val newestPrice = it[0]?.price.toString()
-                        val newestMargin = (it[0]?.margin)?.toDouble()?.times(100)?.roundOffDecimal()
+                        val newestMargin =
+                            (it[0]?.margin)?.toDouble()?.times(100)?.roundOffDecimal()
                         binding.tvPriceToday.text = "Rp. $newestPrice"
                         binding.tvMargin.text =
                             "Margin : ${newestMargin}% dari total harga jual tandan buah segar"
@@ -190,7 +215,7 @@ class UserHomeFragment : BaseFragment() {
                 context = requireContext(),
                 title = getString(R.string.title_modal_attention),
                 message = "Saat Ini Fitur Tersebut Belum Tersedia atau Dalam tahap pengembangan",
-                positiveAction = Pair(getString(R.string.title_activate_gps), { }),
+                positiveAction = Pair(getString(R.string.dialog_ok), { }),
                 negativeAction = Pair(getString(R.string.dialog_cancel), { }),
                 autoDismiss = true,
                 buttonAllCaps = false
@@ -204,11 +229,10 @@ class UserHomeFragment : BaseFragment() {
         binding.btnSettings.setOnClickListener {
             findNavController().navigate(R.id.settingsFragment)
         }
-
-
     }
 
     override fun initData() {
+        authViewModel.getLandingMessage()
         authViewModel.getPrices(true)
 
         uiScope.launch(Dispatchers.IO) {

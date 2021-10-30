@@ -420,6 +420,9 @@ class RemoteDataSource(
     suspend fun getRsChatByTopic(topicId: String) =
         commonService.getRsChatByTopic(topicID = topicId, authHeader = getTOKEN())
 
+    suspend fun getLandingMessage() =
+        commonService.landingMessage(authHeader = getTOKEN())
+
     suspend fun changeRsStatus(rsID: String, status: String) =
         commonService.changeRsStatus(rsID = rsID, status = status, token = getTOKEN())
 

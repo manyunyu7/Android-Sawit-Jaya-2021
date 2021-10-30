@@ -27,7 +27,9 @@ class RegisterFragment : BaseFragment() {
 
 
     val authViewModel : AuthViewModel by viewModel()
+
     override fun initUI() {
+        hideActionBar()
     }
 
     override fun initObserver() {

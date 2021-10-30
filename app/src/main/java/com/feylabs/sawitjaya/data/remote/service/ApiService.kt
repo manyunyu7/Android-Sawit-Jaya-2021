@@ -32,6 +32,11 @@ interface ApiService {
     @GET("auth/user-profile")
     suspend fun userInfo(): Response<UserInfoResponse>
 
+    @GET("landing-notif/get")
+    suspend fun landingMessage(
+        @Header("Authorization") authHeader: String?,
+    ): Response<LandingMessageResponse>
+
     /**
      * register
      * @param get new profile
@@ -234,7 +239,7 @@ interface ApiService {
         @Part("description") description: RequestBody?,
         @Part file: Part?,
         @Header("Authorization") token: String?,
-        ): Response<StandardAPIResponse>
+    ): Response<StandardAPIResponse>
 
 
     /**
@@ -249,7 +254,6 @@ interface ApiService {
         @Field("final_margin") finalMargin: String,
         @Field("price_paid") pricePaid: String,
     ): Response<StandardAPIResponse>
-
 
 
 }

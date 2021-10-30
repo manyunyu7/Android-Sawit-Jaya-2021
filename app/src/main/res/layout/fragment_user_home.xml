@@ -273,15 +273,54 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="20dp"
                 android:id="@+id/rv_news"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_news" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_notif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="#FDC7BE"
+                app:cardCornerRadius="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/tv_notif_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/philosopher_b"
+                        android:textColor="@color/color_blue_golapak"
+                        android:textSize="16sp"
+                        tools:text="Margin : 5% dari total harga jual" />
+
+                    <TextView
+                        android:id="@+id/tv_notif_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textColor="@color/color_blue_golapak"
+                        android:textSize="15sp"
+                        tools:text="Margin : 5% dari total harga jual" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

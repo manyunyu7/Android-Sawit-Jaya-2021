@@ -1,14 +1,5 @@
 package com.feylabs.sawitjaya.injection
 
-import android.content.Context
-import com.feylabs.sawitjaya.ViewModelFactory
-import com.feylabs.sawitjaya.data.AuthRepository
-import com.feylabs.sawitjaya.data.SawitRepository
-import com.feylabs.sawitjaya.data.local.LocalDataSource
-import com.feylabs.sawitjaya.data.local.room.MyRoomDatabase
-import com.feylabs.sawitjaya.data.remote.RemoteDataSource
-import com.feylabs.sawitjaya.data.remote.service.ApiClient
-
 object ServiceLocator {
 
 //    const val REAL_URL = "https://sawit-jaya.feylabs.my.id/"

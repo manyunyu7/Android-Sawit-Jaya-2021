@@ -7,7 +7,6 @@ import com.feylabs.sawitjaya.data.remote.RemoteDataSource as remote
 import com.feylabs.sawitjaya.data.remote.request.RegisterRequestBody
 import com.feylabs.sawitjaya.data.remote.response.ChangePasswordResponse
 import com.feylabs.sawitjaya.data.remote.response.UserUpdateProfileResponse
-import com.feylabs.sawitjaya.data.remote.service.LoginPostRezki
 import java.io.File
 import com.feylabs.sawitjaya.data.remote.service.Resource as Res
 

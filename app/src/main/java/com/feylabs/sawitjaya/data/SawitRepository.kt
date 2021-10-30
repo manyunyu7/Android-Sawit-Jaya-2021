@@ -46,6 +46,8 @@ class SawitRepository(
     suspend fun getNewsLocally() = localDs.getNews()
     suspend fun clearNewsLocally() = localDs.clearNews()
 
+    suspend fun getLandingMessage() = remoteDs.getLandingMessage()
+
     suspend fun insertNews(newsEntity: NewsEntity) = localDs.saveNews(newsEntity)
 
     suspend fun getScaleDataByRsId(rsId: String) = remoteDs.getScaleDataByRsID(rsId)

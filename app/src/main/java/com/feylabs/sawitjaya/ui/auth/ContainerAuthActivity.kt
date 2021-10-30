@@ -30,6 +30,7 @@ import com.feylabs.sawitjaya.ui.MainMenuContainerActivity
 import com.feylabs.sawitjaya.ui.auth.viewmodel.AuthViewModel
 import com.feylabs.sawitjaya.utils.DialogUtils
 import java.io.File
+import com.google.android.material.snackbar.Snackbar
 
 
 class ContainerAuthActivity : AppCompatActivity() {
@@ -62,11 +63,16 @@ class ContainerAuthActivity : AppCompatActivity() {
 
 //        resetRoomDatabase()
         val message = intent.getStringExtra("message")
+
         if (intent.getStringExtra("message") != null) {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            Snackbar.make(binding.root, "This is main activity", Snackbar.LENGTH_LONG)
+                .setAction("CLOSE") { }
+                .setActionTextColor(ContextCompat.getColor(this, android.R.color.holo_red_light))
+                .show()
         }
+
         checkPermissions()
-        binding.splash.root.visibility= View.VISIBLE
+        binding.splash.root.visibility = View.VISIBLE
 
         checkIfLoggedIn()
     }
@@ -84,8 +90,8 @@ class ContainerAuthActivity : AppCompatActivity() {
         }
         if (role == "2") {
             startActivity(Intent(this, MainMenuContainerActivity::class.java))
-        }else{
-            binding.splash.root.visibility= View.GONE
+        } else {
+            binding.splash.root.visibility = View.GONE
         }
     }
 

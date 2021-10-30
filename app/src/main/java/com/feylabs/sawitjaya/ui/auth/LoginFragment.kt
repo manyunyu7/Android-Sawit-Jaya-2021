@@ -32,7 +32,9 @@ class LoginFragment : BaseFragment() {
 
 
     lateinit var observerLogin: Observer<Resource<LoginResponse?>>
+
     override fun initUI() {
+        hideActionBar()
     }
 
     override fun initObserver() {
